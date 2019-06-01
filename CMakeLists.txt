@@ -3,4 +3,4 @@ project(tp_cripto)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(tp_cripto main.c main.h)
+add_executable(tp_cripto main.c main.h random.c random.h)

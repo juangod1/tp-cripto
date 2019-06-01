@@ -3,7 +3,11 @@
 //
 
 #include "main.h"
+#include "commons.h"
+#include <gsl/gsl_matrix.h>
 
-int main(){
-
+int matrix_example(){
+    gsl_matrix * m = gsl_matrix_alloc(5, 5);
+    print_matrix(m);
 }
+

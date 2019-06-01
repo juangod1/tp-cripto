@@ -1,0 +1,8 @@
+//
+// Created by Martina Arco on 2019-06-01.
+//
+
+#ifndef TP_CRIPTO_STEGANOGRAPHY_H
+#define TP_CRIPTO_STEGANOGRAPHY_H
+
+#endif //TP_CRIPTO_STEGANOGRAPHY_H

@@ -3,12 +3,11 @@
 //
 
 #include "main.h"
-#include "commons.h"
+#include "matrices.h"
 
 void main(void){
-    gsl_matrix * m = gsl_matrix_calloc(5, 5);
-    double a = gsl_matrix_get(m,2,3);
-    print_matrix(m);
-    gsl_matrix_free(m);
+    Matrix * m = constructor(4,4);
+    print(m);
+    destroy_matrix(m);
 }
 

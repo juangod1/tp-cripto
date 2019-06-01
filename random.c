@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include "random.h"
 
+int64_t seed;
+
 void setSeed(int64_t s) {
     seed = (s ^ 0x5DEECE66DL) & ((1LL << 48) - 1);
 }

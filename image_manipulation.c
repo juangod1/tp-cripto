@@ -11,29 +11,31 @@
 #include "include/image_manipulation.h"
 
 void * error(){
-    perror("Error: ");
+    perror("Error");
     return NULL;
 }
 
-BMP_Image * openBMP(char * path, int bpp){
+BMP_Image * openBMP(char * path){
     FILE * f = fopen(path,"r");
 
-    if(f<0) return error();
+    if(f==NULL) return error();
 
-    lseek(f,BMP_SIZE_POSITION,SEEK_SET);
+    lseek(f->_file,BMP_SIZE_POSITION,SEEK_SET);
     int size;
-    if(read(f,&size,4)!=4) return error();
+    if(read(f->_file,&size,4)!=4) return error();
 
-    lseek(f,BMP_OFFSET_POSITION,SEEK_SET);
+    lseek(f->_file,BMP_OFFSET_POSITION,SEEK_SET);
     int offset;
-    if(read(f,&offset,4)) return error();
+    if(read(f->_file,&offset,4)!=4) return error();
 
 
-    BMP_Image * img = calloc(sizeof(BMP_Image),0);
+    BMP_Image * img = calloc(1, sizeof(BMP_Image));
     img->data_size = size - offset;
-    img->data = calloc(img->data_size,0);
-    lseek(f,offset,SEEK_SET);
-    if(read(f,img->data,img->data_size)) return error();
+    img->data = calloc(1, img->data_size);
+    lseek(f->_file,offset,SEEK_SET);
+    if(read(f->_file,img->data,img->data_size)!=img->data_size) return error();
+
+    fclose(f);
 
     return img;
 }

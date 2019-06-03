@@ -15,4 +15,6 @@ typedef struct {
     char bpp;
 } BMP_Image;
 
+BMP_Image * openBMP(char * path);
+
 #endif

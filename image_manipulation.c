@@ -40,7 +40,7 @@ int writeBMP(BMP_Image * img, char * path){
     return 0;
 }
 
-BMP_Image * openBMP(char * path){
+BMP_Image * readBMP(char * path){
     FILE * f = fopen(path,"r");
     BMP_Image * img = calloc(1, sizeof(BMP_Image));
 

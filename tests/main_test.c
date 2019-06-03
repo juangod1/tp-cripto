@@ -8,6 +8,6 @@
 #include <stdlib.h>
 
 void main_test(){
-    run_test("image open test",test_open);
+    run_test("image open test",test_read);
     run_test("image write test",test_write);
 }

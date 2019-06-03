@@ -18,7 +18,7 @@ typedef struct {
     char bpp;
 } BMP_Image;
 
-BMP_Image * openBMP(char * path);
+BMP_Image * readBMP(char * path);
 int writeBMP(BMP_Image * img, char * path);
 void destroyBMP(BMP_Image * bmp);
 

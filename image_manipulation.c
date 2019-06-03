@@ -56,7 +56,7 @@ BMP_Image * readBMP(char * path){
     }
 
     if(strcmp(header_type,"BM")){
-        printf("INCOMPATIBLE BITMAP FORMAT, EXPECTED BM HEADER");
+        printf("INCOMPATIBLE BITMAP FORMAT, EXPECTED BM HEADER\n");
         return NULL;
     }
 

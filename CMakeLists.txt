@@ -3,4 +3,4 @@ project(tp_cripto)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(tp_cripto main.c main.h random.c random.h image_manipulation.c image_manipulation.h matrices.c)
+add_executable(tp_cripto main.c include/main.h random.c include/random.h image_manipulation.c include/image_manipulation.h matrices.c)

@@ -3,7 +3,7 @@
 //
 
 #include <stdint.h>
-#include "random.h"
+#include "include/random.h"
 
 int64_t seed;
 

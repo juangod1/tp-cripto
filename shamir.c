@@ -1,4 +1,4 @@
-#include "shamir.h"
+#include "include/shamir.h"
 
 int main(void) {
     int **a, **double_s, **r, **g, *c, **rw;

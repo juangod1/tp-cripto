@@ -1,6 +1,6 @@
 #include<math.h>
 #include<stdlib.h>
-#include"matrices.h"
+#include"include/matrices.h"
 #include<stdio.h>
 #include<err.h>
 #include<time.h>

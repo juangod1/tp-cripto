@@ -10,35 +10,70 @@
 #include <sys/types.h>
 #include "include/image_manipulation.h"
 
-void * error(){
-    perror("Error");
-    return NULL;
-}
-
 void destroyBMP(BMP_Image * bmp){
     free(bmp->data);
     free(bmp);
 }
 
+int writeBMP(BMP_Image * img, char * path){
+    FILE * f = fopen(path,"r+");
+
+    if(f==NULL){
+        perror("Error");
+        return -1;
+    }
+
+    fseek(f,BMP_METADATA_POSITION,SEEK_SET);
+    if(fwrite(&(img->shadow),1,1,f)!=1){
+        perror("Error");
+        return -1;
+    }
+
+    fseek(f,img->offset,SEEK_SET);
+    if(fwrite(img->data,img->data_size,1,f)!=1){
+        perror("Error");
+        return -1;
+    }
+
+    fclose(f);
+
+    return 0;
+}
+
 BMP_Image * openBMP(char * path){
     FILE * f = fopen(path,"r");
-
-    if(f==NULL) return error();
-
-    lseek(f->_file,BMP_SIZE_POSITION,SEEK_SET);
-    int size;
-    if(read(f->_file,&size,4)!=4) return error();
-
-    lseek(f->_file,BMP_OFFSET_POSITION,SEEK_SET);
-    int offset;
-    if(read(f->_file,&offset,4)!=4) return error();
-
-
     BMP_Image * img = calloc(1, sizeof(BMP_Image));
-    img->data_size = size - offset;
+
+    if(f==NULL){
+        perror("Error");
+        return NULL;
+    }
+
+    fseek(f,BMP_METADATA_POSITION,SEEK_SET);
+    if(fread(&(img->shadow),1,1,f)!=1){
+        perror("Error");
+        return NULL;
+    }
+
+    fseek(f,BMP_SIZE_POSITION,SEEK_SET);
+    if(fread(&(img->file_size),4,1,f)!=1){
+        perror("Error");
+        return NULL;
+    }
+
+    fseek(f,BMP_OFFSET_POSITION,SEEK_SET);
+    if(fread(&(img->offset),4,1,f)!=1){
+        perror("Error");
+        return NULL;
+    }
+
+    img->data_size = img->file_size - img->offset;
     img->data = calloc(1, img->data_size);
-    lseek(f->_file,offset,SEEK_SET);
-    if(read(f->_file,img->data,img->data_size)!=img->data_size) return error();
+    fseek(f,img->offset,SEEK_SET);
+    if(fread(img->data,img->data_size,1,f)!=1){
+        perror("Error");
+        return NULL;
+    }
 
     fclose(f);
 

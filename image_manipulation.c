@@ -49,6 +49,35 @@ BMP_Image * readBMP(char * path){
         return NULL;
     }
 
+    char header_type[2]={};
+    if(fread(header_type,1,2,f)!=2){
+        perror("Error");
+        return NULL;
+    }
+
+    if(strcmp(header_type,"BM")){
+        printf("INCOMPATIBLE BITMAP FORMAT, EXPECTED BM HEADER");
+        return NULL;
+    }
+
+    fseek(f,BMP_WIDTH_POSITION,SEEK_SET);
+    if(fread(&(img->width),4,1,f)!=1){
+        perror("Error");
+        return NULL;
+    }
+
+    fseek(f,BMP_HEIGHT_POSITION,SEEK_SET);
+    if(fread(&(img->height),4,1,f)!=1){
+        perror("Error");
+        return NULL;
+    }
+
+    fseek(f,BMP_BPP_POSITION,SEEK_SET);
+    if(fread(&(img->bpp),2,1,f)!=1){
+        perror("Error");
+        return NULL;
+    }
+
     fseek(f,BMP_METADATA_POSITION,SEEK_SET);
     if(fread(&(img->shadow),1,1,f)!=1){
         perror("Error");

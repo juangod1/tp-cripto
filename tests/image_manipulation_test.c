@@ -9,4 +9,6 @@
 void test_open(){
     BMP_Image * i = openBMP("../tests/WHT.BMP");
     assert("BMP struct is not null",i!=NULL);
+    assert("read data size correctly",i->data_size==86400);
+    destroyBMP(i);
 }

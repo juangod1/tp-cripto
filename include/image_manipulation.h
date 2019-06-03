@@ -16,5 +16,6 @@ typedef struct {
 } BMP_Image;
 
 BMP_Image * openBMP(char * path);
+void destroyBMP(BMP_Image * bmp);
 
 #endif

@@ -15,6 +15,11 @@ void * error(){
     return NULL;
 }
 
+void destroyBMP(BMP_Image * bmp){
+    free(bmp->data);
+    free(bmp);
+}
+
 BMP_Image * openBMP(char * path){
     FILE * f = fopen(path,"r");
 

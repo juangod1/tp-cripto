@@ -25,7 +25,8 @@ int equals(Matrix *m1, Matrix *m2);
 /* we shouldn`t use clone keyword because it`s extensively used in c++ */
 Matrix *clonemx(Matrix *m);
 Matrix *transpose(Matrix *m);
-Matrix *rand_matrix(int rows, int columns, int modulo);
+Matrix *rand_matrix(int rows, int columns);
+Matrix *rand_matrix_mod(int rows, int columns, int modulo);
 Matrix *multiply(Matrix *m1, Matrix *m2);
 int add(Matrix *m1, Matrix *m2);
 int subtract(Matrix *, Matrix *);

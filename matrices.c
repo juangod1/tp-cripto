@@ -241,7 +241,20 @@ Matrix *transpose(Matrix *m){
 }
 
 /* create random matrix of integers  */
-Matrix *rand_matrix(int rows, int columns, int modulo){
+Matrix *rand_matrix(int rows, int columns){
+    Matrix *m;
+    unsigned int i, j;
+    srand(time(NULL));
+    m = constructor(rows, columns);
+    for(i = 0; i < columns; i++){
+        for(j = 0; j < rows; j++){
+            m->numbers[i][j] = rand();
+        }
+    }
+    return m;
+}
+
+Matrix *rand_matrix_mod(int rows, int columns, int modulo){
     Matrix *m;
     unsigned int i, j;
     srand(time(NULL));
@@ -253,7 +266,6 @@ Matrix *rand_matrix(int rows, int columns, int modulo){
     }
     return m;
 }
-
 /* m1 x m2  */
 Matrix *multiply(Matrix *m1, Matrix *m2){
     Matrix *product, *trans;

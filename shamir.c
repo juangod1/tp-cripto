@@ -21,6 +21,4 @@ int main(void) {
     sh_array = generate_sh_array(v_array, g_array); //mandar a esteganografia
 
     rw = generate_rw(w, double_s); //retornar
-
-
 }

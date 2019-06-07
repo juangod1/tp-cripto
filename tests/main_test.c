@@ -10,4 +10,5 @@
 void main_test(){
     run_test("image open test",test_read);
     run_test("image write test",test_write);
+    run_test("Generate 'A' matrix test",test_generate_a );
 }

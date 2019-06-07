@@ -6,6 +6,7 @@
 #define TP_CRIPTO_MAIN_TEST_H
 
 #include "image_manipulation_test.h"
+#include "azzahra_test.h"
 
 void main_test();
 

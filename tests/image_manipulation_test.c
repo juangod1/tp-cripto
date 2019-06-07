@@ -9,19 +9,19 @@
 #include <stdlib.h>
 
 void test_read(){
-    BMP_Image * i = readBMP("../tests/WHT.BMP");
+    BMP_Image * i = readBMP("./tests/WHT.BMP");
     assert("BMP struct is not null",i!=NULL);
     assert("read data size correctly",i->data_size==86400);
     destroyBMP(i);
 }
 
 void test_write(){
-    BMP_Image * i = readBMP("../tests/WHT.BMP");
+    BMP_Image * i = readBMP("./tests/WHT.BMP");
     srand(time(NULL));
     int r = rand()%50;
     i->shadow = r;
-    assert("returned correct value when written",writeBMP(i,"../tests/WHT.BMP")==0);
+    assert("returned correct value when written",writeBMP(i,"./tests/WHT.BMP")==0);
     destroyBMP(i);
-    i = readBMP("../tests/WHT.BMP");
+    i = readBMP("./tests/WHT.BMP");
     assert("written correct random shadow value", i->shadow == r);
 }

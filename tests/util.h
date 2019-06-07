@@ -8,6 +8,6 @@
 void run_test(char * testname, void (*test)());
 void fail();
 void success();
-void assert();
+void assert(char * assertion, int boolean);
 
 #endif //TP_CRIPTO_UTIL_H

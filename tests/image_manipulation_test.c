@@ -24,4 +24,5 @@ void test_write(){
     destroyBMP(i);
     i = readBMP("./tests/WHT.BMP");
     assert("written correct random shadow value", i->shadow == r);
+    destroyBMP(i);
 }

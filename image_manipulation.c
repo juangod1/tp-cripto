@@ -12,6 +12,7 @@
 
 void destroyBMP(BMP_Image * bmp){
     free(bmp->data);
+    bmp->data=NULL;
     free(bmp);
 }
 

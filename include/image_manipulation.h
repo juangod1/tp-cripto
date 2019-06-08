@@ -13,7 +13,7 @@
 #define BMP_BPP_POSITION 0x1C
 
 typedef struct {
-    void * data;
+    char * data;
     int data_size;
     int file_size;
     int offset;

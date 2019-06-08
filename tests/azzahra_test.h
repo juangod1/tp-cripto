@@ -9,4 +9,5 @@ void test_generate_a();
 void given_n();
 void given_k();
 void when_generating_a();
+int then_a_less_than_255();
 #endif //TP_CRIPTO_TEST_AZZAHRA_H

@@ -8,6 +8,9 @@
 void run_test(char * testname, void (*test)());
 void fail();
 void success();
-void assert(char * assertion, int boolean);
-
+int assert_generic(char * assertion, int boolean);
+void assert_true(char * assertion, int boolean);
+void assert_false(char * assertion, int boolean);
+void assert_equal(char * assertion, void * expected, void * found);
+void assert_not_equal(char * assertion, void * expected, void * found);
 #endif //TP_CRIPTO_UTIL_H

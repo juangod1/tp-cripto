@@ -5,4 +5,6 @@
 
 Matrix * generate_a(int k, int n);
 
+Matrix * generate_ss(Matrix * a);
+
 #endif //TP_CRIPTO_AZZAHRA_H

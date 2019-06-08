@@ -86,6 +86,17 @@ int destroy_matrix(Matrix *m){
     return SUCC;
 }
 
+void apply_modulus(Matrix * m, int modulus){
+    unsigned int i, j;
+    if(m == NULL)
+        return;
+    for(i = 0; i < m->rows; i++){
+        for(j = 0; j < m->columns; j++){
+            m->numbers[j][i]=(int)m->numbers[j][i]%modulus;
+        }
+    }
+}
+
 /* print the matrix  */
 int print(Matrix *m){
     unsigned int i, j;
@@ -93,11 +104,35 @@ int print(Matrix *m){
         return FAIL;
     for(i = 0; i < m->rows; i++){
         for(j = 0; j < m->columns; j++){
-            printf("%d ", (int) m->numbers[j][i]);
+            printf("%f ",m->numbers[j][i]);
         }
         printf("\n");
     }
     return SUCC;
+}
+
+Matrix * remove_column_and_row(Matrix * m, int column_index, int row_index)
+{
+    if(m==NULL)
+        return NULL;
+    int size_column = m->columns-1;
+    int size_row = m->rows-1;
+
+    Matrix * ret = constructor(size_row, size_column);
+    for(int i=0, i_ret=0; i<m->rows;i++)
+    {
+        if(i==row_index)
+            continue;
+        for(int j=0, j_ret=0; j<m->columns;j++)
+        {
+            if(j==column_index)
+                continue;
+            ret->numbers[j_ret][i_ret]=m->numbers[j][i];
+            j_ret++;
+        }
+        i_ret++;
+    }
+    return ret;
 }
 
 int row_swap(Matrix *m, int a, int b){

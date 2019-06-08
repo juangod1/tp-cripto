@@ -13,10 +13,13 @@ typedef struct Matrix{
     double **numbers;
 } Matrix;
 
+Matrix * remove_column_and_row(Matrix *m, int column_index, int row_index);
 Matrix *identity(int length);
 Matrix *inversion(Matrix *m);
+Matrix * inversion_mod(Matrix * m, int mod);
 Matrix *constructor(int r, int c);
 int destroy_matrix(Matrix *m);
+void apply_modulus(Matrix * m, int modulus);
 int print(Matrix *m);
 int row_swap(Matrix *m, int a, int b);
 int scalar_multiply(Matrix *m, float f);

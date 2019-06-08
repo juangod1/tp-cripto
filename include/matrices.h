@@ -13,6 +13,7 @@ typedef struct Matrix{
     double **numbers;
 } Matrix;
 
+Matrix * calculate_cofactor_matrix();
 Matrix * remove_column_and_row(Matrix *m, int column_index, int row_index);
 Matrix *identity(int length);
 Matrix *inversion(Matrix *m);

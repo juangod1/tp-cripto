@@ -97,6 +97,26 @@ void apply_modulus(Matrix * m, int modulus){
     }
 }
 
+Matrix * calculate_cofactor_matrix(Matrix * m)
+{
+    if(m == NULL)
+        return NULL;
+    if(m->rows!=m->columns)
+        return NULL;
+    Matrix * ret = constructor(m->rows,m->columns);
+
+    for(int i=0; i<m->rows; i++)
+    {
+        for(int j=0; j<m->columns;j++)
+        {
+            Matrix * buf = remove_column_and_row(m,j,i);
+            ret->numbers[j][i]=determinant(buf);
+            destroy_matrix(buf);
+        }
+    }
+    return ret;
+}
+
 /* print the matrix  */
 int print(Matrix *m){
     unsigned int i, j;
@@ -173,6 +193,11 @@ int reduce(Matrix *m, int a, int b, float factor){
     }
 
     return SUCC;
+}
+
+Matrix * inversion_mod(Matrix * m, int mod)
+{
+    determinant(m);
 }
 
 /* matrix m will become the identity so the caller must save their matrix themselves  */

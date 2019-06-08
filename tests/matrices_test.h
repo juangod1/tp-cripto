@@ -15,5 +15,7 @@ void given_row();
 void given_column();
 void given_correct_small_matrix();
 void when_removing_column_and_row();
-
+void test_matrix_of_cofactors();
+void given_correct_cofactor_matrix();
+void when_calculating_cofactor_matrix();
 #endif //TP_CRIPTO_MATRICES_TEST_H

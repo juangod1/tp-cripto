@@ -125,7 +125,7 @@ int print(Matrix *m){
         return FAIL;
     for(i = 0; i < m->rows; i++){
         for(j = 0; j < m->columns; j++){
-            printf("%f ",m->numbers[j][i]);
+            printf("%d ",(int)m->numbers[j][i]);
         }
         printf("\n");
     }

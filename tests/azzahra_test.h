@@ -14,5 +14,6 @@ int then_ss_less_than_255();
 int then_a_less_than_255();
 int matrix_less_than_255(Matrix * m);
 void given_a();
+void given_correct_ss();
 void when_generating_ss();
 #endif //TP_CRIPTO_TEST_AZZAHRA_H

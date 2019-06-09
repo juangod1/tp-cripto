@@ -9,13 +9,14 @@ Matrix * generate_a(int k, int n)
 
 Matrix * generate_ss(Matrix * a)
 {
+    print(a);
     Matrix * a_trans = transpose(a);
     Matrix * prod_0 = multiply(a_trans,a);
     Matrix * prod_0_inv = inversion_mod(prod_0,251);
     Matrix * prod_1 = multiply(a,prod_0_inv);
     Matrix * ret = multiply(prod_1,a_trans);
 
-    apply_modulus(ret,256);
+    apply_modulus(ret,251);
 
     destroy_matrix(prod_1);
     destroy_matrix(prod_0_inv);
@@ -24,3 +25,11 @@ Matrix * generate_ss(Matrix * a)
 
     return ret;
 }
+
+Matrix * generate_r(Matrix * s, Matrix *ss)
+{
+    Matrix * r = clonemx(s);
+    subtract(r,ss);
+    return r;
+}
+

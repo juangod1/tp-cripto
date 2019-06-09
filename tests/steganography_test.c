@@ -8,28 +8,32 @@
 #include "util.h"
 
 void test_lsb(Matrix* m) {
-    BMP_Image* result_image = hide_matrix(m, "../tests/WHT.BMP", 1);
+    BMP_Image* result_image = hide_matrix(m, "../tests/WHT.BMP", "../tests/lsb.BMP", 1, 1);
     BMP_Image* expected_image = readBMP("../tests/WHT.BMP");
     int are_equal = 1;
 
-    for (int k = 0; k < m->columns * m->rows * 8 && are_equal; ++k) {
+    for (int k = 0; (k < m->columns * m->rows * 8) && are_equal; ++k) {
         expected_image->data[k] = 0xfe;
         are_equal = result_image->data[k] == expected_image->data[k];
     }
     assert_true("image is correct when doing lsb", are_equal);
+    destroyBMP(result_image);
+    destroyBMP(expected_image);
 }
 
 void test_lsb2(Matrix* m) {
 
-    BMP_Image* result_image = hide_matrix(m, "../tests/WHT.BMP", 2);
+    BMP_Image* result_image = hide_matrix(m, "../tests/WHT.BMP", "../tests/lsb2.BMP", 2, 1);
     BMP_Image* expected_image = readBMP("../tests/WHT.BMP");
     int are_equal = 1;
 
-    for (int k = 0; k < m->columns * m->rows * 4 && are_equal; ++k) {
+    for (int k = 0; (k < m->columns * m->rows * 4) && are_equal; ++k) {
         expected_image->data[k] = 0xfc;
         are_equal = result_image->data[k] == expected_image->data[k];
     }
     assert_true("image is correct when doing lsb2", are_equal);
+    destroyBMP(result_image);
+    destroyBMP(expected_image);
 }
 
 void test_hide_matrix() {

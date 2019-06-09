@@ -9,11 +9,6 @@
 #include "include/image_manipulation.h"
 #include "include/matrices.h"
 
-char modifyBit(char n, char p, char b) {
-    char mask = 1 << p;
-    return (n & ~mask) | ((b << p) & mask);
-}
-
 void print_array(const char* char_array, size_t char_array_size) {
     for (int k = 0; k < char_array_size; ++k) {
         for (int i = 0; i < 8; i++) {
@@ -30,6 +25,11 @@ void print_hexa_array(const char* char_array, size_t char_array_size) {
             printf("\n");
         }
     }
+}
+
+char modifyBit(char n, char p, char b) {
+    char mask = 1 << p;
+    return (n & ~mask) | ((b << p) & mask);
 }
 
 char* build_char_array(const Matrix* m, size_t* size) {
@@ -74,18 +74,21 @@ BMP_Image* lsb2_replacement(const char *char_array, size_t char_array_size, BMP_
 }
 
 
-BMP_Image* hide_matrix(Matrix* m, char* path, int number_of_bits) {
+BMP_Image* hide_matrix(Matrix* m, char* path, char*path_to_write, int number_of_bits, char shadow_number) {
     size_t char_array_size = 0;
     char* char_array = build_char_array(m, &char_array_size);
 //    print_array(char_array, char_array_size);
 
     BMP_Image* image = readBMP(path);
-    image->bpp = 24;
+    image->shadow = shadow_number;
 
     if(number_of_bits == 1)
-        return lsb_replacement(char_array, char_array_size, image);
+        image = lsb_replacement(char_array, char_array_size, image);
+    else
+        image = lsb2_replacement(char_array, char_array_size, image);
 
-    return lsb2_replacement(char_array, char_array_size, image);
+    writeBMP(image, path_to_write);
+    return image;
 }
 
 Matrix* recover_matrix(BMP_Image image, int number_of_bits){

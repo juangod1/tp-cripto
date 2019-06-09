@@ -13,5 +13,6 @@ void main_test(){
     run_test("Generate 'A' matrix test",test_generate_a );
     run_test("Remove column and row test",test_remove_column_and_row);
     run_test("Cofactor Matrix Test",test_matrix_of_cofactors);
+    run_test("Modular Arithmetic Inverse Test",test_inversion_mod_1);
     //run_test("Generate 'SS' matrix test",test_generate_ss);
 }

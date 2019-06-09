@@ -6,6 +6,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
+#define SUCC 1
+#define FAIL -1
+
 /* current representation of a matrix in my mind  */
 typedef struct Matrix{
     int rows;
@@ -42,6 +47,8 @@ double determinant(Matrix *m);
 Matrix *solved_aug_matrix(Matrix *);
 void manual_entry(Matrix **m);
 double *eigenvalues(Matrix *m);
+int multiplicative_inverse(int a, int m);
+int my_mod(double number, int mod);
 
 #ifdef __cplusplus
 }

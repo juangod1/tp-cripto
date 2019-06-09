@@ -5,9 +5,6 @@
 #include<err.h>
 #include<time.h>
 
-#define SUCC 1
-#define FAIL -1
-#define STRLEN 100
 /*
 * a matrix is
 		columns
@@ -110,7 +107,11 @@ Matrix * calculate_cofactor_matrix(Matrix * m)
         for(int j=0; j<m->columns;j++)
         {
             Matrix * buf = remove_column_and_row(m,j,i);
-            ret->numbers[j][i]=determinant(buf);
+            int diagonal = i+j;
+            if(diagonal%2==1)
+                ret->numbers[i][j]=-determinant(buf);
+            else
+                ret->numbers[i][j]=determinant(buf);
             destroy_matrix(buf);
         }
     }
@@ -197,7 +198,36 @@ int reduce(Matrix *m, int a, int b, float factor){
 
 Matrix * inversion_mod(Matrix * m, int mod)
 {
-    determinant(m);
+    int det = round(determinant(m));
+    int inv = multiplicative_inverse(det,mod);
+    if(inv==-1)
+        return NULL;
+    Matrix * cofactor = calculate_cofactor_matrix(m);
+
+    Matrix * ret = constructor(m->rows,m->columns);
+
+    for(int i=0; i<m->rows; i++)
+    {
+        for(int j=0; j<m->columns; j++)
+        {
+            double product = cofactor->numbers[j][i]* inv;
+            int number = my_mod(product, mod);
+            ret->numbers[j][i]=number;
+        }
+    }
+    destroy_matrix(cofactor);
+    return ret;
+}
+
+int my_mod(double number, int mod)
+{
+    int ret = (int) number%mod;
+    if(ret<0)
+    {
+        ret=mod+ret;
+    }
+    return ret;
+
 }
 
 /* matrix m will become the identity so the caller must save their matrix themselves  */
@@ -580,6 +610,17 @@ double *eigenvalues(Matrix *m){
     for(i = 0; i < red->columns; i++)
         values[i] = red->numbers[i][i];
     return values;
+}
+
+int multiplicative_inverse(int a, int m)
+{
+    for(int b = 0; b < m; b++)
+    {
+        int x = (a * b) % m;
+        if(x == 1)
+            return b;
+    }
+    return -1;
 }
 
 /* make your own matrix */

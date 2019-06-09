@@ -74,23 +74,24 @@ BMP_Image* lsb2_replacement(const char *char_array, size_t char_array_size, BMP_
 }
 
 
-BMP_Image* hide_matrix(Matrix* m, char* path, char*path_to_write, int number_of_bits, char shadow_number) {
+BMP_Image* hide_matrix(Matrix* m, char* path, int number_of_bits, char shadow_number) {
     size_t char_array_size = 0;
     char* char_array = build_char_array(m, &char_array_size);
 //    print_array(char_array, char_array_size);
 
     BMP_Image* image = readBMP(path);
     image->shadow = shadow_number;
-//
-//    if(number_of_bits == 1)
-//        image = lsb_replacement(char_array, char_array_size, image);
-//    else
-//        image = lsb2_replacement(char_array, char_array_size, image);
 
-    writeBMP(image, path_to_write);
+    if(number_of_bits == 1)
+        image = lsb_replacement(char_array, char_array_size, image);
+    else
+        image = lsb2_replacement(char_array, char_array_size, image);
+
+    writeBMP(image, path);
     return image;
 }
 
 Matrix* recover_matrix(BMP_Image image, int number_of_bits){
+//    char* data
     return NULL;
 }

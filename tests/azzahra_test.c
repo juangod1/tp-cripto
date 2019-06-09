@@ -22,10 +22,10 @@ void test_generate_ss()
     given_k();
     given_a();
     when_generating_ss();
-    assert_not_equal("SS is not null",matrix_ss,NULL);
+    assert_false("SS is not null",matrix_ss == NULL);
     assert_true("SS values < 255", then_ss_less_than_255());
-    assert_equal("SS row size", 4, matrix_ss->rows);
-    assert_equal("SS column size", 4, matrix_ss->columns);
+    assert_true("SS row size", 4 == matrix_ss->rows);
+    assert_true("SS column size", 4 == matrix_ss->columns);
 
     destroy_matrix(matrix_a);
     destroy_matrix(matrix_ss);

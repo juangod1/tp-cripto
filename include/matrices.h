@@ -3,14 +3,12 @@
 #ifndef matrices_h
 #define matrices_h
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <stdint.h>
 /* current representation of a matrix in my mind  */
 typedef struct Matrix{
     int rows;
     int columns;
-    double **numbers;
+    uint8_t **numbers;
 } Matrix;
 
 Matrix * calculate_cofactor_matrix();
@@ -42,9 +40,5 @@ double determinant(Matrix *m);
 Matrix *solved_aug_matrix(Matrix *);
 void manual_entry(Matrix **m);
 double *eigenvalues(Matrix *m);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* matrices */

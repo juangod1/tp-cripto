@@ -81,16 +81,16 @@ BMP_Image* hide_matrix(Matrix* m, char* path, char*path_to_write, int number_of_
 
     BMP_Image* image = readBMP(path);
     image->shadow = shadow_number;
-
-    if(number_of_bits == 1)
-        image = lsb_replacement(char_array, char_array_size, image);
-    else
-        image = lsb2_replacement(char_array, char_array_size, image);
+//
+//    if(number_of_bits == 1)
+//        image = lsb_replacement(char_array, char_array_size, image);
+//    else
+//        image = lsb2_replacement(char_array, char_array_size, image);
 
     writeBMP(image, path_to_write);
     return image;
 }
 
 Matrix* recover_matrix(BMP_Image image, int number_of_bits){
-
+    return NULL;
 }

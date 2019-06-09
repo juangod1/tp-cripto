@@ -9,7 +9,7 @@
 #include "include/image_manipulation.h"
 #include "include/matrices.h"
 
-void print_array(const char* char_array, size_t char_array_size) {
+void print_binary_array(const char *char_array, size_t char_array_size) {
     for (int k = 0; k < char_array_size; ++k) {
         for (int i = 0; i < 8; i++) {
             printf("%d", 0 != ((char_array[k] << i) & 0x80));
@@ -91,7 +91,61 @@ BMP_Image* hide_matrix(Matrix* m, char* path, int number_of_bits, char shadow_nu
     return image;
 }
 
-Matrix* recover_matrix(BMP_Image image, int number_of_bits){
-//    char* data
-    return NULL;
+char reconstruct_number_from_lsb2(BMP_Image *image, int* image_counter) {
+    char number = '0';
+    for (int j = 7; j >= 0; --j) {
+        int bit = 0 != ((image->data[*image_counter] << 6) & 0x80);
+        number = modifyBit(number, j--, bit);
+        bit = 0 != ((image->data[*image_counter] << 7) & 0x80);
+        number = modifyBit(number, j, bit);
+        *image_counter += 1;
+    }
+    return number;
+}
+
+char reconstruct_number_from_lsb(BMP_Image *image, int* image_counter) {
+    char number = '0';
+    for (int j = 7; j >= 0; --j) {
+        int bit = 0 != ((image->data[*image_counter] << 7) & 0x80);
+        number = modifyBit(number, j, bit);
+        *image_counter += 1;
+    }
+    return number;
+}
+
+Matrix* recover_from_lsb2(BMP_Image* image) {
+//    Matrix* m = constructor(image->height / sizeof(char), image->width / sizeof(char));
+    Matrix* m = constructor(3, 3);
+
+    for (int image_counter = 0, i = 0; i < m->rows; ++i) {
+        for (int j = 0; j < m->columns; ++j) {
+            char number = reconstruct_number_from_lsb2(image, &image_counter);
+            m->numbers[i][j] = number;
+        }
+    }
+
+    return m;
+}
+
+Matrix* recover_from_lsb(BMP_Image* image) {
+//    Matrix* m = constructor(image->height / sizeof(char), image->width / sizeof(char));
+    Matrix* m = constructor(3, 3);
+    for (int image_counter = 0, i = 0; i < m->rows; ++i) {
+        for (int j = 0; j < m->columns; ++j) {
+            char number = reconstruct_number_from_lsb(image, &image_counter);
+            m->numbers[i][j] = number;
+        }
+    }
+    return m;
+}
+
+Matrix* recover_matrix(char* path, int number_of_bits){
+    BMP_Image* image = readBMP(path);
+    Matrix* m;
+    if(number_of_bits == 1)
+        m = recover_from_lsb(image);
+    else
+        m = recover_from_lsb2(image);
+    destroyBMP(image);
+    return m;
 }

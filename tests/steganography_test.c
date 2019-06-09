@@ -33,22 +33,36 @@ void test_lsb2(Matrix* m) {
 }
 
 void test_hide_matrix() {
-    Matrix* m1 = constructor(3, 3);
-    Matrix* m2 = constructor(3, 3);
+    Matrix* m = constructor(3, 3);
 
-    for (int i = 0; i < m1->rows; ++i) {
-        for (int j = 0; j < m1->columns; ++j) {
-            m1->numbers[i][j] = 0;
-            m2->numbers[i][j] = 0;
+    for (int i = 0; i < m->rows; ++i) {
+        for (int j = 0; j < m->columns; ++j) {
+            m->numbers[i][j] = 0;
         }
     }
-    test_lsb(m1);
-    test_lsb2(m2);
+    test_lsb(m);
+    test_lsb2(m);
 
 //  reseting
     BMP_Image* image = readBMP("../tests/WHT.BMP");
     writeBMP(image, "../tests/images/lsb.BMP");
     writeBMP(image, "../tests/images/lsb2.BMP");
     destroyBMP(image);
+}
+
+void test_recover_matrix() {
+    setSeed(rand());
+    BMP_Image* image = readBMP("../tests/WHT.BMP");
+    BMP_Image* image_aux = readBMP("../tests/WHT.BMP");
+    for (int i = 0; i < 100; ++i) {
+        image->data[i] = nextChar();
+    }
+    image->data[0] = '\xfe';
+    writeBMP(image, "../tests/WHT.BMP");
+    Matrix* m = recover_matrix("../tests/WHT.BMP", 2);
+
+    writeBMP(image_aux, "../tests/WHT.BMP");
+    destroyBMP(image);
+    destroyBMP(image_aux);
 }
 

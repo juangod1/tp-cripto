@@ -40,7 +40,7 @@ void test_multiplication()
     print(correct_result_matrix);
 
 
-    assert_true("Correct Result Matrix ",equals(result_matrix,correct_result_matrix));
+    assert_true("Correct Result Matrix ",equals(result_matrix,correct_result_matrix)==SUCC);
 
     destroy_matrix(m1);
     destroy_matrix(m2);

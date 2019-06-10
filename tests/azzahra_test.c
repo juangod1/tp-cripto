@@ -46,7 +46,7 @@ void given_correct_ss()
     correct_ss->numbers[1][1] =189;
     correct_ss->numbers[2][1] =186;
     correct_ss->numbers[3][1] =16;
-    correct_ss->numbers[0][2] =101;
+    correct_ss->numbers[0][2] =201;
     correct_ss->numbers[1][2] =186;
     correct_ss->numbers[2][2] =43;
     correct_ss->numbers[3][2] =76;

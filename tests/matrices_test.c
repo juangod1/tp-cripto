@@ -14,6 +14,79 @@ Matrix * correct_small_matrix = NULL;
 Matrix * cofactor_matrix = NULL;
 Matrix * correct_cofactor_matrix = NULL;
 
+Matrix * m1;
+Matrix * m2;
+Matrix * result_matrix;
+Matrix * correct_result_matrix;
+
+void test_multiplication()
+{
+    given_m1();
+    given_m2();
+    given_correct_result_matrix();
+
+    when_multiplying_matrices();
+
+    printf("m1\n");
+    print(m1);
+
+    printf("m2\n");
+    print(m2);
+
+    printf("result_matrix = m2*m1\n");
+    print(result_matrix);
+
+    printf("correct_result_matrix\n");
+    print(correct_result_matrix);
+
+
+    assert_true("Correct Result Matrix ",equals(result_matrix,correct_result_matrix));
+
+    destroy_matrix(m1);
+    destroy_matrix(m2);
+    destroy_matrix(result_matrix);
+    destroy_matrix(correct_result_matrix);
+}
+
+void given_m1()
+{
+    m1= constructor(4,2);
+    m1->numbers[0][0] = 3;
+    m1->numbers[0][1] = 6;
+    m1->numbers[0][2] = 2;
+    m1->numbers[0][3] = 6;
+    m1->numbers[1][0] = 7;
+    m1->numbers[1][1] = 1;
+    m1->numbers[1][2] = 5;
+    m1->numbers[1][3] = 6;
+}
+
+void given_m2()
+{
+    m2= constructor(2,4);
+    m2->numbers[0][0] = 3;
+    m2->numbers[1][0] = 6;
+    m2->numbers[2][0] = 2;
+    m2->numbers[3][0] = 6;
+    m2->numbers[0][1] = 7;
+    m2->numbers[1][1] = 1;
+    m2->numbers[2][1] = 5;
+    m2->numbers[3][1] = 6;
+}
+
+void given_correct_result_matrix()
+{
+    correct_result_matrix = constructor(2,2);
+    correct_result_matrix->numbers[0][0] =85;
+    correct_result_matrix->numbers[0][1] =73;
+    correct_result_matrix->numbers[1][0] =73;
+    correct_result_matrix->numbers[1][1] =111;
+}
+
+void when_multiplying_matrices()
+{
+    result_matrix = multiply(m2,m1);
+}
 
 void test_matrix_of_cofactors()
 {

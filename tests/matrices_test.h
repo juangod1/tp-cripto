@@ -21,4 +21,11 @@ void test_matrix_of_cofactors();
 void given_correct_cofactor_matrix();
 void when_calculating_cofactor_matrix();
 void test_inversion_mod_1();
+
+void given_m1();
+void given_m2();
+void given_correct_result_matrix();
+void when_multiplying_matrices();
+void test_multiplication();
+
 #endif //TP_CRIPTO_MATRICES_TEST_H

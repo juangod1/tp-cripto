@@ -52,17 +52,29 @@ void test_hide_matrix() {
 
 void test_recover_matrix() {
     setSeed(rand());
-    BMP_Image* image = readBMP("../tests/WHT.BMP");
     BMP_Image* image_aux = readBMP("../tests/WHT.BMP");
-    for (int i = 0; i < 100; ++i) {
-        image->data[i] = nextChar();
-    }
-    image->data[0] = '\xfe';
-    writeBMP(image, "../tests/WHT.BMP");
-    Matrix* m = recover_matrix("../tests/WHT.BMP", 2);
+    writeBMP(image_aux, "../tests/images/lsb.BMP");
+    writeBMP(image_aux, "../tests/images/lsb2.BMP");
 
-    writeBMP(image_aux, "../tests/WHT.BMP");
-    destroyBMP(image);
+    Matrix * m = constructor(3, 3);
+
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            m->numbers[i][j] = nextChar();
+        }
+    }
+
+    hide_matrix(m, "../tests/images/lsb.BMP", 1, 5);
+    Matrix* recovered_lsb = recover_matrix("../tests/images/lsb.BMP", 1);
+    hide_matrix(m, "../tests/images/lsb2.BMP", 2, 5);
+    Matrix* recovered_lsb_2 = recover_matrix("../tests/images/lsb2.BMP", 2);
+
+    assert_true("image recovered is the same as hidden with lsb", equals(m, recovered_lsb));
+    assert_true("image recovered is the same as hidden with lsb2", equals(m, recovered_lsb_2));
+
+//  reseting
+    writeBMP(image_aux, "../tests/images/lsb.BMP");
+    writeBMP(image_aux, "../tests/images/lsb2.BMP");
     destroyBMP(image_aux);
 }
 

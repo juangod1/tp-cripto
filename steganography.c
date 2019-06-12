@@ -1,6 +1,3 @@
-//
-// Created by Martina on 08/06/2019.
-//
 #include <ntsid.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,24 +5,6 @@
 #include "include/steganography.h"
 #include "include/image_manipulation.h"
 #include "include/matrices.h"
-
-void print_binary_array(const char *char_array, size_t char_array_size) {
-    for (int k = 0; k < char_array_size; ++k) {
-        for (int i = 0; i < 8; i++) {
-            printf("%d", 0 != ((char_array[k] << i) & 0x80));
-        }
-        printf("\n");
-    }
-}
-
-void print_hexa_array(const char* char_array, size_t char_array_size) {
-    for (int k = 0; k < char_array_size; ++k) {
-        printf("%x ", char_array[k] & 0xff);
-        if(k % 8 == 7) {
-            printf("\n");
-        }
-    }
-}
 
 char modifyBit(char n, char p, char b) {
     char mask = 1 << p;
@@ -55,7 +34,6 @@ BMP_Image* lsb_replacement(const char *char_array, size_t char_array_size, BMP_I
             data_counter++;
         }
     }
-//    print_hexa_array(image->data, char_array_size * 8);
     return image;
 }
 
@@ -69,7 +47,6 @@ BMP_Image* lsb2_replacement(const char *char_array, size_t char_array_size, BMP_
             data_counter++;
         }
     }
-//    print_hexa_array(image->data, char_array_size * 4);
     return image;
 }
 
@@ -77,9 +54,12 @@ BMP_Image* lsb2_replacement(const char *char_array, size_t char_array_size, BMP_
 BMP_Image* hide_matrix(Matrix* m, char* path, int number_of_bits, char shadow_number) {
     size_t char_array_size = 0;
     char* char_array = build_char_array(m, &char_array_size);
-//    print_array(char_array, char_array_size);
 
     BMP_Image* image = readBMP(path);
+
+    if(image == NULL)
+        return NULL;
+
     image->shadow = shadow_number;
 
     if(number_of_bits == 1)
@@ -87,7 +67,9 @@ BMP_Image* hide_matrix(Matrix* m, char* path, int number_of_bits, char shadow_nu
     else
         image = lsb2_replacement(char_array, char_array_size, image);
 
-    writeBMP(image, path);
+    if(writeBMP(image, path) == -1)
+        return NULL;
+
     return image;
 }
 
@@ -114,7 +96,7 @@ char reconstruct_number_from_lsb(BMP_Image *image, int* image_counter) {
 }
 
 Matrix* recover_from_lsb2(BMP_Image* image) {
-//    Matrix* m = constructor(image->height / sizeof(char), image->width / sizeof(char));
+//    Matrix* m = constructor(image->height / 8, image->width / 8);
     Matrix* m = constructor(3, 3);
 
     for (int image_counter = 0, i = 0; i < m->rows; ++i) {
@@ -128,7 +110,7 @@ Matrix* recover_from_lsb2(BMP_Image* image) {
 }
 
 Matrix* recover_from_lsb(BMP_Image* image) {
-//    Matrix* m = constructor(image->height / sizeof(char), image->width / sizeof(char));
+//    Matrix* m = constructor(image->height / 8, image->width / 8);
     Matrix* m = constructor(3, 3);
     for (int image_counter = 0, i = 0; i < m->rows; ++i) {
         for (int j = 0; j < m->columns; ++j) {

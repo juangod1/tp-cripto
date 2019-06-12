@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h>
+#include <errno.h>
 #include "include/image_manipulation.h"
 
 void destroyBMP(BMP_Image * bmp){
@@ -46,7 +47,7 @@ BMP_Image * readBMP(char * path){
     BMP_Image * img = calloc(1, sizeof(BMP_Image));
 
     if(f==NULL){
-        perror("Error");
+        perror("Can't open file");
         return NULL;
     }
 

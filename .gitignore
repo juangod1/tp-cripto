@@ -1,6 +1,7 @@
 cmake-build-debug/*
 .idea/*
 gsl-2.5/*
+*.DS_Store
 
 # Prerequisites
 *.d

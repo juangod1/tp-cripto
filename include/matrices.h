@@ -11,6 +11,7 @@ extern "C" {
 #define SUCC 1
 #define FAIL -1
 
+#include <stdint.h>
 /* current representation of a matrix in my mind  */
 typedef struct Matrix{
     int rows;
@@ -18,12 +19,21 @@ typedef struct Matrix{
     double **numbers;
 } Matrix;
 
+typedef struct GMatrix{
+    int rows;
+    int columns;
+    uint8_t **numbers;
+} GMatrix;
+
 Matrix * calculate_cofactor_matrix();
 Matrix * remove_column_and_row(Matrix *m, int column_index, int row_index);
 Matrix *identity(int length);
 Matrix *inversion(Matrix *m);
 Matrix * inversion_mod(Matrix * m, int mod);
 Matrix *constructor(int r, int c);
+GMatrix *Gconstructor(int r, int c);
+int printGMatrix(GMatrix *m);
+int equalsGMatrix(GMatrix *m1, GMatrix *m2);
 int destroy_matrix(Matrix *m);
 void apply_modulus(Matrix * m, int modulus);
 int print(Matrix *m);
@@ -49,9 +59,5 @@ void manual_entry(Matrix **m);
 double *eigenvalues(Matrix *m);
 int multiplicative_inverse(int a, int m);
 int my_mod(double number, int mod);
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* matrices */

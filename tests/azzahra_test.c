@@ -1,5 +1,7 @@
 #include "azzahra_test.h"
 #include <stdbool.h>
+#include <stdio.h>
+
 Matrix * matrix_ss = NULL;
 Matrix * correct_ss = NULL;
 Matrix * matrix_a = NULL;

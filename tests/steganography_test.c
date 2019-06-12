@@ -33,7 +33,7 @@ void test_lsb2(GMatrix* m) {
 }
 
 void test_hide_matrix() {
-    GMatrix* m = constructor(3, 3);
+    GMatrix* m = Gconstructor(3, 3);
 
     for (int i = 0; i < m->rows; ++i) {
         for (int j = 0; j < m->columns; ++j) {

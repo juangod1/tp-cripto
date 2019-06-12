@@ -2,7 +2,7 @@
 #define TP_CRIPTO_STEGANOGRAPHY_H
 
 #include "image_manipulation.h"
-#include "matrices.h"
+#include "Gmatrices.h"
 
 /*
  * Hides matrix m in shadow image found in path and writes it in image.

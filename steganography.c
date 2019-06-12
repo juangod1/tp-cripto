@@ -110,7 +110,7 @@ GMatrix* recover_from_lsb2(BMP_Image* image) {
 
 GMatrix* recover_from_lsb(BMP_Image* image) {
 //    Matrix* m = constructor(image->height / 8, image->width / 8);
-    GMatrix* m = constructor(3, 3);
+    GMatrix* m = Gconstructor(3, 3);
     for (int image_counter = 0, i = 0; i < m->rows; ++i) {
         for (int j = 0; j < m->columns; ++j) {
             char number = reconstruct_number_from_lsb(image, &image_counter);

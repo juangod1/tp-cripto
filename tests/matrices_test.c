@@ -1,4 +1,5 @@
 #include "matrices_test.h"
+#include "../include/utils.h"
 
 int modulus=0;
 int column=0;

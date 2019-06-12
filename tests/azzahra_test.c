@@ -1,4 +1,5 @@
 #include "azzahra_test.h"
+#include "../include/utils.h"
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -24,13 +25,13 @@ void test_generate_ss()
     given_a();
     given_correct_ss();
     when_generating_ss();
-    assert_not_equal_memory("SS is not null",matrix_ss,NULL);
+    assert_not_equal_memory("SS is not null", matrix_ss, NULL);
     assert_true("SS values < 255", then_ss_less_than_255());
     printf("matrix_ss\n");
     print(matrix_ss);
     printf("correct_ss\n");
     print(correct_ss);
-    assert_true("SS is correct", equals(matrix_ss,correct_ss)==SUCC);
+    assert_true("SS is correct", equals(matrix_ss,correct_ss) == SUCC);
 
     destroy_matrix(matrix_a);
     destroy_matrix(matrix_ss);

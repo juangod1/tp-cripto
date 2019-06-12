@@ -15,4 +15,5 @@ void main_test(){
     run_test("Modular Arithmetic Inverse Test", test_inversion_mod_1);
     run_test("Generate 'SS' matrix test", test_generate_ss);
     run_test("Test multiplication", test_multiplication);
+    run_test("Test matrix conversion", test_conversion);
 }

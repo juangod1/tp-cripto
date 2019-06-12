@@ -58,8 +58,8 @@ void test_recover_matrix() {
 
     GMatrix * m = Gconstructor(3, 3);
 
-    for (int i = 0; i < 3; ++i) {
-        for (int j = 0; j < 3; ++j) {
+    for (int i = 0; i < m->rows; ++i) {
+        for (int j = 0; j < m->columns; ++j) {
             m->numbers[i][j] = nextChar();
         }
     }
@@ -69,8 +69,8 @@ void test_recover_matrix() {
     hide_matrix(m, "../tests/images/lsb2.BMP", 2, 5);
     GMatrix* recovered_lsb_2 = recover_matrix("../tests/images/lsb2.BMP", 2);
 
-    assert_true("image recovered is the same as hidden with lsb", equalsGMatrix(m, recovered_lsb));
-    assert_true("image recovered is the same as hidden with lsb2", equalsGMatrix(m, recovered_lsb_2));
+    assert_true("image recovered is the same as hidden with lsb", equals_GMatrix(m, recovered_lsb));
+    assert_true("image recovered is the same as hidden with lsb2", equals_GMatrix(m, recovered_lsb_2));
 
 //  reseting
     writeBMP(image_aux, "../tests/images/lsb.BMP");

@@ -3,6 +3,7 @@
 #include "include/Gmatrices.h"
 #include "tests/util.h"
 #include "include/utils.h"
+#include "include/matrices.h"
 
 GMatrix *Gconstructor(int r, int c) {
     unsigned int i;
@@ -20,7 +21,7 @@ GMatrix *Gconstructor(int r, int c) {
     return m;
 }
 
-int printGMatrix(GMatrix *m){
+int print_GMatrix(GMatrix *m){
     unsigned int i, j;
     if(m == NULL)
         return FAIL;
@@ -34,7 +35,7 @@ int printGMatrix(GMatrix *m){
     return SUCC;
 }
 
-int equalsGMatrix(GMatrix *m1, GMatrix *m2){
+int equals_GMatrix(GMatrix *m1, GMatrix *m2){
     unsigned int i, j;
     if(m1 == NULL || m2 == NULL)
         return FAIL;
@@ -47,5 +48,40 @@ int equalsGMatrix(GMatrix *m1, GMatrix *m2){
         }
     }
     return SUCC;
+}
+
+int destroy_Gmatrix(GMatrix *m){
+    unsigned int i;
+    if(m == NULL)
+        return FAIL;
+    for(i = 0; i < m->columns; i++)
+        free(m->numbers[i]);
+    free(m->numbers);
+    free(m);
+    return SUCC;
+}
+
+GMatrix* conversion_from_matrix(Matrix* m) {
+    GMatrix* result = Gconstructor(m->rows, m->columns);
+
+    for(int i = 0; i < m->columns; i++){
+        for(int j = 0; j < m->rows; j++){
+            result->numbers[i][j] = (uint8_t) m->numbers[i][j];
+        }
+    }
+
+    return result;
+}
+
+Matrix* conversion_to_matrix(GMatrix* m) {
+    Matrix* result = constructor(m->rows, m->columns);
+
+    for(int i = 0; i < m->columns; i++){
+        for(int j = 0; j < m->rows; j++){
+            result->numbers[i][j] = (double) m->numbers[i][j];
+        }
+    }
+
+    return result;
 }
 

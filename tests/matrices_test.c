@@ -1,5 +1,8 @@
+#include <stdlib.h>
 #include "matrices_test.h"
 #include "../include/utils.h"
+#include "../include/Gmatrices.h"
+#include "../include/random.h"
 
 int modulus=0;
 int column=0;
@@ -205,4 +208,29 @@ void given_correct_inverse_matrix()
 void when_calculating_inverse_mod()
 {
     inverse_matrix = inversion_mod(matrix,modulus);
+}
+
+void test_conversion() {
+    setSeed(rand());
+    GMatrix * m = Gconstructor(3, 3);
+    Matrix * m_aux = constructor(3, 3);
+
+    for (int i = 0; i < m->rows; ++i) {
+        for (int j = 0; j < m->columns; ++j) {
+             uint8_t number = nextChar();
+             m->numbers[i][j] = number;
+             m_aux->numbers[i][j] = number;
+        }
+    }
+
+    Matrix* matrix1 = conversion_to_matrix(m);
+    assert_true("conversion to matrix is correct", equals(m_aux, matrix1));
+
+    GMatrix* matrix2 = conversion_from_matrix(m_aux);
+    assert_true("conversion to matrix is correct", equals_GMatrix(m, matrix2));
+
+    destroy_Gmatrix(m);
+    destroy_Gmatrix(matrix2);
+    destroy_matrix(m_aux);
+    destroy_matrix(matrix1);
 }

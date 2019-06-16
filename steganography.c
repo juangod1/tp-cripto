@@ -68,6 +68,8 @@ BMP_Image* hide_matrix(GMatrix* m, char* path, int number_of_bits, char shadow_n
     if(writeBMP(image, path) == -1)
         return NULL;
 
+    free(char_array);
+
     return image;
 }
 

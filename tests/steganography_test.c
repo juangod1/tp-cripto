@@ -44,6 +44,7 @@ void test_hide_matrix() {
     test_lsb2(m);
 
 //  reseting
+    destroy_Gmatrix(m);
     BMP_Image* image = readBMP("./tests/WHT.BMP");
     writeBMP(image, "./tests/images/lsb.BMP");
     writeBMP(image, "./tests/images/lsb2.BMP");
@@ -64,17 +65,22 @@ void test_recover_matrix() {
         }
     }
 
-    hide_matrix(m, "./tests/images/lsb.BMP", 1, 5);
+    BMP_Image* img1 = hide_matrix(m, "./tests/images/lsb.BMP", 1, 5);
     GMatrix* recovered_lsb = recover_matrix("./tests/images/lsb.BMP", 1);
-    hide_matrix(m, "./tests/images/lsb2.BMP", 2, 5);
+    BMP_Image* img2 = hide_matrix(m, "./tests/images/lsb2.BMP", 2, 5);
     GMatrix* recovered_lsb_2 = recover_matrix("./tests/images/lsb2.BMP", 2);
 
     assert_true("image recovered is the same as hidden with lsb", equals_GMatrix(m, recovered_lsb));
     assert_true("image recovered is the same as hidden with lsb2", equals_GMatrix(m, recovered_lsb_2));
 
 //  reseting
+    destroy_Gmatrix(recovered_lsb);
+    destroy_Gmatrix(recovered_lsb_2);
+    destroy_Gmatrix(m);
     writeBMP(image_aux, "./tests/images/lsb.BMP");
     writeBMP(image_aux, "./tests/images/lsb2.BMP");
     destroyBMP(image_aux);
+    destroyBMP(img1);
+    destroyBMP(img2);
 }
 

@@ -40,6 +40,9 @@ Matrix * matrix_B;
 Matrix * correct_B;
 Matrix ** sh_vec;
 
+Matrix ** G_vec;
+Matrix ** correct_G_vec;
+
 void test_generate_a()
 {
     given_n();
@@ -240,6 +243,67 @@ void test_compute_ss()
     destroy_matrix(matrix_ss);
 }
 
+void test_compute_G_vec()
+{
+    given_k();
+    given_sh_vec();
+    given_correct_G_vec();
+
+    when_computing_G_vec();
+
+    for(int i=0; i<k; i++)
+    {
+        char * str= malloc(100*sizeof(char));
+        sprintf(str,"G[%i] is correct",i);
+        printf("G_vec[%i]\n",i);
+        print(G_vec[i]);
+        printf("correct_G_vec[%i]\n",i);
+        print(correct_G_vec[i]);
+        assert_true(str, equals(G_vec[i],correct_G_vec[i])==SUCC);
+        free(str);
+    }
+
+    destroy_matrix_vec(G_vec,k);
+    destroy_matrix_vec(correct_G_vec,k);
+    destroy_matrix_vec(sh_vec,k);
+}
+
+void given_correct_G_vec()
+{
+    correct_G_vec = malloc(k*sizeof(Matrix * ));
+    correct_G_vec[0] = constructor(4,2);
+    correct_G_vec[0]->numbers[0][0] = 36;
+    correct_G_vec[0]->numbers[1][0] = 92;
+
+    correct_G_vec[0]->numbers[0][1] = 101;
+    correct_G_vec[0]->numbers[1][1] = 58;
+
+    correct_G_vec[0]->numbers[0][2] = 126;
+    correct_G_vec[0]->numbers[1][2] = 142;
+
+    correct_G_vec[0]->numbers[0][3] = 26;
+    correct_G_vec[0]->numbers[1][3] = 163;
+
+
+    correct_G_vec[1] = constructor(4,2);
+    correct_G_vec[1]->numbers[0][0] = 71;
+    correct_G_vec[1]->numbers[1][0] = 132;
+
+    correct_G_vec[1]->numbers[0][1] = 169;
+    correct_G_vec[1]->numbers[1][1] = 47;
+
+    correct_G_vec[1]->numbers[0][2] = 198;
+    correct_G_vec[1]->numbers[1][2] = 72;
+
+    correct_G_vec[1]->numbers[0][3] = 14;
+    correct_G_vec[1]->numbers[1][3] = 150;
+
+}
+
+void when_computing_G_vec()
+{
+    G_vec = compute_G_vec(sh_vec,k);
+}
 void given_B()
 {
     matrix_B =constructor(4,2);

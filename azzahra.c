@@ -182,3 +182,28 @@ Matrix * compute_ss(Matrix * B)
 
     return ret;
 }
+
+Matrix ** compute_G_vec(Matrix ** sh_vec, int k)
+{
+    Matrix ** G_vec = malloc(k*sizeof(Matrix *));
+    for(int i=0; i<k;i++)
+    {
+        Matrix * sh = sh_vec[i];
+        G_vec[i]=extract_G_from_sh(sh);
+    }
+    return G_vec;
+}
+
+Matrix * extract_G_from_sh(Matrix * sh)
+{
+    Matrix * G = constructor(sh->rows,sh->columns-1);
+
+    for(int i=0; i<G->rows;i++)
+    {
+        for(int j=0; j<G->columns; j++)
+        {
+            G->numbers[j][i]=sh->numbers[j+1][i];
+        }
+    }
+    return G;
+}

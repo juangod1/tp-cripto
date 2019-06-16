@@ -20,5 +20,7 @@ Matrix * generate_rw(Matrix * w, Matrix * ss);
 Matrix * generate_sh(Matrix * v, Matrix * G);
 Matrix * generate_B(Matrix ** sh_vec, int k);
 Matrix * compute_ss(Matrix * B);
+Matrix ** compute_G_vec(Matrix ** sh_vec, int k);
+Matrix * extract_G_from_sh(Matrix * sh);
 
 #endif //TP_CRIPTO_AZZAHRA_H

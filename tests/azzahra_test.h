@@ -65,4 +65,8 @@ void test_compute_ss();
 void given_B();
 void when_computing_ss();
 
+void test_compute_G_vec();
+void given_correct_G_vec();
+void when_computing_G_vec();
+
 #endif //TP_CRIPTO_TEST_AZZAHRA_H

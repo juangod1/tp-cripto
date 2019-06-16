@@ -146,3 +146,23 @@ Matrix * generate_sh(Matrix * v, Matrix * G)
     }
     return sh;
 }
+
+Matrix * generate_B(Matrix ** sh_vec, int k)
+{
+    int rows = sh_vec[0]->rows;
+    Matrix * B = constructor(rows,k);
+    for(int i=0;i<rows;i++)
+    {
+        for(int j=0; j<k;j++)
+        {
+            Matrix * sh = sh_vec[j];
+            B->numbers[j][i] = sh->numbers[0][i];
+        }
+    }
+    return B;
+}
+
+Matrix * compute_ss(Matrix * B)
+{
+
+}

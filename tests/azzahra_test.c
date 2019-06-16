@@ -36,6 +36,10 @@ Matrix * matrix_v;
 Matrix * matrix_sh;
 Matrix * correct_sh;
 
+Matrix * matrix_B;
+Matrix * correct_B;
+Matrix ** sh_vec;
+
 void test_generate_a()
 {
     given_n();
@@ -195,6 +199,85 @@ void test_generate_sh()
     destroy_matrix(matrix_G);
     destroy_matrix(matrix_sh);
     destroy_matrix(correct_sh);
+}
+
+void test_generate_B()
+{
+    given_sh_vec();
+    given_k();
+    given_correct_B();
+
+    when_calculating_B();
+
+    printf("matrix_B\n");
+    print(matrix_B);
+    printf("correct_B\n");
+    print(correct_B);
+
+    assert_true("B equals correct B", equals(matrix_B, correct_B)==SUCC);
+
+    destroy_matrix(matrix_B);
+    destroy_matrix(correct_B);
+    destroy_matrix_vec(sh_vec,k);
+}
+
+void given_sh_vec()
+{
+    sh_vec = malloc(k*sizeof(Matrix * ));
+    sh_vec[0]=constructor(4,3);
+    sh_vec[0]->numbers[0][0] = 62;
+    sh_vec[0]->numbers[1][0] = 36;
+    sh_vec[0]->numbers[2][0] = 92;
+
+    sh_vec[0]->numbers[0][1] = 59;
+    sh_vec[0]->numbers[1][1] = 101;
+    sh_vec[0]->numbers[2][1] = 58;
+
+    sh_vec[0]->numbers[0][2] = 43;
+    sh_vec[0]->numbers[1][2] = 126;
+    sh_vec[0]->numbers[2][2] = 142;
+
+    sh_vec[0]->numbers[0][3] = 84;
+    sh_vec[0]->numbers[1][3] = 26;
+    sh_vec[0]->numbers[2][3] = 163;
+
+
+    sh_vec[1]=constructor(4,3);
+    sh_vec[1]->numbers[0][0] = 40;
+    sh_vec[1]->numbers[1][0] = 71;
+    sh_vec[1]->numbers[2][0] = 132;
+
+    sh_vec[1]->numbers[0][1] = 28;
+    sh_vec[1]->numbers[1][1] = 169;
+    sh_vec[1]->numbers[2][1] = 47;
+
+    sh_vec[1]->numbers[0][2] = 28;
+    sh_vec[1]->numbers[1][2] = 198;
+    sh_vec[1]->numbers[2][2] = 72;
+
+    sh_vec[1]->numbers[0][3] = 48;
+    sh_vec[1]->numbers[1][3] = 14;
+    sh_vec[1]->numbers[2][3] = 150;
+}
+void given_correct_B()
+{
+    correct_B =constructor(4,2);
+    correct_B->numbers[0][0] = 62;
+    correct_B->numbers[1][0] = 40;
+
+    correct_B->numbers[0][1] = 59;
+    correct_B->numbers[1][1] = 28;
+
+    correct_B->numbers[0][2] = 43;
+    correct_B->numbers[1][2] = 28;
+
+    correct_B->numbers[0][3] = 84;
+    correct_B->numbers[1][3] = 48;
+}
+
+void when_calculating_B()
+{
+    matrix_B=generate_B(sh_vec,k);
 }
 
 void given_v()

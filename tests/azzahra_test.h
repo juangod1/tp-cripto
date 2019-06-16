@@ -55,4 +55,10 @@ void given_G();
 void given_correct_sh();
 void when_generating_sh();
 
+
+void test_generate_B();
+void given_sh_vec();
+void given_correct_B();
+void when_calculating_B();
+
 #endif //TP_CRIPTO_TEST_AZZAHRA_H

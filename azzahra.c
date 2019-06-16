@@ -12,7 +12,6 @@ Matrix * generate_a(int k, int n)
 
 Matrix * generate_ss(Matrix * a)
 {
-    print(a);
     Matrix * a_trans = transpose(a);
     Matrix * prod_0 = multiply(a_trans,a);
     Matrix * prod_0_inv = inversion_mod(prod_0,CONST_P);
@@ -164,5 +163,18 @@ Matrix * generate_B(Matrix ** sh_vec, int k)
 
 Matrix * compute_ss(Matrix * B)
 {
+    Matrix * B_trans = transpose(B);
+    Matrix * prod_0 = multiply(B_trans,B);
+    Matrix * prod_0_inv = inversion_mod(prod_0,CONST_P);
+    Matrix * prod_1 = multiply(B,prod_0_inv);
+    Matrix * ret = multiply(prod_1,B_trans);
 
+    apply_modulus(ret,CONST_P);
+
+    destroy_matrix(prod_1);
+    destroy_matrix(prod_0_inv);
+    destroy_matrix(prod_0);
+    destroy_matrix(B_trans);
+
+    return ret;
 }

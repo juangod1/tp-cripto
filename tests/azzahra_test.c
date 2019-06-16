@@ -221,6 +221,46 @@ void test_generate_B()
     destroy_matrix_vec(sh_vec,k);
 }
 
+void test_compute_ss()
+{
+    given_B();
+    given_correct_ss();
+
+    when_computing_ss();
+
+    printf("matrix_ss\n");
+    print(matrix_ss);
+    printf("correct_ss\n");
+    print(correct_ss);
+
+    assert_true("ss equals correct ss", equals(matrix_ss, correct_ss)==SUCC);
+
+    destroy_matrix(matrix_B);
+    destroy_matrix(correct_ss);
+    destroy_matrix(matrix_ss);
+}
+
+void given_B()
+{
+    matrix_B =constructor(4,2);
+    matrix_B->numbers[0][0] = 62;
+    matrix_B->numbers[1][0] = 40;
+
+    matrix_B->numbers[0][1] = 59;
+    matrix_B->numbers[1][1] = 28;
+
+    matrix_B->numbers[0][2] = 43;
+    matrix_B->numbers[1][2] = 28;
+
+    matrix_B->numbers[0][3] = 84;
+    matrix_B->numbers[1][3] = 48;
+}
+
+void when_computing_ss()
+{
+    matrix_ss = compute_ss(matrix_B);
+}
+
 void given_sh_vec()
 {
     sh_vec = malloc(k*sizeof(Matrix * ));

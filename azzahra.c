@@ -14,8 +14,10 @@ Matrix * generate_ss(Matrix * a)
 {
     Matrix * a_trans = transpose(a);
     Matrix * prod_0 = multiply(a_trans,a);
+    apply_modulus(prod_0,CONST_P);
     Matrix * prod_0_inv = inversion_mod(prod_0,CONST_P);
     Matrix * prod_1 = multiply(a,prod_0_inv);
+    apply_modulus(prod_1,CONST_P);
     Matrix * ret = multiply(prod_1,a_trans);
 
     apply_modulus(ret,CONST_P);
@@ -165,8 +167,10 @@ Matrix * compute_ss(Matrix * B)
 {
     Matrix * B_trans = transpose(B);
     Matrix * prod_0 = multiply(B_trans,B);
+    apply_modulus(prod_0,CONST_P);
     Matrix * prod_0_inv = inversion_mod(prod_0,CONST_P);
     Matrix * prod_1 = multiply(B,prod_0_inv);
+    apply_modulus(prod_1,CONST_P);
     Matrix * ret = multiply(prod_1,B_trans);
 
     apply_modulus(ret,CONST_P);

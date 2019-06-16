@@ -42,4 +42,10 @@ void test_calculate_G();
 void given_correct_G();
 void when_generating_G();
 
+
+void test_generate_rw();
+void when_generating_rw();
+void given_w();
+void given_correct_rw();
+
 #endif //TP_CRIPTO_TEST_AZZAHRA_H

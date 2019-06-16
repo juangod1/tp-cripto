@@ -20,4 +20,5 @@ void main_test(){
     run_test("Test generate v_vec", test_generate_v_vec);
     run_test("Test calculate g", test_calculate_g);
     run_test("Test generate G", test_calculate_G);
+    run_test("Test generate rw", test_generate_rw);
 }

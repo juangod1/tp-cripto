@@ -28,6 +28,10 @@ int correct_g;
 Matrix * matrix_G;
 Matrix * correct_G;
 
+Matrix * matrix_w;
+Matrix * correct_rw;
+Matrix * matrix_rw;
+
 void test_generate_a()
 {
     given_n();
@@ -145,6 +149,80 @@ void test_calculate_G()
     destroy_matrix(correct_G);
     destroy_matrix(matrix_r);
     free(c_vec);
+}
+
+void test_generate_rw()
+{
+    given_w();
+    given_ss();
+    given_correct_rw();
+
+    when_generating_rw();
+
+    printf("matrix_rw\n");
+    print(matrix_rw);
+    printf("correct_rw\n");
+    print(correct_rw);
+
+    assert_true("RW equals correct RW", equals(matrix_rw, correct_rw)==SUCC);
+
+    destroy_matrix(matrix_rw);
+    destroy_matrix(correct_rw);
+    destroy_matrix(matrix_ss);
+    destroy_matrix(matrix_w);
+}
+
+void when_generating_rw()
+{
+    matrix_rw = generate_rw(matrix_w, matrix_ss);
+}
+
+void given_w()
+{
+    matrix_w = constructor(4,4);
+    matrix_w->numbers[0][0] =50;
+    matrix_w->numbers[1][0] =100;
+    matrix_w->numbers[2][0] =21;
+    matrix_w->numbers[3][0] =14;
+
+    matrix_w->numbers[0][1] =22;
+    matrix_w->numbers[1][1] =76;
+    matrix_w->numbers[2][1] =200;
+    matrix_w->numbers[3][1] =54;
+
+    matrix_w->numbers[0][2] =1;
+    matrix_w->numbers[1][2] =91;
+    matrix_w->numbers[2][2] =45;
+    matrix_w->numbers[3][2] =7;
+
+    matrix_w->numbers[0][3] =24;
+    matrix_w->numbers[1][3] =66;
+    matrix_w->numbers[2][3] =96;
+    matrix_w->numbers[3][3] =120;
+}
+
+void given_correct_rw()
+{
+    correct_rw = constructor(4,4);
+    correct_rw->numbers[0][0] = 49;
+    correct_rw->numbers[1][0] = 130;
+    correct_rw->numbers[2][0] = 71;
+    correct_rw->numbers[3][0] = 51;
+
+    correct_rw->numbers[0][1] = 52;
+    correct_rw->numbers[1][1] = 138;
+    correct_rw->numbers[2][1] = 14;
+    correct_rw->numbers[3][1] = 38;
+
+    correct_rw->numbers[0][2] = 51;
+    correct_rw->numbers[1][2] = 156;
+    correct_rw->numbers[2][2] = 2;
+    correct_rw->numbers[3][2] = 182;
+
+    correct_rw->numbers[0][3] = 61;
+    correct_rw->numbers[1][3] = 50;
+    correct_rw->numbers[2][3] = 20;
+    correct_rw->numbers[3][3] = 100;
 }
 
 

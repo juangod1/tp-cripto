@@ -21,4 +21,5 @@ void main_test(){
     run_test("Test calculate g", test_calculate_g);
     run_test("Test generate G", test_calculate_G);
     run_test("Test generate rw", test_generate_rw);
+    run_test("Test generate sh", test_generate_sh);
 }

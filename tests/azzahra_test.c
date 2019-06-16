@@ -32,6 +32,10 @@ Matrix * matrix_w;
 Matrix * correct_rw;
 Matrix * matrix_rw;
 
+Matrix * matrix_v;
+Matrix * matrix_sh;
+Matrix * correct_sh;
+
 void test_generate_a()
 {
     given_n();
@@ -170,6 +174,74 @@ void test_generate_rw()
     destroy_matrix(correct_rw);
     destroy_matrix(matrix_ss);
     destroy_matrix(matrix_w);
+}
+
+void test_generate_sh()
+{
+    given_v();
+    given_G();
+    given_correct_sh();
+
+    when_generating_sh();
+
+    printf("matrix_sh\n");
+    print(matrix_sh);
+    printf("correct_sh\n");
+    print(correct_sh);
+
+    assert_true("Sh equals correct Sh", equals(matrix_sh, correct_sh)==SUCC);
+
+    destroy_matrix(matrix_v);
+    destroy_matrix(matrix_G);
+    destroy_matrix(matrix_sh);
+    destroy_matrix(correct_sh);
+}
+
+void given_v()
+{
+    matrix_v = constructor(4,1);
+    matrix_v->numbers[0][0] = 62;
+    matrix_v->numbers[0][1] = 59;
+    matrix_v->numbers[0][2] = 43;
+    matrix_v->numbers[0][3] = 84;
+}
+void given_G()
+{
+    matrix_G = constructor(n,k);
+    matrix_G->numbers[0][0]=36;
+    matrix_G->numbers[1][0]=92;
+
+    matrix_G->numbers[0][1]=101;
+    matrix_G->numbers[1][1]=58;
+
+    matrix_G->numbers[0][2]=126;
+    matrix_G->numbers[1][2]=142;
+
+    matrix_G->numbers[0][3]=26;
+    matrix_G->numbers[1][3]=163;
+}
+void given_correct_sh()
+{
+    correct_sh = constructor(4,3);
+    correct_sh->numbers[0][0] = 62;
+    correct_sh->numbers[1][0] = 36;
+    correct_sh->numbers[2][0] = 92;
+
+    correct_sh->numbers[0][1] = 59;
+    correct_sh->numbers[1][1] = 101;
+    correct_sh->numbers[2][1] = 58;
+
+    correct_sh->numbers[0][2] = 43;
+    correct_sh->numbers[1][2] = 126;
+    correct_sh->numbers[2][2] = 142;
+
+    correct_sh->numbers[0][3] = 84;
+    correct_sh->numbers[1][3] = 26;
+    correct_sh->numbers[2][3] = 163;
+}
+void when_generating_sh()
+{
+    matrix_sh = generate_sh(matrix_v,matrix_G);
 }
 
 void when_generating_rw()

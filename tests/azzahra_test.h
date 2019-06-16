@@ -48,4 +48,11 @@ void when_generating_rw();
 void given_w();
 void given_correct_rw();
 
+
+void test_generate_sh();
+void given_v();
+void given_G();
+void given_correct_sh();
+void when_generating_sh();
+
 #endif //TP_CRIPTO_TEST_AZZAHRA_H

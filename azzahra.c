@@ -123,3 +123,26 @@ Matrix * generate_rw(Matrix * w, Matrix * ss)
     apply_modulus(rw,CONST_P);
     return rw;
 }
+
+Matrix * generate_sh(Matrix * v, Matrix * G)
+{
+    if(v->rows!=G->rows) return NULL;
+
+    Matrix * sh = constructor(v->rows,v->columns+G->columns);
+    for(int i=0; i<v->rows;i++)
+    {
+        for(int j=0; j<v->columns;j++)
+        {
+            sh->numbers[j][i]=v->numbers[j][i];
+        }
+    }
+    for(int i=0; i<v->rows;i++)
+    {
+        for(int j=0; j<G->columns;j++)
+        {
+            int column_index = j+v->columns;
+            sh->numbers[column_index][i]=G->numbers[j][i];
+        }
+    }
+    return sh;
+}

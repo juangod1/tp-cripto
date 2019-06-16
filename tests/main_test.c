@@ -17,5 +17,7 @@ void main_test(){
     run_test("Test multiplication", test_multiplication);
     run_test("Test matrix conversion", test_conversion);
     run_test("Test generate r", test_generate_r);
-    run_test("Test generate v", test_generate_v_vec);
+    run_test("Test generate v_vec", test_generate_v_vec);
+    run_test("Test calculate g", test_calculate_g);
+    run_test("Test generate G", test_calculate_G);
 }

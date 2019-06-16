@@ -80,3 +80,36 @@ Matrix * generate_v(Matrix * x, Matrix * a)
     apply_modulus(ret, 251);
     return ret;
 }
+
+Matrix * generate_G(int j, Matrix *r, int * c_vec, int n, int k)
+{
+    Matrix * G = constructor(n, k);
+    for(int row_c=0; row_c<n;row_c++)
+    {
+        for(int col_c=0; col_c<k; col_c++)
+        {
+            G->numbers[col_c][row_c] = calculate_g(col_c+1,row_c+1,j,r,k,c_vec);
+        }
+    }
+    return G;
+}
+
+
+int calculate_g(int t, int i, int j, Matrix * r, int k, int * c_vec)
+{
+    i-=1;
+    t-=1;
+    j-=1;
+    int ret = 0;
+    for( int counter=0; counter<k; counter++)
+    {
+        int column_index = t*k+counter;
+        int num = r->numbers[column_index][i];
+        if(counter!=0)
+        {
+            num*= c_vec[j];
+        }
+        ret+=num;
+    }
+    return my_mod(ret,251);
+}

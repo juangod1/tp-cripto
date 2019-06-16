@@ -28,4 +28,18 @@ void given_x_vec();
 void given_correct_v_vec();
 void when_calculating_v_vec();
 
+
+void test_calculate_g();
+void given_t();
+void given_i();
+void given_j();
+void given_r();
+void given_c_vec();
+void given_correct_g();
+void when_calculating_g();
+
+void test_calculate_G();
+void given_correct_G();
+void when_generating_G();
+
 #endif //TP_CRIPTO_TEST_AZZAHRA_H

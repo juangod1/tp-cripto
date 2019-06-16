@@ -17,6 +17,17 @@ Matrix ** x_vec = NULL;
 Matrix ** correct_v_vec = NULL;
 Matrix ** v_vec = NULL;
 
+int t;
+int i;
+int j;
+int * c_vec;
+
+int g;
+int correct_g;
+
+Matrix * matrix_G;
+Matrix * correct_G;
+
 void test_generate_a()
 {
     given_n();
@@ -87,13 +98,129 @@ void test_generate_v_vec()
         assert_true(str, equals(v_vec[i],correct_v_vec[i])==SUCC);
         free(str);
     }
-
-    printf("4\n");
     destroy_matrix_vec(x_vec,n);
     destroy_matrix_vec(v_vec,n);
     destroy_matrix_vec(correct_v_vec,n);
     destroy_matrix(matrix_a);
 }
+
+void test_calculate_g()
+{
+    given_n();
+    given_t();
+    given_i();
+    given_j();
+    given_r();
+    given_k();
+    given_c_vec();
+    given_correct_g();
+
+    when_calculating_g();
+
+    assert_equal_int("g is equal to correct_g",correct_g,g);
+
+    destroy_matrix(matrix_r);
+    free(c_vec);
+}
+
+void test_calculate_G()
+{
+    given_j();
+    given_r();
+    given_c_vec();
+    given_n();
+    given_k();
+    given_correct_G();
+
+    when_generating_G();
+
+    printf("matrix_G\n");
+    print(matrix_G);
+    printf("correct_G\n");
+    print(correct_G);
+
+    assert_true("G is equal to correct G", equals(matrix_G, correct_G)==SUCC);
+
+    destroy_matrix(matrix_G);
+    destroy_matrix(correct_G);
+    destroy_matrix(matrix_r);
+    free(c_vec);
+}
+
+
+void given_correct_G()
+{
+    correct_G = constructor(n,k);
+    correct_G->numbers[0][0]=36;
+    correct_G->numbers[1][0]=92;
+
+    correct_G->numbers[0][1]=101;
+    correct_G->numbers[1][1]=58;
+
+    correct_G->numbers[0][2]=126;
+    correct_G->numbers[1][2]=142;
+
+    correct_G->numbers[0][3]=26;
+    correct_G->numbers[1][3]=163;
+}
+
+void when_generating_G()
+{
+    matrix_G = generate_G(j,matrix_r,c_vec,n,k);
+}
+
+void given_correct_g()
+{
+    correct_g = 142;
+}
+
+void given_t()
+{
+    t=2;
+}
+void given_i()
+{
+    i=3;
+}
+void given_j()
+{
+    j=1;
+}
+void given_r()
+{
+    matrix_r = constructor(4,4);
+    matrix_r->numbers[0][0] =1;
+    matrix_r->numbers[1][0] =35;
+    matrix_r->numbers[2][0] =52;
+    matrix_r->numbers[3][0] =40;
+    matrix_r->numbers[0][1] =33;
+    matrix_r->numbers[1][1] =68;
+    matrix_r->numbers[2][1] =69;
+    matrix_r->numbers[3][1] =240;
+    matrix_r->numbers[0][2] =54;
+    matrix_r->numbers[1][2] =72;
+    matrix_r->numbers[2][2] =212;
+    matrix_r->numbers[3][2] =181;
+    matrix_r->numbers[0][3] =38;
+    matrix_r->numbers[1][3] =239;
+    matrix_r->numbers[2][3] =176;
+    matrix_r->numbers[3][3] =238;
+
+}
+void given_c_vec()
+{
+    c_vec = malloc(n* sizeof(int));
+    c_vec[0]=1;
+    c_vec[1]=2;
+    c_vec[2]=3;
+    c_vec[3]=4;
+}
+
+void when_calculating_g()
+{
+    g = calculate_g(t,i,j,matrix_r,k,c_vec);
+}
+
 
 void given_x_vec()
 {

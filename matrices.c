@@ -85,13 +85,22 @@ int destroy_matrix(Matrix *m){
     return SUCC;
 }
 
+void destroy_matrix_vec(Matrix ** mat_vec, int k)
+{
+    for(int i=0; i<k;i++)
+    {
+        destroy_matrix(mat_vec[i]);
+    }
+    free(mat_vec);
+}
+
 void apply_modulus(Matrix * m, int modulus){
     unsigned int i, j;
     if(m == NULL)
         return;
     for(i = 0; i < m->rows; i++){
         for(j = 0; j < m->columns; j++){
-            m->numbers[j][i]=(int)m->numbers[j][i]%modulus;
+            m->numbers[j][i]=my_mod(m->numbers[j][i],modulus);
         }
     }
 }

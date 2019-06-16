@@ -8,7 +8,7 @@
 #include "util.h"
 
 void test_lsb(GMatrix* m) {
-    BMP_Image* result_image = hide_matrix(m, "../tests/images/lsb.BMP", 1, 3);
+    BMP_Image* result_image = hide_matrix(m, "./tests/images/lsb.BMP", 1, 3);
     int are_equal = 1;
 
     for (int k = 0; (k < m->columns * m->rows * 8) && are_equal; ++k) {
@@ -21,7 +21,7 @@ void test_lsb(GMatrix* m) {
 
 void test_lsb2(GMatrix* m) {
 
-    BMP_Image* result_image = hide_matrix(m, "../tests/images/lsb2.BMP", 2, 5);
+    BMP_Image* result_image = hide_matrix(m, "./tests/images/lsb2.BMP", 2, 5);
     int are_equal = 1;
 
     for (int k = 0; (k < m->columns * m->rows * 4) && are_equal; ++k) {
@@ -44,17 +44,17 @@ void test_hide_matrix() {
     test_lsb2(m);
 
 //  reseting
-    BMP_Image* image = readBMP("../tests/WHT.BMP");
-    writeBMP(image, "../tests/images/lsb.BMP");
-    writeBMP(image, "../tests/images/lsb2.BMP");
+    BMP_Image* image = readBMP("./tests/WHT.BMP");
+    writeBMP(image, "./tests/images/lsb.BMP");
+    writeBMP(image, "./tests/images/lsb2.BMP");
     destroyBMP(image);
 }
 
 void test_recover_matrix() {
     setSeed(rand());
-    BMP_Image* image_aux = readBMP("../tests/WHT.BMP");
-    writeBMP(image_aux, "../tests/images/lsb.BMP");
-    writeBMP(image_aux, "../tests/images/lsb2.BMP");
+    BMP_Image* image_aux = readBMP("./tests/WHT.BMP");
+    writeBMP(image_aux, "./tests/images/lsb.BMP");
+    writeBMP(image_aux, "./tests/images/lsb2.BMP");
 
     GMatrix * m = Gconstructor(3, 3);
 
@@ -64,17 +64,17 @@ void test_recover_matrix() {
         }
     }
 
-    hide_matrix(m, "../tests/images/lsb.BMP", 1, 5);
-    GMatrix* recovered_lsb = recover_matrix("../tests/images/lsb.BMP", 1);
-    hide_matrix(m, "../tests/images/lsb2.BMP", 2, 5);
-    GMatrix* recovered_lsb_2 = recover_matrix("../tests/images/lsb2.BMP", 2);
+    hide_matrix(m, "./tests/images/lsb.BMP", 1, 5);
+    GMatrix* recovered_lsb = recover_matrix("./tests/images/lsb.BMP", 1);
+    hide_matrix(m, "./tests/images/lsb2.BMP", 2, 5);
+    GMatrix* recovered_lsb_2 = recover_matrix("./tests/images/lsb2.BMP", 2);
 
     assert_true("image recovered is the same as hidden with lsb", equals_GMatrix(m, recovered_lsb));
     assert_true("image recovered is the same as hidden with lsb2", equals_GMatrix(m, recovered_lsb_2));
 
 //  reseting
-    writeBMP(image_aux, "../tests/images/lsb.BMP");
-    writeBMP(image_aux, "../tests/images/lsb2.BMP");
+    writeBMP(image_aux, "./tests/images/lsb.BMP");
+    writeBMP(image_aux, "./tests/images/lsb2.BMP");
     destroyBMP(image_aux);
 }
 

@@ -3,6 +3,7 @@
 
 #include "image_manipulation.h"
 #include "Gmatrices.h"
+#include <stdint.h>
 
 /*
  * Hides matrix m in shadow image found in path and writes it in image.

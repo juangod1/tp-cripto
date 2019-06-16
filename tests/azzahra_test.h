@@ -16,4 +16,16 @@ int matrix_less_than_255(Matrix * m);
 void given_a();
 void given_correct_ss();
 void when_generating_ss();
+
+void given_ss();
+void given_s();
+void given_correct_r();
+void when_calculating_r();
+void test_generate_r();
+
+void test_generate_v_vec();
+void given_x_vec();
+void given_correct_v_vec();
+void when_calculating_v_vec();
+
 #endif //TP_CRIPTO_TEST_AZZAHRA_H

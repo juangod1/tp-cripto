@@ -1,4 +1,3 @@
-#include <ntsid.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>

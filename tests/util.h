@@ -1,8 +1,6 @@
 #ifndef TP_CRIPTO_UTIL_H
 #define TP_CRIPTO_UTIL_H
 
-#include <ntsid.h>
-
 void run_test(char * testname, void (*test)());
 void fail();
 void success();

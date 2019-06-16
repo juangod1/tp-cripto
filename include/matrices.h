@@ -18,6 +18,7 @@ Matrix *inversion(Matrix *m);
 Matrix * inversion_mod(Matrix * m, int mod);
 Matrix *constructor(int r, int c);
 int destroy_matrix(Matrix *m);
+void destroy_matrix_vec(Matrix ** mat_vec, int k);
 void apply_modulus(Matrix * m, int modulus);
 int print(Matrix *m);
 int row_swap(Matrix *m, int a, int b);

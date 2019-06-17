@@ -67,7 +67,7 @@ int * generate_c_vec(int n)
     return ret;
 }
 
-Matrix * generate_v_vec(Matrix ** x_vec, int n, Matrix * a)
+Matrix ** generate_v_vec(Matrix ** x_vec, int n, Matrix * a)
 {
     Matrix ** ret = malloc(n* sizeof(Matrix *));
     for(int i=0; i<n;i++)
@@ -98,7 +98,7 @@ Matrix * generate_G(int j, Matrix *r, int * c_vec, int n, int k)
 }
 
 
-int calculate_g(int t, int i, int j, Matrix * r, int k, int * c_vec)
+int calculate_g(int t, int i, int j, Matrix * r, int k, const int * c_vec)
 {
     i-=1;
     t-=1;
@@ -107,7 +107,7 @@ int calculate_g(int t, int i, int j, Matrix * r, int k, int * c_vec)
     for( int counter=0; counter<k; counter++)
     {
         int column_index = t*k+counter;
-        int num = r->numbers[column_index][i];
+        int num = (int)r->numbers[column_index][i];
         if(counter!=0)
         {
             num*= c_vec[j];

@@ -1,7 +1,3 @@
-//
-// Created by Juan Godfrid on 2019-06-01.
-//
-
 #ifndef IMAGE_MANIPULATION_H
 #define IMAGE_MANIPULATION_H
 
@@ -12,8 +8,11 @@
 #define BMP_WIDTH_POSITION 0x16
 #define BMP_BPP_POSITION 0x1C
 
+#include <stdlib.h>
+#include "matrices.h"
+
 typedef struct {
-    char * data;
+    uint8_t * data;
     int data_size;
     int file_size;
     int offset;
@@ -26,5 +25,6 @@ typedef struct {
 BMP_Image * readBMP(char * path);
 int writeBMP(BMP_Image * img, char * path);
 void destroyBMP(BMP_Image * bmp);
+Matrix* image_to_matrix_conversion(BMP_Image* image);
 
 #endif //IMAGE_MANIPULATION_H

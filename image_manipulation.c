@@ -1,7 +1,3 @@
-//
-// Created by Juan Godfrid on 2019-06-01.
-//
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -10,6 +6,7 @@
 #include <sys/types.h>
 #include <errno.h>
 #include "include/image_manipulation.h"
+#include "include/matrices.h"
 
 void destroyBMP(BMP_Image * bmp){
     free(bmp->data);
@@ -109,4 +106,14 @@ BMP_Image * readBMP(char * path){
     fclose(f);
 
     return img;
+}
+
+Matrix* image_to_matrix_conversion(BMP_Image* image) {
+    Matrix* m = constructor(image->height, image->width);
+    for (int i = 0; i < m->rows; ++i) {
+        for (int j = 0; j < m->columns; ++j) {
+            m->numbers[i][j] = image->data[i + j];
+        }
+    }
+    return m;
 }

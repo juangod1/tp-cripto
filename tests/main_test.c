@@ -25,4 +25,7 @@ void main_test(){
     run_test("Test generate B", test_generate_B);
     run_test("Test compute ss", test_compute_ss);
     run_test("Test compute G_vec", test_compute_G_vec);
+    run_test("test_linear_equations",test_linear_equations);
+    run_test("test_compute_small_r",test_compute_small_r);
+    run_test("test_compute_R",test_compute_R);
 }

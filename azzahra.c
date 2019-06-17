@@ -62,7 +62,7 @@ int * generate_c_vec(int n)
     int * ret = malloc(n* sizeof(int));
     for(int i=0; i<n;i++)
     {
-        ret[i] = i;
+        ret[i] = i+1;
     }
     return ret;
 }
@@ -206,4 +206,57 @@ Matrix * extract_G_from_sh(Matrix * sh)
         }
     }
     return G;
+}
+
+Matrix * compute_R_from_G_vec(Matrix ** G_vec, int k, int n)
+{
+    int rows = G_vec[0]->rows;
+    int columns = 0;
+    for(int i=0; i<k; i++)
+    {
+        columns+=G_vec[i]->columns;
+    }
+
+    Matrix * ret = constructor(rows,columns);
+
+    for(int x=0; x<n;x++)
+    {
+        for(int y=0; y<k; y++)
+        {
+            Matrix * small_r = compute_small_r(G_vec,x,y, k);
+            for(int i=0; i<k;i++)
+            {
+                int column_index = i+(k*y);
+                int row_index = x;
+                ret->numbers[column_index][row_index] = small_r->numbers[i][0];
+            }
+            destroy_matrix(small_r);
+        }
+    }
+    apply_modulus(ret,CONST_P);
+    return ret;
+}
+
+Matrix * compute_small_r(Matrix ** G_vec, int x, int y, int k)
+{
+    Matrix * aux = constructor(2,3); //a chequear el tamaño de small_r para distintos k
+    int * c_vec = generate_c_vec(k);
+
+    for(int i=0; i<aux->rows;i++)
+    {
+        aux->numbers[0][i]=1;
+        aux->numbers[1][i]=c_vec[i];
+        aux->numbers[2][i]=G_vec[i]->numbers[y][x];
+    }
+    free(c_vec);
+
+    solve_linear_equations(aux);
+
+    Matrix * ret = constructor(1,k);
+    for(int i=0; i<k;i++)
+    {
+        ret->numbers[i][0]=aux->numbers[k][i];
+    }
+    destroy_matrix(aux);
+    return ret;
 }

@@ -663,3 +663,46 @@ void manual_entry(Matrix **m){
     }
     *m = temp;
 }
+
+
+void substract_rows(Matrix * m, int row1, int row2,double factor)
+{
+    if(m->rows<=row1 || m->rows<=row2)
+        return;
+
+    for(int i=0; i<m->columns;i++)
+    {
+        m->numbers[i][row1]-=factor*m->numbers[i][row2];
+        m->numbers[i][row1] = round(m->numbers[i][row1]);
+    }
+}
+
+void solve_linear_equations(Matrix * m)
+{
+    if(m->rows+1!=m->columns)
+        return;
+    for(int i=0; i<m->rows;i++)
+    {
+        int pivot = m->numbers[i][i];
+        float factor = 1.0/pivot;
+        row_scalar_multiply(m,i,factor);
+        for(int j=i+1; j<m->rows;j++)
+        {
+            int number = m->numbers[i][j];
+            substract_rows(m,j,i,number);
+        }
+    }
+
+    for(int i=0; i<m->rows; i++)
+    {
+        int index = m->rows-i-1;
+        int pivot = m->numbers[index][index];
+        for(int j=i+1;j<m->rows;j++)
+        {
+            int index2 = m->rows-1-j;
+            int number = m->numbers[index][index2];
+            substract_rows(m,index2,index,number);
+        }
+    }
+
+}

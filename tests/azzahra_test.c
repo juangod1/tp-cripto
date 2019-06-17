@@ -43,6 +43,11 @@ Matrix ** sh_vec;
 Matrix ** G_vec;
 Matrix ** correct_G_vec;
 
+Matrix * correct_small_r;
+Matrix * matrix_small_r;
+int x;
+int y;
+
 void test_generate_a()
 {
     given_n();
@@ -266,6 +271,105 @@ void test_compute_G_vec()
     destroy_matrix_vec(G_vec,k);
     destroy_matrix_vec(correct_G_vec,k);
     destroy_matrix_vec(sh_vec,k);
+}
+
+void test_compute_small_r()
+{
+    given_G_vec();
+    given_k();
+    given_correct_small_r();
+
+    when_computing_small_r();
+
+    printf("matrix_small_r\n");
+    print(matrix_small_r);
+    printf("correct_small_r\n");
+    print(correct_small_r);
+
+    assert_true("small r is correct", equals(matrix_small_r,correct_small_r)==SUCC);
+
+    destroy_matrix(matrix_small_r);
+    destroy_matrix(correct_small_r);
+    destroy_matrix_vec(G_vec,k);
+}
+
+void given_G_vec()
+{
+    G_vec = malloc(k*sizeof(Matrix * ));
+    G_vec[0] = constructor(4,2);
+    G_vec[0]->numbers[0][0] = 36;
+    G_vec[0]->numbers[1][0] = 92;
+
+    G_vec[0]->numbers[0][1] = 101;
+    G_vec[0]->numbers[1][1] = 58;
+
+    G_vec[0]->numbers[0][2] = 126;
+    G_vec[0]->numbers[1][2] = 142;
+
+    G_vec[0]->numbers[0][3] = 26;
+    G_vec[0]->numbers[1][3] = 163;
+
+
+    G_vec[1] = constructor(4,2);
+    G_vec[1]->numbers[0][0] = 71;
+    G_vec[1]->numbers[1][0] = 132;
+
+    G_vec[1]->numbers[0][1] = 169;
+    G_vec[1]->numbers[1][1] = 47;
+
+    G_vec[1]->numbers[0][2] = 198;
+    G_vec[1]->numbers[1][2] = 72;
+
+    G_vec[1]->numbers[0][3] = 14;
+    G_vec[1]->numbers[1][3] = 150;
+}
+
+void given_correct_small_r()
+{
+    correct_small_r=constructor(1,2);
+    correct_small_r->numbers[0][0]=1;
+    correct_small_r->numbers[1][0]=35;
+}
+
+void given_x()
+{
+    x=0;
+}
+
+void given_y()
+{
+    y=0;
+}
+
+void when_computing_small_r()
+{
+    matrix_small_r = compute_small_r(G_vec,x,y,k);
+}
+
+void test_compute_R()
+{
+    given_G_vec();
+    given_n();
+    given_k();
+    given_correct_r();
+
+    when_computing_R();
+
+    printf("matrix_r\n");
+    print(matrix_r);
+    printf("correct_r\n");
+    print(correct_r);
+
+    assert_true("Matrix r is correct", equals(matrix_r,correct_r)==SUCC);
+
+    destroy_matrix(matrix_r);
+    destroy_matrix(correct_r);
+    destroy_matrix_vec(G_vec,k);
+}
+
+void when_computing_R()
+{
+    matrix_r = compute_R_from_G_vec(G_vec, k, n);
 }
 
 void given_correct_G_vec()

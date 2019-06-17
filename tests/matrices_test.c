@@ -23,6 +23,9 @@ Matrix * m2;
 Matrix * result_matrix;
 Matrix * correct_result_matrix;
 
+Matrix * correct_linear_equation_result;
+Matrix * linear_equation_result;
+
 void test_multiplication()
 {
     given_m1();
@@ -234,3 +237,64 @@ void test_conversion() {
     destroy_matrix(m_aux);
     destroy_matrix(matrix1);
 }
+
+void test_linear_equations()
+{
+    given_linear_equations();
+    given_correct_linear_equation_result();
+
+    when_solving_linear_equations();
+
+    printf("Linear Equation result\n");
+    print(linear_equation_result);
+    printf("Correct Linear Equation Result\n");
+    print(correct_linear_equation_result);
+
+    assert_true("Result is correct", equals(linear_equation_result,correct_linear_equation_result)==SUCC);
+
+    destroy_matrix(linear_equation_result);
+    destroy_matrix(correct_linear_equation_result);
+}
+
+void given_linear_equations()
+{
+    linear_equation_result=constructor(3,4);
+    linear_equation_result->numbers[0][0] = 1;
+    linear_equation_result->numbers[1][0] = 1;
+    linear_equation_result->numbers[2][0] = -1;
+    linear_equation_result->numbers[3][0] = -2;
+
+    linear_equation_result->numbers[0][1] = 2;
+    linear_equation_result->numbers[1][1] = -1;
+    linear_equation_result->numbers[2][1] = 1;
+    linear_equation_result->numbers[3][1] = 5;
+
+    linear_equation_result->numbers[0][2] = -1;
+    linear_equation_result->numbers[1][2] = 2;
+    linear_equation_result->numbers[2][2] = 2;
+    linear_equation_result->numbers[3][2] = 1;
+}
+
+void given_correct_linear_equation_result()
+{
+    correct_linear_equation_result=constructor(3,4);
+    correct_linear_equation_result->numbers[0][0] = 1;
+    correct_linear_equation_result->numbers[1][0] = 0;
+    correct_linear_equation_result->numbers[2][0] = 0;
+    correct_linear_equation_result->numbers[3][0] = 1;
+
+    correct_linear_equation_result->numbers[0][1] = 0;
+    correct_linear_equation_result->numbers[1][1] = 1;
+    correct_linear_equation_result->numbers[2][1] = 0;
+    correct_linear_equation_result->numbers[3][1] = -1;
+
+    correct_linear_equation_result->numbers[0][2] = 0;
+    correct_linear_equation_result->numbers[1][2] = 0;
+    correct_linear_equation_result->numbers[2][2] = 1;
+    correct_linear_equation_result->numbers[3][2] = 2;
+}
+void when_solving_linear_equations()
+{
+    solve_linear_equations(linear_equation_result);
+}
+

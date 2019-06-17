@@ -69,4 +69,12 @@ void test_compute_G_vec();
 void given_correct_G_vec();
 void when_computing_G_vec();
 
+void test_compute_small_r();
+void given_G_vec();
+void given_correct_small_r();
+void when_computing_small_r();
+
+void test_compute_R();
+void when_computing_R();
+
 #endif //TP_CRIPTO_TEST_AZZAHRA_H

@@ -260,3 +260,21 @@ Matrix * compute_small_r(Matrix ** G_vec, int x, int y, int k)
     destroy_matrix(aux);
     return ret;
 }
+
+Matrix * compute_s_from_SS_and_R(Matrix * ss, Matrix * r)
+{
+    Matrix * ret = clonemx(ss);
+    add(ret,r);
+    apply_modulus(ret,CONST_P);
+
+    return ret;
+}
+
+Matrix * compute_w_from_SS_and_Rw(Matrix * ss, Matrix * rw)
+{
+    Matrix * ret = clonemx(ss);
+    add(ret,rw);
+    apply_modulus(ret,CONST_P);
+
+    return ret;
+}

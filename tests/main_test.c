@@ -28,4 +28,6 @@ void main_test(){
     run_test("test_linear_equations",test_linear_equations);
     run_test("test_compute_small_r",test_compute_small_r);
     run_test("test_compute_R",test_compute_R);
+    run_test("test_compute_s_from_SS_and_R",test_compute_s_from_SS_and_R);
+    run_test("test_compute_w_from_SS_and_Rw",test_compute_w_from_SS_and_Rw);
 }

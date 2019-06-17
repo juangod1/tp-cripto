@@ -48,6 +48,10 @@ Matrix * matrix_small_r;
 int x;
 int y;
 
+Matrix * correct_s;
+
+Matrix * correct_w;
+
 void test_generate_a()
 {
     given_n();
@@ -365,6 +369,130 @@ void test_compute_R()
     destroy_matrix(matrix_r);
     destroy_matrix(correct_r);
     destroy_matrix_vec(G_vec,k);
+}
+
+void test_compute_s_from_SS_and_R()
+{
+    given_ss();
+    given_r();
+    given_correct_s();
+
+    when_computing_s_from_SS_and_R();
+
+    printf("matrix_s\n");
+    print(matrix_s);
+    printf("correct_s\n");
+    print(correct_s);
+
+    assert_true("Matrix s is correct", equals(matrix_s, correct_s)==SUCC);
+
+    destroy_matrix(matrix_ss);
+    destroy_matrix(matrix_s);
+    destroy_matrix(matrix_r);
+    destroy_matrix(correct_s);
+}
+
+void test_compute_w_from_SS_and_Rw()
+{
+    given_ss();
+    given_rw();
+    given_correct_w();
+
+    when_computing_w_from_SS_and_Rw();
+
+    printf("matrix_w\n");
+    print(matrix_w);
+    printf("correct_w\n");
+    print(correct_w);
+
+    assert_true("Matrix w is correct", equals(matrix_w, correct_w)==SUCC);
+
+    destroy_matrix(matrix_w);
+    destroy_matrix(correct_w);
+    destroy_matrix(matrix_rw);
+    destroy_matrix(matrix_ss);
+}
+
+void when_computing_w_from_SS_and_Rw()
+{
+    matrix_w = compute_w_from_SS_and_Rw(matrix_ss, matrix_rw);
+}
+
+void given_correct_w()
+{
+    correct_w = constructor(4,4);
+    correct_w->numbers[0][0] =50;
+    correct_w->numbers[1][0] =100;
+    correct_w->numbers[2][0] =21;
+    correct_w->numbers[3][0] =14;
+
+    correct_w->numbers[0][1] =22;
+    correct_w->numbers[1][1] =76;
+    correct_w->numbers[2][1] =200;
+    correct_w->numbers[3][1] =54;
+
+    correct_w->numbers[0][2] =1;
+    correct_w->numbers[1][2] =91;
+    correct_w->numbers[2][2] =45;
+    correct_w->numbers[3][2] =7;
+
+    correct_w->numbers[0][3] =24;
+    correct_w->numbers[1][3] =66;
+    correct_w->numbers[2][3] =96;
+    correct_w->numbers[3][3] =120;
+}
+
+void given_rw()
+{
+    matrix_rw = constructor(4,4);
+    matrix_rw->numbers[0][0] = 49;
+    matrix_rw->numbers[1][0] = 130;
+    matrix_rw->numbers[2][0] = 71;
+    matrix_rw->numbers[3][0] = 51;
+
+    matrix_rw->numbers[0][1] = 52;
+    matrix_rw->numbers[1][1] = 138;
+    matrix_rw->numbers[2][1] = 14;
+    matrix_rw->numbers[3][1] = 38;
+
+    matrix_rw->numbers[0][2] = 51;
+    matrix_rw->numbers[1][2] = 156;
+    matrix_rw->numbers[2][2] = 2;
+    matrix_rw->numbers[3][2] = 182;
+
+    matrix_rw->numbers[0][3] = 61;
+    matrix_rw->numbers[1][3] = 50;
+    matrix_rw->numbers[2][3] = 20;
+    matrix_rw->numbers[3][3] = 100;
+}
+
+void given_correct_s()
+{
+    correct_s = constructor(4,4);
+    correct_s->numbers[0][0] = 2;
+    correct_s->numbers[1][0] = 5;
+    correct_s->numbers[2][0] = 2;
+    correct_s->numbers[3][0] = 3;
+
+    correct_s->numbers[0][1] = 3;
+    correct_s->numbers[1][1] = 6;
+    correct_s->numbers[2][1] = 4;
+    correct_s->numbers[3][1] = 5;
+
+    correct_s->numbers[0][2] = 4;
+    correct_s->numbers[1][2] = 7;
+    correct_s->numbers[2][2] = 4;
+    correct_s->numbers[3][2] = 6;
+
+    correct_s->numbers[0][3] = 1;
+    correct_s->numbers[1][3] = 4;
+    correct_s->numbers[2][3] = 1;
+    correct_s->numbers[3][3] = 7;
+}
+
+void when_computing_s_from_SS_and_R()
+{
+    matrix_s = compute_s_from_SS_and_R(matrix_ss, matrix_r);
 }
 
 void when_computing_R()

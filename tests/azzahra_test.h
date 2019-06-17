@@ -77,4 +77,13 @@ void when_computing_small_r();
 void test_compute_R();
 void when_computing_R();
 
+void test_compute_s_from_SS_and_R();
+void given_correct_s();
+void when_computing_s_from_SS_and_R();
+
+void test_compute_w_from_SS_and_Rw();
+void when_computing_w_from_SS_and_Rw();
+void given_correct_w();
+void given_rw();
+
 #endif //TP_CRIPTO_TEST_AZZAHRA_H

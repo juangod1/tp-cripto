@@ -1,4 +1,5 @@
 #include "include/crypto_service.h"
+#include <math.h>
 
 void encrypt_image(char* secret_image_path, char* watermark_image_path, char** shadows_path, int k, int n) {
     BMP_Image* secret_image = readBMP(secret_image_path);
@@ -30,3 +31,60 @@ void encrypt_image(char* secret_image_path, char* watermark_image_path, char** s
     free(c_vec);
 }
 
+
+int verify_watermark(Matrix * w, Matrix * w_calculated){
+    return equals(w, w_calculated);
+}
+
+void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_path, char * decryption_path) {
+    Matrix ** secret_matrices = malloc(k*sizeof(Matrix*));
+
+    for(int i = 0; i < k; i++){
+        BMP_Image* s = readBMP(secret_images_paths[i]);
+        secret_matrices[i] = image_to_matrix_conversion(s);
+        destroyBMP(s);
+    }
+
+
+    Matrix * keanu = generate_B(secret_matrices,k);
+    Matrix * ss = compute_ss(keanu);
+    Matrix ** g_vec = compute_G_vec(secret_matrices, k);
+    Matrix * r = compute_R_from_G_vec(g_vec, k, n);
+    BMP_Image * bmp_w = readBMP(watermark_path);
+    Matrix * w = image_to_matrix_conversion(bmp_w);
+    Matrix * rw = generate_rw(w, ss);
+    Matrix * w_calculated = compute_w_from_SS_and_Rw(ss, rw);
+
+    if(!verify_watermark(w, w_calculated)){
+        printf("WATERMARK DOES NOT VALIDATE");
+        exit(-1);
+    }
+
+    Matrix * s = compute_s_from_SS_and_R(ss, r);
+    BMP_Image * out = readBMP(decryption_path);
+
+
+    uint8_t * image_data = malloc(sizeof(int)*s->rows*s->columns);
+
+    for(int i=0;i<s->rows;i++){
+        for(int j=0;j<s->columns;j++){
+            *(image_data + j + i*s->columns) = (int)round(s->numbers[i][j]);
+        }
+    }
+
+    out->data = image_data;
+    writeBMP(out, decryption_path);
+
+    free(image_data);
+    destroyBMP(out);
+    destroyBMP(bmp_w);
+    destroy_matrix(w_calculated);
+    destroy_matrix(w);
+    destroy_matrix(rw);
+    destroy_matrix(r);
+    destroy_matrix_vec(secret_matrices, k);
+    destroy_matrix_vec(g_vec, k);
+    destroy_matrix(keanu);
+    destroy_matrix(ss);
+    destroy_matrix(s);
+}

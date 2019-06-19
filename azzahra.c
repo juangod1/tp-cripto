@@ -1,11 +1,12 @@
 #include "include/azzahra.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 #define CONST_P 251
 
-Matrix * generate_a(int k, int n)
+Matrix * generate_a(int k, Matrix * s)
 {
-    Matrix * m = rand_matrix_mod(n,k,CONST_P);
+    Matrix * m = rand_matrix_mod(s->rows,k,CONST_P);
     return m;
 }
 
@@ -86,10 +87,16 @@ Matrix * generate_v(Matrix * x, Matrix * a)
 
 Matrix * generate_G(int j, Matrix *r, int * c_vec, int n, int k)
 {
-    Matrix * G = constructor(n, k);
-    for(int row_c=0; row_c<n;row_c++)
+    int rows = r->rows;
+    int cols = r->rows/k;
+    if(rows%k!=0)
     {
-        for(int col_c=0; col_c<k; col_c++)
+        printf("WARNING: M is not divisible by K. Something bad may happen\n");
+    }
+    Matrix * G = constructor(rows, cols);
+    for(int row_c=0; row_c<rows;row_c++)
+    {
+        for(int col_c=0; col_c<cols; col_c++)
         {
             G->numbers[col_c][row_c] = calculate_g(col_c+1,row_c+1,j,r,k,c_vec);
         }
@@ -211,17 +218,17 @@ Matrix * extract_G_from_sh(Matrix * sh)
 Matrix * compute_R_from_G_vec(Matrix ** G_vec, int k, int n)
 {
     int rows = G_vec[0]->rows;
-    int columns = 0;
-    for(int i=0; i<k; i++)
+    int columns = rows/k;
+    if(rows%k!=0)
     {
-        columns+=G_vec[i]->columns;
+        printf("WARNING: M is not divisible by K. Something bad may happen\n");
     }
 
-    Matrix * ret = constructor(rows,columns);
+    Matrix * ret = constructor(rows,k*columns);
 
-    for(int x=0; x<n;x++)
+    for(int x=0; x<rows;x++)
     {
-        for(int y=0; y<k; y++)
+        for(int y=0; y<columns; y++)
         {
             Matrix * small_r = compute_small_r(G_vec,x,y, k);
             for(int i=0; i<k;i++)

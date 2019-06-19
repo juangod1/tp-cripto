@@ -54,13 +54,14 @@ Matrix * correct_w;
 
 void test_generate_a()
 {
-    given_n();
+    given_s();
     given_k();
     when_generating_a();
     assert_not_equal_memory("A is not null",matrix_a,NULL);
     assert_true("A values < 255", then_a_less_than_255());
 
     destroy_matrix(matrix_a);
+    destroy_matrix(matrix_s);
 }
 
 void test_generate_ss()
@@ -964,7 +965,7 @@ void when_generating_ss()
 
 void when_generating_a()
 {
-    matrix_a = generate_a(k,n);
+    matrix_a = generate_a(k,matrix_s);
 }
 
 int then_ss_less_than_255()

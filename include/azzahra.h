@@ -3,7 +3,7 @@
 
 #include "matrices.h"
 
-Matrix * generate_a(int k, int n);
+Matrix * generate_a(int k, Matrix * s);
 
 Matrix * generate_ss(Matrix * a);
 

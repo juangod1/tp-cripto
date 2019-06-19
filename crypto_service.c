@@ -8,7 +8,7 @@ void encrypt_image(char* secret_image_path, char* watermark_image_path, char** s
     Matrix* w = image_to_matrix_conversion(watermark_image);
     int number_of_bits = k == 2 ? 2 : 1;
 
-    Matrix* a = generate_a(k, n);
+    Matrix* a = generate_a(k, s);
     Matrix** x_vec = generate_x_vec(n, k);
     Matrix** v_vec = generate_v_vec(x_vec, n, a);
     Matrix* ss = compute_ss(a);

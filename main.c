@@ -39,6 +39,7 @@ int main(int argc, char *argv[]){
     arr[2] = "image/shard3.bmp";
     arr[3] = "image/shard4.bmp";
     encrypt_image(secret_img_path, watermark_img_path,arr,2,4);
+    decrypt_image(2,4,arr,watermark_img_path,secret_img_path);
     free(arr);
 /*    int opt;
     enum { ENCRYPTION, DECRYPTION } mode = ENCRYPTION;

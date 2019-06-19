@@ -63,7 +63,3 @@ Makefile
 cmake_install.cmake
 tp_cripto
 tp_cripto.cbp
-
-tests/WHT.bmp
-tests/images/lsb.BMP
-tests/images/lsb2.BMP

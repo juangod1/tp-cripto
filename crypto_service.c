@@ -1,12 +1,4 @@
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <getopt.h>
-#include "include/matrices.h"
-#include "include/azzahra.h"
-#include "include/image_manipulation.h"
-#include "include/steganography.h"
+#include "include/crypto_service.h"
 
 void encrypt_image(char* secret_image_path, char* watermark_image_path, char** shadows_path, int k, int n) {
     BMP_Image* secret_image = readBMP(secret_image_path);

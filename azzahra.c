@@ -53,7 +53,7 @@ Matrix * generate_x(int k)
     Matrix * x = constructor(k,1);
     for(int i=0; i<k; i++)
     {
-        x->numbers[1][i] = rand()%CONST_P;
+        x->numbers[0][i] = rand()%CONST_P;
     }
     return x;
 }

@@ -1,5 +1,6 @@
 #include "include/main.h"
 #include "include/matrices.h"
+#include "include/crypto_service.h"
 #include "tests/main_test.h"
 #include <stdbool.h>
 #include <stdio.h>
@@ -29,8 +30,17 @@ int validate_params(char* secret_image_path, char* watermark_image_path, char* d
 
 // TODO: seguir validando
 int main(int argc, char *argv[]){
-//    main_test();
-    int opt;
+    main_test();
+    char * secret_img_path = "image/secret.bmp";
+    char * watermark_img_path = "image/watermark.bmp";
+    char ** arr = malloc(4*sizeof(char *));
+    arr[0] = "image/shard1.bmp";
+    arr[1] = "image/shard2.bmp";
+    arr[2] = "image/shard3.bmp";
+    arr[3] = "image/shard4.bmp";
+    encrypt_image(secret_img_path, watermark_img_path,arr,2,4);
+    free(arr);
+/*    int opt;
     enum { ENCRYPTION, DECRYPTION } mode = ENCRYPTION;
     struct option longopts[] = {
             {"distribute", no_argument, NULL, 'd'},
@@ -72,12 +82,14 @@ int main(int argc, char *argv[]){
                 break;
             case ':':
                 /* missing option argument */
+/*
                 fprintf(stderr, "%s: option '-%c' requires an argument\n",
                         argv[0], optopt);
                 exit(EXIT_FAILURE);
             case '?':
             default:
                 /* invalid option */
+/*
                 fprintf(stderr, "%s: option '-%c' is invalid: ignored\n",
                         argv[0], optopt);
                 exit(EXIT_FAILURE);
@@ -92,5 +104,5 @@ int main(int argc, char *argv[]){
     printf("Watermark image: %s\n", watermark_image_path);
     printf("K: %d\n", k);
     printf("N: %d\n", n);
-    printf("Directory: %s\n", directory);
+    printf("Directory: %s\n", directory);*/
 }

@@ -5,23 +5,30 @@
 #include "include/image_manipulation.h"
 #include "include/matrices.h"
 
+#define SIZE_BATCH 100
+
 char modifyBit(char n, char p, char b) {
     char mask = 1 << p;
     return (n & ~mask) | ((b << p) & mask);
 }
 
-char* build_char_array(const GMatrix* m, size_t* size) {
-    char* char_array = malloc(0);
+char* build_char_array(const GMatrix* m, size_t* size_p) {
+    size_t size = 0;
+    char* char_array = malloc(size);
 
     for (int i = 0; i < m->rows; ++i) {
         for (int j = 0; j < m->columns; ++j) {
-            char number = m->numbers[i][j];
-            *size += 1;
-            char_array = realloc(char_array, *size * sizeof(char));
-            char_array[*size - 1] = number;
+            char number = m->numbers[j][i];
+            if(size%SIZE_BATCH==0)
+            {
+                char_array = realloc(char_array, (size + SIZE_BATCH) * sizeof(char));
+            }
+            char_array[size] = number;
+            size += 1;
         }
     }
 
+    *size_p = size;
     return char_array;
 }
 

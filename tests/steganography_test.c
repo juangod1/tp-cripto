@@ -7,9 +7,9 @@
 #include "../include/steganography.h"
 #include "util.h"
 
-char* lsb_image_path = "../tests/images/lsb.BMP";
-char* lsb2_image_path = "../tests/images/lsb.BMP";
-char* white_image_path = "../tests/WHT.BMP";
+char* lsb_image_path = "./tests/images/lsb.BMP";
+char* lsb2_image_path = "./tests/images/lsb.BMP";
+char* white_image_path = "./tests/WHT.BMP";
 
 void test_lsb(GMatrix* m) {
     BMP_Image* result_image = hide_matrix(m, lsb_image_path, 1, 3);

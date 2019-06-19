@@ -100,8 +100,8 @@ int main(int argc, char *argv[]){
     printf("N: %d\n", n);
     printf("Directory: %s\n", directory);
 
-    char * secret_img_path = "../image/secret.bmp";
-    char * watermark_img_path = "../image/watermark.bmp";
+    char * secret_img_path = "image/secret.bmp";
+    char * watermark_img_path = "image/watermark.bmp";
     char ** arr = malloc(4*sizeof(char *));
     arr[0] = "image/shard1.bmp";
     arr[1] = "image/shard2.bmp";

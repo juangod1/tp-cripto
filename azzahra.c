@@ -117,7 +117,7 @@ int calculate_g(int t, int i, int j, Matrix * r, int k, const int * c_vec)
         int num = (int)r->numbers[column_index][i];
         if(counter!=0)
         {
-            num*= c_vec[j+1];
+            num*= c_vec[j];
         }
         ret+=num;
     }

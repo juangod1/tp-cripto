@@ -16,7 +16,8 @@ void encrypt_image(char* secret_image_path, char* watermark_image_path, char** s
     int* c_vec = generate_c_vec(n);
 
     for (int i = 0; i < n; ++i) {
-        Matrix* g = generate_G(i, r, c_vec, n, k);
+        int j = i +1; //index starts in 1
+        Matrix* g = generate_G(j, r, c_vec, n, k);
         Matrix* sh = generate_sh(v_vec[i], g);
         GMatrix* aux = conversion_from_matrix(sh);
         BMP_Image * throwable = hide_matrix(aux, shadows_path[i], number_of_bits, i);

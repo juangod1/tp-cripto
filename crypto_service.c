@@ -86,6 +86,7 @@ void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_pa
     }
     free(out->data);
     out->data = image_data;
+    out->data_size = sizeof(uint8_t)*s->rows*s->columns;
     writeBMP(out, decryption_path);
 
     destroyBMP(out);

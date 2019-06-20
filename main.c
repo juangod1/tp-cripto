@@ -94,7 +94,7 @@ int main(int argc, char *argv[]){
                 break;
             case 't':
                 main_test();
-                break;
+                return EXIT_SUCCESS;
             case ':':
                 /* missing option argument */
 
@@ -122,6 +122,7 @@ int main(int argc, char *argv[]){
     printf("Directory: %s\n", directory);
 
     run_service(mode, secret_image_path, watermark_image_path, k, n, directory);
+    return EXIT_SUCCESS;
 }
 
 void run_service(int mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){

@@ -19,13 +19,26 @@ void encrypt_image(char* secret_image_path, char* watermark_image_path, char** s
         Matrix* g = generate_G(i, r, c_vec, n, k);
         Matrix* sh = generate_sh(v_vec[i], g);
         GMatrix* aux = conversion_from_matrix(sh);
-        hide_matrix(aux, shadows_path[i], number_of_bits, i);
+        BMP_Image * throwable = hide_matrix(aux, shadows_path[i], number_of_bits, i);
+        destroy_matrix(sh);
+        destroy_matrix(g);
+        destroy_Gmatrix(aux);
+        destroyBMP(throwable);
     }
 
     Matrix* rw = generate_rw(w, ss);
 
+    //todo: something with rw
+
+
+    destroy_matrix(rw);
+    destroyBMP(secret_image);
+    destroyBMP(watermark_image);
     destroy_matrix(a);
+    destroy_matrix_vec(x_vec,n);
+    destroy_matrix_vec(v_vec,n);
     destroy_matrix(s);
+    destroy_matrix(w);
     destroy_matrix(ss);
     destroy_matrix(r);
     free(c_vec);

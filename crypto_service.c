@@ -57,6 +57,7 @@ void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_pa
     for(int i = 0; i < k; i++){
         GMatrix* matrix = recover_matrix(secret_images_paths[i], number_of_bits);
         secret_matrices[i] = conversion_to_matrix(matrix);
+        destroy_Gmatrix(matrix);
     }
 
     Matrix * keanu = generate_B(secret_matrices,k);

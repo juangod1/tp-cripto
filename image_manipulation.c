@@ -29,7 +29,7 @@ int writeBMP(BMP_Image * img, char * path){
     }
 
     fseek(f,img->offset,SEEK_SET);
-    if(fwrite(img->data,img->data_size,1,f)!=1){
+    if(fwrite(img->data,(uint8_t)img->data_size,1,f)!=1){
         perror("Error");
         return -1;
     }

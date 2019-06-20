@@ -57,21 +57,21 @@ void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_pa
 
     if(!verify_watermark(w, w_calculated)){
         printf("WATERMARK DOES NOT VALIDATE");
-        exit(-1);
+        exit(-1); //todo: frees?
     }
 
     Matrix * s = compute_s_from_SS_and_R(ss, r);
     BMP_Image * out = readBMP(decryption_path);
 
 
-    uint8_t * image_data = malloc(sizeof(int)*s->rows*s->columns);
+    uint8_t * image_data = malloc(sizeof(uint8_t)*s->rows*s->columns);
 
     for(int i=0;i<s->rows;i++){
         for(int j=0;j<s->columns;j++){
-            *(image_data + j + i*s->columns) = (int)round(s->numbers[i][j]);
+            *(image_data + j + i*s->columns) = (uint8_t)round(s->numbers[j][i]);
         }
     }
-
+    free(out->data);
     out->data = image_data;
     writeBMP(out, decryption_path);
 

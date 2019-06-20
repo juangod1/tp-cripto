@@ -75,9 +75,6 @@ void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_pa
     }
 
     Matrix * s = compute_s_from_SS_and_R(ss, r);
-    BMP_Image * out = readBMP(decryption_path);
-
-
     uint8_t * image_data = malloc(sizeof(uint8_t)*s->rows*s->columns);
 
     for(int i=0; i<s->rows; i++){
@@ -85,6 +82,9 @@ void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_pa
             *(image_data + j + i*s->columns) = (uint8_t)round(s->numbers[j][i]);
         }
     }
+
+    createBMP(decryption_path,s->columns,s->rows,8);
+    BMP_Image * out = readBMP(decryption_path);
 
     free(out->data);
     out->data = image_data;

@@ -8,6 +8,40 @@
 #include "include/image_manipulation.h"
 #include "include/matrices.h"
 
+#define DEFAULT_BMP_OFFSET_NUMBER 54
+
+/*
+ * DOESENT WORK IF WIDTH OR HEIGHT ARE SMALLER THAN 80
+ */
+void createBMP(char * path, int width, int height, int bpp) {
+    if(width<80||height<80)
+        exit(-1);
+
+    int data_size = width*height*(bpp/8);
+    int file_size = data_size + DEFAULT_BMP_OFFSET_NUMBER;
+
+    FILE *f = fopen(path, "a+");
+
+    for(int i=0;i<file_size;i++){
+        fwrite("\0",1,1,f);
+    }
+
+    fclose(f);
+
+    BMP_Image *img = calloc(1, sizeof(BMP_Image));
+
+    img->file_size = file_size;
+    img->offset = DEFAULT_BMP_OFFSET_NUMBER;
+    img->width = width;
+    img->height = height;
+    img->bpp = bpp;
+    img->data_size = data_size;
+    img->data = calloc(1,data_size);
+
+    writeBMP(img,path);
+    destroyBMP(img);
+}
+
 void destroyBMP(BMP_Image * bmp){
     free(bmp->data);
     bmp->data=NULL;
@@ -23,6 +57,20 @@ int writeBMP(BMP_Image * img, char * path){
     }
 
     if(fwrite("BM",1,2,f)!=2){
+        perror("Error");
+        return -1;
+    }
+
+    int b = 1;
+    fseek(f,BMP_COLOR_PLANES_POSITION,SEEK_SET);
+    if(fwrite(&b,2,1,f)!=1){
+        perror("Error");
+        return -1;
+    }
+
+    int a = 40;
+    fseek(f,BMP_HEADER_SIZE_POSITION,SEEK_SET);
+    if(fwrite(&a,4,1,f)!=1){
         perror("Error");
         return -1;
     }

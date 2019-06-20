@@ -22,6 +22,41 @@ int writeBMP(BMP_Image * img, char * path){
         return -1;
     }
 
+    if(fwrite("BM",1,2,f)!=2){
+        perror("Error");
+        return -1;
+    }
+
+    fseek(f,BMP_SIZE_POSITION,SEEK_SET);
+    if(fwrite(&(img->file_size),4,1,f)!=1){
+        perror("Error");
+        return -1;
+    }
+
+    fseek(f,BMP_WIDTH_POSITION,SEEK_SET);
+    if(fwrite(&(img->width),4,1,f)!=1){
+        perror("Error");
+        return -1;
+    }
+
+    fseek(f,BMP_HEIGHT_POSITION,SEEK_SET);
+    if(fwrite(&(img->height),4,1,f)!=1){
+        perror("Error");
+        return -1;
+    }
+
+    fseek(f,BMP_BPP_POSITION,SEEK_SET);
+    if(fwrite(&(img->bpp),2,1,f)!=1){
+        perror("Error");
+        return -1;
+    }
+
+    fseek(f,BMP_OFFSET_POSITION,SEEK_SET);
+    if(fwrite(&(img->offset),4,1,f)!=1){
+        perror("Error");
+        return -1;
+    }
+
     fseek(f,BMP_METADATA_POSITION,SEEK_SET);
     if(fwrite(&(img->shadow),1,1,f)!=1){
         perror("Error");

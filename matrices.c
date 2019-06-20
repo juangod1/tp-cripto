@@ -628,7 +628,7 @@ int multiplicative_inverse(int a, int m)
 {
     for(int b = 0; b < m; b++)
     {
-        int x = (a * b) % m;
+        int x = my_mod(a * b, m);
         if(x == 1)
             return b;
     }

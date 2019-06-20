@@ -100,14 +100,28 @@ int main(int argc, char *argv[]){
     printf("N: %d\n", n);
     printf("Directory: %s\n", directory);
 
-    char * secret_img_path = "image/secret.bmp";
-    char * watermark_img_path = "image/watermark.bmp";
-    char ** arr = malloc(4*sizeof(char *));
+    run_service(mode, secret_image_path, watermark_image_path, k, n, directory);
+}
+
+void run_service(int mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
+    char ** arr = malloc(8*sizeof(char *));i
     arr[0] = "image/shard1.bmp";
     arr[1] = "image/shard2.bmp";
     arr[2] = "image/shard3.bmp";
     arr[3] = "image/shard4.bmp";
-    encrypt_image(secret_img_path, watermark_img_path,arr,2,4);
-    decrypt_image(2,4,arr,watermark_img_path,secret_img_path);
+    arr[4] = "image/shard5.bmp";
+    arr[5] = "image/shard6.bmp";
+    arr[6] = "image/shard7.bmp";
+    arr[7] = "image/shard8.bmp";
+
+    switch(mode){
+        case 0:
+            encrypt_image(secret_img_path, watermark_img_path,arr,2,4);
+            break;
+        case 1:
+            decrypt_image(2,4,arr,watermark_img_path,secret_img_path);
+            break;
+    }
+
     free(arr);
 }

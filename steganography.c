@@ -139,3 +139,85 @@ GMatrix* recover_matrix(char* path, int number_of_bits){
     destroyBMP(image);
     return m;
 }
+
+uint8_t * get_dimensions(GMatrix * sh)
+{
+    int rows = sh->rows;
+    int cols = sh->columns;
+
+    char * ret = malloc(8*sizeof(char));
+    sprintf(ret,"%03dx%03d",rows,cols);
+    return (uint8_t *) ret;
+}
+
+void mock_save_sh(GMatrix * sh, char * path)
+{
+    size_t size = 0;
+    uint8_t * bytes = (uint8_t *) build_char_array(sh,&size);
+    uint8_t * dimensions = get_dimensions(sh);
+
+    FILE * file = fopen(path,"w+");
+
+    fwrite(dimensions,7* sizeof(char),1,file);
+    fwrite(bytes,size,1,file);
+    fclose(file);
+
+    free(dimensions);
+    free(bytes);
+}
+
+int get_rows(uint8_t * result)
+{
+    char * row = malloc(4*sizeof(char));
+    for(int i=0; i<3;i++)
+    {
+        row[i]=result[i];
+    }
+    row[3]=0;
+    return atoi(row);
+}
+int get_cols(uint8_t * result)
+{
+    char * col = malloc(4*sizeof(char));
+    int offset = 4;
+    for(int i=0; i<3;i++)
+    {
+        col[i]=result[i+offset];
+    }
+    col[3]=0;
+    return atoi(col);
+
+}
+
+int get_number(uint8_t * data_start, int row, int column, int row_size)
+{
+    uint8_t * data_ptr = data_start+(row*row_size)+column;
+    return (int) *data_ptr;
+}
+
+Matrix * mock_recover_sh(char * path)
+{
+    size_t size = 270000;
+    FILE * file = fopen(path,"r");
+
+    uint8_t * result = malloc(size);
+
+    fread(result,size,1,file);
+    fclose(file);
+    int rows = get_rows(result);
+    int cols = get_cols(result);
+
+    Matrix * ret = constructor(rows,cols);
+
+    uint8_t * data_start = result+7;
+
+    for(int i=0; i<rows; i++)
+    {
+        for(int j=0; j<cols; j++)
+        {
+            ret->numbers[j][i]=get_number(data_start,i,j,cols);
+        }
+    }
+    free(result);
+    return ret;
+}

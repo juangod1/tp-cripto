@@ -126,26 +126,38 @@ int main(int argc, char *argv[]){
 }
 
 void run_service(int mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
-    char ** arr = malloc(8*sizeof(char *));
-    arr[0] = "image/shard1.bmp";
-    arr[1] = "image/shard2.bmp";
-    arr[2] = "image/shard3.bmp";
-    arr[3] = "image/shard4.bmp";
-    arr[4] = "image/shard5.bmp";
-    arr[5] = "image/shard6.bmp";
-    arr[6] = "image/shard7.bmp";
-    arr[7] = "image/shard8.bmp";
+    //char ** arr = malloc(8*sizeof(char *));
+    //arr[0] = "image/shard1.bmp";
+    //arr[1] = "image/shard2.bmp";
+    //arr[2] = "image/shard3.bmp";
+    //arr[3] = "image/shard4.bmp";
+    //arr[4] = "image/shard5.bmp";
+    //arr[5] = "image/shard6.bmp";
+    //arr[6] = "image/shard7.bmp";
+    //arr[7] = "image/shard8.bmp";
+
+
+    char ** mock_shadow_path = malloc(8* sizeof(char *));
+    mock_shadow_path[0] = "image/shard1.txt";
+    mock_shadow_path[1] = "image/shard2.txt";
+    mock_shadow_path[2] = "image/shard3.txt";
+    mock_shadow_path[3] = "image/shard4.txt";
+    mock_shadow_path[4] = "image/shard5.txt";
+    mock_shadow_path[5] = "image/shard6.txt";
+    mock_shadow_path[6] = "image/shard7.txt";
+    mock_shadow_path[7] = "image/shard8.txt";
 
     switch(mode){
         case 0:
-            encrypt_image(secret_img_path, watermark_img_path,arr,k,n);
+            encrypt_image(secret_img_path, watermark_img_path,mock_shadow_path,k,n);
             break;
         case 1:
-            decrypt_image(k,n,arr,watermark_img_path,secret_img_path);
+            decrypt_image(k,n,mock_shadow_path,watermark_img_path,secret_img_path);
             break;
         default:
             exit(EXIT_FAILURE);
     }
 
-    free(arr);
+    free(mock_shadow_path);
+    //free(arr);
 }

@@ -14,4 +14,9 @@
 BMP_Image* hide_matrix(GMatrix* m, char* path, int number_of_bits, char shadow_number);
 GMatrix* recover_matrix(char* image, int number_of_bits);
 
+
+
+Matrix * mock_recover_sh(char * path);
+void mock_save_sh(GMatrix * sh, char * path);
+
 #endif //TP_CRIPTO_STEGANOGRAPHY_H

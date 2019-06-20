@@ -15,16 +15,18 @@ void encrypt_image(char* secret_image_path, char* watermark_image_path, char** s
     Matrix* r = generate_r(s, ss);
     int* c_vec = generate_c_vec(n);
 
+
     for (int i = 0; i < n; ++i) {
         int j = i +1; //index starts in 1
         Matrix* g = generate_G(j, r, c_vec, n, k);
         Matrix* sh = generate_sh(v_vec[i], g);
         GMatrix* aux = conversion_from_matrix(sh);
-        BMP_Image * throwable = hide_matrix(aux, shadows_path[i], number_of_bits, i);
+        mock_save_sh(aux,shadows_path[i]);
+        //BMP_Image * throwable = hide_matrix(aux, shadows_path[i], number_of_bits, i);
         destroy_matrix(sh);
         destroy_matrix(g);
         destroy_Gmatrix(aux);
-        destroyBMP(throwable);
+        //destroyBMP(throwable);
     }
 
     Matrix* rw = generate_rw(w, ss);
@@ -47,7 +49,7 @@ void encrypt_image(char* secret_image_path, char* watermark_image_path, char** s
 
 
 int verify_watermark(Matrix * w, Matrix * w_calculated){
-    return equals(w, w_calculated);
+    return equals(w, w_calculated)/*==SUCC*/;
 }
 
 void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_path, char * decryption_path) {
@@ -55,9 +57,10 @@ void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_pa
     int number_of_bits = k == 2 ? 2 : 1;
 
     for(int i = 0; i < k; i++){
-        GMatrix* matrix = recover_matrix(secret_images_paths[i], number_of_bits);
-        secret_matrices[i] = conversion_to_matrix(matrix);
-        destroy_Gmatrix(matrix);
+        //GMatrix* matrix = recover_matrix(secret_images_paths[i], number_of_bits);
+        //secret_matrices[i] = conversion_to_matrix(matrix);
+        //destroy_Gmatrix(matrix);
+        secret_matrices[i]=mock_recover_sh(secret_images_paths[i]);
     }
 
     Matrix * keanu = generate_B(secret_matrices,k);

@@ -143,6 +143,8 @@ void run_service(int mode, char * secret_img_path, char * watermark_img_path, in
         case 1:
             decrypt_image(k,n,arr,watermark_img_path,secret_img_path);
             break;
+        default:
+            exit(EXIT_FAILURE);
     }
 
     free(arr);

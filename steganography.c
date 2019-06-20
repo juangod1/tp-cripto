@@ -103,8 +103,7 @@ char reconstruct_number_from_lsb(BMP_Image *image, int* image_counter) {
 }
 
 GMatrix* recover_from_lsb2(BMP_Image* image) {
-//    Matrix* m = constructor(image->height / 8, image->width / 8);
-    GMatrix* m = Gconstructor(3, 3);
+    GMatrix* m = Gconstructor(image->width / 8, image->height / 8);
 
     for (int image_counter = 0, i = 0; i < m->rows; ++i) {
         for (int j = 0; j < m->columns; ++j) {
@@ -117,8 +116,8 @@ GMatrix* recover_from_lsb2(BMP_Image* image) {
 }
 
 GMatrix* recover_from_lsb(BMP_Image* image) {
-//    Matrix* m = constructor(image->height / 8, image->width / 8);
-    GMatrix* m = Gconstructor(3, 3);
+    GMatrix* m = Gconstructor(image->width / 8, image->height / 8);
+
     for (int image_counter = 0, i = 0; i < m->rows; ++i) {
         for (int j = 0; j < m->columns; ++j) {
             char number = reconstruct_number_from_lsb(image, &image_counter);
@@ -131,10 +130,12 @@ GMatrix* recover_from_lsb(BMP_Image* image) {
 GMatrix* recover_matrix(char* path, int number_of_bits){
     BMP_Image* image = readBMP(path);
     GMatrix* m;
+
     if(number_of_bits == 1)
         m = recover_from_lsb(image);
     else
         m = recover_from_lsb2(image);
+
     destroyBMP(image);
     return m;
 }

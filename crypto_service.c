@@ -51,13 +51,12 @@ int verify_watermark(Matrix * w, Matrix * w_calculated){
 
 void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_path, char * decryption_path) {
     Matrix ** secret_matrices = malloc(k*sizeof(Matrix*));
+    int number_of_bits = k == 2 ? 2 : 1;
 
     for(int i = 0; i < k; i++){
-        BMP_Image* s = readBMP(secret_images_paths[i]);
-        secret_matrices[i] = image_to_matrix_conversion(s);
-        destroyBMP(s);
+        GMatrix* matrix = recover_matrix(secret_images_paths[i], number_of_bits);
+        secret_matrices[i] = conversion_to_matrix(matrix);
     }
-
 
     Matrix * keanu = generate_B(secret_matrices,k);
     Matrix * ss = compute_ss(keanu);
@@ -79,11 +78,12 @@ void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_pa
 
     uint8_t * image_data = malloc(sizeof(uint8_t)*s->rows*s->columns);
 
-    for(int i=0;i<s->rows;i++){
+    for(int i=0; i<s->rows; i++){
         for(int j=0;j<s->columns;j++){
             *(image_data + j + i*s->columns) = (uint8_t)round(s->numbers[j][i]);
         }
     }
+
     free(out->data);
     out->data = image_data;
     out->data_size = sizeof(uint8_t)*s->rows*s->columns;

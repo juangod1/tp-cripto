@@ -4,12 +4,34 @@
 #include "tests/main_test.h"
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <getopt.h>
 
-int validate_params(char* secret_image_path, char* watermark_image_path, char* directory, int k, int n) {
+int validate_params(int mode, char* secret_image_path, char* watermark_image_path, char* directory, int k, int n) {
     int error = 0;
+
+    if(mode==-1) {
+        printf("Must set mode (-d or -r).\n");
+        error = 1;
+    }
+
+    if(!strcmp(secret_image_path,"")) {
+        printf("Must set secret image path (-s).\n");
+        error = 1;
+    }
+
+    if(!strcmp(watermark_image_path,"")) {
+        printf("Must set watermark image path (-m).\n");
+        error = 1;
+    }
+
+    if(!strcmp(directory,"")) {
+        printf("Must set directory path (--dir).\n");
+        error = 1;
+    }
+
     if(k != 2 && k != 4) {
         printf("K must be 2 or 4.\n");
         error = 1;
@@ -28,10 +50,9 @@ int validate_params(char* secret_image_path, char* watermark_image_path, char* d
     return error;
 }
 
-// TODO: seguir validando
 int main(int argc, char *argv[]){
     int opt;
-    enum { ENCRYPTION, DECRYPTION } mode = ENCRYPTION;
+    enum { ENCRYPTION, DECRYPTION } mode = -1;
     struct option longopts[] = {
             {"distribute", no_argument, NULL, 'd'},
             {"recover", no_argument, NULL, 'r'},
@@ -90,7 +111,7 @@ int main(int argc, char *argv[]){
         }
     }
 
-    if(validate_params(secret_image_path, watermark_image_path, directory, k, n) == 1)
+    if(validate_params(mode, secret_image_path, watermark_image_path, directory, k, n) == 1)
         exit(EXIT_FAILURE);
 
     printf("Mode: %s\n", mode == ENCRYPTION ? "Encryption" : "Decryption");

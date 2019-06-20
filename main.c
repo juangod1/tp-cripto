@@ -104,7 +104,7 @@ int main(int argc, char *argv[]){
 }
 
 void run_service(int mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
-    char ** arr = malloc(8*sizeof(char *));i
+    char ** arr = malloc(8*sizeof(char *));
     arr[0] = "image/shard1.bmp";
     arr[1] = "image/shard2.bmp";
     arr[2] = "image/shard3.bmp";
@@ -116,10 +116,10 @@ void run_service(int mode, char * secret_img_path, char * watermark_img_path, in
 
     switch(mode){
         case 0:
-            encrypt_image(secret_img_path, watermark_img_path,arr,2,4);
+            encrypt_image(secret_img_path, watermark_img_path,arr,k,n);
             break;
         case 1:
-            decrypt_image(2,4,arr,watermark_img_path,secret_img_path);
+            decrypt_image(k,n,arr,watermark_img_path,secret_img_path);
             break;
     }
 

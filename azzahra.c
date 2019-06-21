@@ -88,7 +88,7 @@ Matrix * generate_v(Matrix * x, Matrix * a)
 Matrix * generate_G(int j, Matrix *r, int * c_vec, int n, int k)
 {
     int rows = r->rows;
-    int cols = r->rows/k;
+    int cols = r->columns/k;
     if(rows%k!=0)
     {
         printf("WARNING: M is not divisible by K. Something bad may happen\n");
@@ -113,7 +113,7 @@ int calculate_g(int t, int i, int j, Matrix * r, int k, const int * c_vec)
     int ret = 0;
     for( int counter=0; counter<k; counter++)
     {
-        int column_index = t*k+counter;
+        int column_index = t*k + counter;
         int num = (int)r->numbers[column_index][i];
         if(counter!=0)
         {

@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-char* white_image = "./tests/WHT.BMP";
+char* white_image = "../tests/WHT.BMP";
 
 void test_read(){
     BMP_Image * i = readBMP(white_image);

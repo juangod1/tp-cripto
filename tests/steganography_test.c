@@ -7,9 +7,9 @@
 #include "../include/steganography.h"
 #include "util.h"
 
-char* lsb_image_path = "./tests/images/lsb.BMP";
-char* lsb2_image_path = "./tests/images/lsb.BMP";
-char* white_image_path = "./tests/WHT.BMP";
+char* lsb_image_path = "../tests/images/lsb.BMP";
+char* lsb2_image_path = "../tests/images/lsb.BMP";
+char* white_image_path = "../tests/WHT.BMP";
 
 void test_lsb(GMatrix* m) {
     BMP_Image* result_image = hide_matrix(m, lsb_image_path, 1, 3);
@@ -88,3 +88,28 @@ void test_recover_matrix() {
     destroyBMP(img2);
 }
 
+void test_everything() {
+    BMP_Image* shadow1 = readBMP("../shares/backtofutureshare.bmp");
+    BMP_Image* shadow1_copy = readBMP("../shares/backtofutureshare.bmp");
+    BMP_Image* shadow2 = readBMP("../shares/beautybeastshare.bmp");
+    setSeed(rand());
+
+    int bit_array_size = (shadow1->width/4) * (shadow1->height/4) * 4 * 3;
+
+    uint8_t* bit_array = malloc(bit_array_size);
+
+    for (int k = 0; k < bit_array_size; ++k) {
+        bit_array[k] = nextChar();
+    }
+
+    int size = 0;
+    BMP_Image* img = hide_matrix(bit_array, bit_array_size, "../shares/backtofutureshare.bmp", 1, 5);
+    uint8_t * recovered_lsb = recover_matrix(shadow1, 1, &size);
+
+
+    assert_true("image recovered is the same as hidden with lsb", bit_array == recovered_lsb);
+
+    free(recovered_lsb);
+    writeBMP(shadow1_copy, "../shares/backtofutureshare.bmp");
+    destroyBMP(img);
+}

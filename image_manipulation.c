@@ -195,7 +195,7 @@ Matrix* image_to_matrix_conversion(BMP_Image* image) {
     Matrix* m = constructor(image->height, image->width);
     for (int i = 0; i < m->rows; ++i) {
         for (int j = 0; j < m->columns; ++j) {
-            m->numbers[i][j] = image->data[i + j];
+            m->numbers[j][i] = image->data[i + j];
         }
     }
     return m;

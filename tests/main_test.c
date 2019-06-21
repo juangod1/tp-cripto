@@ -5,11 +5,14 @@
 #include <stdlib.h>
 
 void main_test(){
-    run_test("image open test", test_read);
-    run_test("image write test", test_write);
-    run_test("Generate 'A' matrix test", test_generate_a );
+    run_test("Image open test", test_read);
+    run_test("Image write test", test_write);
+
+    run_test("Everything in steganography", test_everything);
     run_test("Hide matrix", test_hide_matrix);
     run_test("Recover matrix", test_recover_matrix);
+
+    run_test("Generate 'A' matrix test", test_generate_a );
     run_test("Remove column and row test", test_remove_column_and_row);
     run_test("Cofactor Matrix Test", test_matrix_of_cofactors);
     run_test("Modular Arithmetic Inverse Test", test_inversion_mod_1);

@@ -51,6 +51,7 @@ int validate_params(int mode, char* secret_image_path, char* watermark_image_pat
 }
 
 int main(int argc, char *argv[]){
+    main_test();
     int opt;
     enum { ENCRYPTION, DECRYPTION } mode = -1;
     struct option longopts[] = {
@@ -127,14 +128,14 @@ int main(int argc, char *argv[]){
 
 void run_service(int mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
     char ** arr = malloc(8*sizeof(char *));
-    arr[0] = "image/shard1.bmp";
-    arr[1] = "image/shard2.bmp";
-    arr[2] = "image/shard3.bmp";
-    arr[3] = "image/shard4.bmp";
-    arr[4] = "image/shard5.bmp";
-    arr[5] = "image/shard6.bmp";
-    arr[6] = "image/shard7.bmp";
-    arr[7] = "image/shard8.bmp";
+    arr[0] = "../shares/backtofutureshare.bmp";
+    arr[1] = "../shares/beautybeastshare.bmp";
+    arr[2] = "../shares/buenosmuchachosshare.bmp";
+    arr[3] = "../shares/hugoshare.bmp";
+    arr[4] = "../shares/kingsspeechshare.bmp";
+    arr[5] = "../shares/medianocheenparisshare.bmp";
+    arr[6] = "../shares/secretodesusojosshare.bmp";
+    arr[7] = "../shares/sherlockshare.bmp";
 
     switch(mode){
         case 0:

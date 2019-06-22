@@ -31,6 +31,18 @@ BitArray* concatenate_bit_array(const BitArray* array1, const BitArray* array2) 
     return result;
 }
 
+BitArray* concatenate(BitArray* dest, BitArray* src) {
+    int new_size = dest->size + src->size;
+    dest->numbers = realloc(dest->numbers, new_size * sizeof(uint8_t));
+
+    if(dest->numbers == NULL)
+        return NULL;
+
+    memcpy(dest->numbers + dest->size, src->numbers, src->size);
+    dest->size = new_size;
+    return dest;
+}
+
 BitArray * build_bit_array_from_matrix(const Matrix *m) {
     size_t size = 0;
     BitArray* bit_array = construct_bit_array(m->rows * m->columns);
@@ -80,6 +92,14 @@ Matrix* build_matrix_from_array(const uint8_t *bit_array, int rows, int columns)
     }
 
     return matrix;
+}
+
+void print_bit_array(BitArray* bit_array) {
+//    print_hexa_array(bit_array->numbers, bit_array->size);
+    for (int i = 0; i < bit_array->size; ++i) {
+        printf("%d ", bit_array->numbers[i]);
+    }
+    printf("\n");
 }
 
 int bit_array_equals(const BitArray* array1, const BitArray* array2) {

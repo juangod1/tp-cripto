@@ -19,9 +19,11 @@ void print_hexa_array(const uint8_t * char_array, size_t char_array_size);
 BitArray * build_bit_array_from_matrix(const Matrix *m);
 BitArray* copy(BitArray* bit_array);
 BitArray* concatenate_bit_array(const BitArray* dest, const BitArray* src);
+BitArray* concatenate(BitArray* dest, BitArray* src);
 GMatrix* build_Gmatrix_from_array(const uint8_t *bit_array, int rows, int columns);
 BitArray* construct_bit_array(int size);
 void destroy_bit_array(BitArray* bit_array);
+void print_bit_array(BitArray* bit_array);
 Matrix* build_matrix_from_array(const uint8_t *bit_array, int rows, int columns);
 int bit_array_equals(const BitArray* array1, const BitArray* array2);
 

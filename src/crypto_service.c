@@ -8,14 +8,13 @@ Matrix ** encrypt_image(Matrix * s, Matrix * w, int k, int n, Matrix ** rw_ret);
 Matrix * decrypt_image(int k, int n, Matrix ** shs, Matrix * rw, char * decryption_path, Matrix ** w);
 
 void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, int shadow_number) {
-    int rows = matrix_vector[0]->rows;
-    int columns = matrix_vector[0]->columns;
-    BitArray* bit_array = construct_bit_array(amount_of_matrices * rows * columns);
+    BitArray* bit_array = construct_bit_array(0);
 
     for (int i = 0; i < amount_of_matrices; ++i) {
+//        print(matrix_vector[i]);
         BitArray* aux = build_bit_array_from_matrix(matrix_vector[i]);
-        concatenate_bit_array(bit_array, aux);
-        destroy_bit_array(aux);
+        bit_array = concatenate(bit_array, aux);
+//        print_bit_array(bit_array);
     }
 
     BMP_Image * throwable = hide_matrix(bit_array, shadow_path, number_of_bits, (char)shadow_number);
@@ -43,7 +42,6 @@ Matrix*** recover_matrices(int k, int n, char** secret_images_paths, int * amoun
 
     return matrix_vector;
 }
-
 
 
 void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** shadows_path, int k, int n)

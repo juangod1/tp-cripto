@@ -93,11 +93,14 @@ void test_lsb_recover() {
         bit_array_for_lsb->numbers[i] = nextChar();
     }
 
+    destroyBMP(lsb);
+
     BMP_Image* img = hide_matrix(bit_array_for_lsb, lsb_image_path , 1, 5);
     lsb = readBMP(lsb_image_path);
     BitArray* recovered_lsb = recover_matrix(lsb, 1);
     assert_true("image recovered is the same as hidden with lsb", bit_array_equals(recovered_lsb, bit_array_for_lsb));
 
+    destroy_bit_array(bit_array_for_lsb);
     destroy_bit_array(recovered_lsb);
     destroyBMP(lsb);
     destroyBMP(img);
@@ -111,11 +114,14 @@ void test_lsb2_recover() {
         bit_array_for_lsb2->numbers[i] = nextChar();
     }
 
+    destroyBMP(lsb2);
+
     BMP_Image* img = hide_matrix(bit_array_for_lsb2, lsb2_image_path , 2, 5);
     lsb2 = readBMP(lsb2_image_path);
     BitArray* recovered_lsb_2 = recover_matrix(lsb2 , 2);
     assert_true("image recovered is the same as hidden with lsb2", bit_array_equals(recovered_lsb_2, bit_array_for_lsb2));
 
+    destroy_bit_array(bit_array_for_lsb2);
     destroy_bit_array(recovered_lsb_2);
     destroyBMP(lsb2);
     destroyBMP(img);
@@ -140,11 +146,14 @@ void test_everything() {
     BMP_Image* shadow1_copy = readBMP("../shares/backtofutureshare.bmp");
     setSeed(rand());
 
+
     BitArray* bit_array = construct_bit_array((shadow1->width/4) * (shadow1->height/4) * 4 * 3);
 
     for (int k = 0; k < bit_array->size; ++k) {
         bit_array->numbers[k] = nextChar();
     }
+
+    destroyBMP(shadow1);
 
     BMP_Image* img = hide_matrix(bit_array, "../shares/backtofutureshare.bmp", 2, 5);
     shadow1 = readBMP("../shares/backtofutureshare.bmp");
@@ -152,7 +161,11 @@ void test_everything() {
 
     assert_true("image recovered is the same as hidden with lsb", bit_array_equals(bit_array, recovered_lsb));
 
-    free(recovered_lsb);
     writeBMP(shadow1_copy, "../shares/backtofutureshare.bmp");
+
+    destroy_bit_array(bit_array);
+    destroy_bit_array(recovered_lsb);
     destroyBMP(img);
+    destroyBMP(shadow1);
+    destroyBMP(shadow1_copy);
 }

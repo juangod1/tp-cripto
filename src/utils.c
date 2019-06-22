@@ -49,7 +49,7 @@ BitArray * build_bit_array_from_matrix(const Matrix *m) {
 
     for (int i = 0; i < m->rows; ++i) {
         for (int j = 0; j < m->columns; ++j) {
-            uint8_t number = (uint8_t ) m->numbers[j][i];
+            uint8_t number = (uint8_t) m->numbers[j][i];
 
             if(size % SIZE_BATCH == 0) {
                 bit_array->numbers = realloc(bit_array->numbers, (size + SIZE_BATCH) * sizeof(uint8_t));

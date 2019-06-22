@@ -29,5 +29,7 @@ int writeBMP(BMP_Image * img, char * path);
 void destroyBMP(BMP_Image * bmp);
 Matrix* image_to_matrix_conversion(BMP_Image* image);
 void createBMP(char * path, int width, int height, int bpp);
+void createImageFromMatrices(Matrix ** m, char * path, int amount, int width, int height);
+Matrix ** createMatricesFromImage(char * path, int * amount_p, int n);
 
 #endif //IMAGE_MANIPULATION_H

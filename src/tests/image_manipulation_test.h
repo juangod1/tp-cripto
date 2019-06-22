@@ -9,5 +9,6 @@
 
 void test_read();
 void test_write();
+void test_create_image_from_matrices_and_create_matrices_from_image();
 
 #endif //TP_CRIPTO_IMAGE_MANIPULATION_TEST_H

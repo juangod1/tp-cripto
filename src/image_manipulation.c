@@ -7,6 +7,7 @@
 #include <errno.h>
 #include "include/image_manipulation.h"
 #include "include/matrices.h"
+#include "include/utils.h"
 
 #define DEFAULT_BMP_OFFSET_NUMBER 54
 
@@ -21,6 +22,10 @@ void createBMP(char * path, int width, int height, int bpp) {
     int file_size = data_size + DEFAULT_BMP_OFFSET_NUMBER;
 
     FILE *f = fopen(path, "a+");
+    if(f==NULL){
+        perror("fopen error, check that the directory exists.");
+        exit(EXIT_FAILURE);
+    }
 
     for(int i=0;i<file_size;i++){
         fwrite("\0",1,1,f);
@@ -199,4 +204,45 @@ Matrix* image_to_matrix_conversion(BMP_Image* image) {
         }
     }
     return m;
+}
+
+void createImageFromMatrices(Matrix ** m, char * path, int amount, int width, int height){
+    BitArray * aux1;
+    BitArray * aux2;
+    BitArray * ans;
+
+    ans = build_bit_array_from_matrix(m[0]);
+
+    for(int i=1;i<amount;i++){
+        aux1 = build_bit_array_from_matrix(m[i]);
+        aux2 = ans;
+        ans = concatenate_bit_array(aux2, aux1);
+        free(aux1);
+        free(aux2);
+    }
+
+    createBMP(path, width, height, 8);
+    BMP_Image * bmp = readBMP(path);
+    bmp->data = ans->numbers;
+    writeBMP(bmp,path);
+    free(ans);
+}
+
+Matrix ** createMatricesFromImage(char * path, int * amount_p, int n){
+    BMP_Image * bmp = readBMP(path);
+    *amount_p = (bmp->height*bmp->width)/(n*n);
+
+    Matrix ** matrices = malloc((*amount_p) * sizeof(Matrix*));
+
+    for(int i=0; i < *amount_p ; i++){
+        matrices[i] = malloc(n*n * sizeof(double));
+        for(int j=0; j < n ; j++){
+            for(int k=0; k < n ; k++){
+                matrices[i]->numbers[j][k] = bmp->data[i*n*n + j*n + k];
+            }
+        }
+    }
+
+    destroyBMP(bmp);
+    return matrices;
 }

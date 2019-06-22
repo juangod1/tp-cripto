@@ -88,7 +88,7 @@ void success(){
     printf("%sSuccess\n%s",KGRN,RESET);
 }
 
-void print_binary_array(const char *char_array, size_t char_array_size) {
+void print_binary_array(const uint8_t * char_array, size_t char_array_size) {
     for (int k = 0; k < char_array_size; ++k) {
         for (int i = 0; i < 8; i++) {
             printf("%d", 0 != ((char_array[k] << i) & 0x80));
@@ -97,7 +97,7 @@ void print_binary_array(const char *char_array, size_t char_array_size) {
     }
 }
 
-void print_hexa_array(const char* char_array, size_t char_array_size) {
+void print_hexa_array(const uint8_t * char_array, size_t char_array_size) {
     for (int k = 0; k < char_array_size; ++k) {
         printf("%x ", char_array[k] & 0xff);
         if(k % 8 == 7) {

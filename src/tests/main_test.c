@@ -8,9 +8,9 @@ void main_test(){
     run_test("Image open test", test_read);
     run_test("Image write test", test_write);
 
-    run_test("Everything in steganography", test_everything);
     run_test("Hide matrix", test_hide_matrix);
     run_test("Recover matrix", test_recover_matrix);
+    run_test("Everything in steganography", test_everything);
 
     run_test("Generate 'A' matrix test", test_generate_a );
     run_test("Remove column and row test", test_remove_column_and_row);

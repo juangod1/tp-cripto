@@ -14,8 +14,8 @@ typedef struct BitArray{
     uint8_t *numbers;
 } BitArray;
 
-void print_binary_array(const char *char_array, size_t char_array_size);
-void print_hexa_array(const char* char_array, size_t char_array_size);
+void print_binary_array(const uint8_t * char_array, size_t char_array_size);
+void print_hexa_array(const uint8_t * char_array, size_t char_array_size);
 BitArray * build_bit_array_from_matrix(const Matrix *m);
 BitArray* copy(BitArray* bit_array);
 BitArray* concatenate_bit_array(const BitArray* dest, const BitArray* src);

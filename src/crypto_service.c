@@ -11,33 +11,37 @@ void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_pa
     BitArray* bit_array = construct_bit_array(0);
 
     for (int i = 0; i < amount_of_matrices; ++i) {
-//        print(matrix_vector[i]);
         BitArray* aux = build_bit_array_from_matrix(matrix_vector[i]);
+//        TODO: check return
         bit_array = concatenate(bit_array, aux);
-//        print_bit_array(bit_array);
     }
 
     BMP_Image * throwable = hide_matrix(bit_array, shadow_path, number_of_bits, (char)shadow_number);
+
+    if(throwable == NULL)
+        exit(FAIL);
+
     destroyBMP(throwable);
 }
 
 Matrix*** recover_matrices(int k, int n, char** secret_images_paths, int * amount_p) {
-    Matrix*** matrix_vector = malloc(k * sizeof(GMatrix**));
+    Matrix*** matrix_vector = malloc(k * sizeof(Matrix**));
 
     for(int i = 0; i < k; i++){
         BMP_Image* image = readBMP(secret_images_paths[i]);
         int counter = 0;
 
         int amount_of_matrices = (image->width/n) * (image->height/n);
-        matrix_vector[i] = malloc(amount_of_matrices * sizeof(GMatrix*));
+        matrix_vector[i] = malloc(amount_of_matrices * sizeof(Matrix*));
 
         BitArray* bit_array = recover_matrix(image, NUMBER_OF_BITS(k));
 
-        for (int j = 0; j < amount_of_matrices; ++j) {
-            matrix_vector[i][j] = conversion_to_matrix(build_Gmatrix_from_array(bit_array->numbers + counter, n, n));
-            counter += n*n;
+        for (int j = 0; counter < bit_array->size; ++j) {
+            matrix_vector[i][j] = build_matrix_from_array(bit_array->numbers + counter, n, k+1);
+            counter += (n*(k+1));
         }
-        *amount_p=amount_of_matrices;
+
+        *amount_p = amount_of_matrices;
     }
 
     return matrix_vector;

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "util.h"
 #include "../include/utils.h"
+#include "../include/random.h"
 #include <time.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -27,29 +28,36 @@ void test_write(){
     destroyBMP(i);
 }
 
-void test_create_image_from_matrices_and_create_matrices_from_image(){
-    char *path = "../tests/test_image.bmp";
-    Matrix * m1 = rand_matrix(200,100);
-    Matrix * m2 = rand_matrix(200,100);
-    Matrix * m3 = rand_matrix(200,100);
-    Matrix * m4 = rand_matrix(200,100);
+void write_random(BMP_Image * b, char * path){
+    int r;
+    for(int i=0;i<b->data_size;i++){
+        r = nextChar();
+        b->data[i] = r;
+    }
+    writeBMP(b, path);
+}
 
-    Matrix * matrices[4]= {0};
+void test_create_image_from_matrices_and_create_matrices_from_image(){
+    //-----------------------------------
+    // create image from matrices
+    //-----------------------------------
+    char *path = "../tests/test_image.bmp";
+    Matrix * m1 = rand_matrix(80,80);
+    Matrix * m2 = rand_matrix(80,80);
+
+    Matrix * matrices[2]= {0};
     matrices[0] = m1;
     matrices[1] = m2;
-    matrices[2] = m3;
-    matrices[3] = m4;
 
-    printf("Generated random matrices: ");
-    print(m1);
-    print(m2);
-    print(m3);
-    print(m4);
+    createImageFromMatrices(matrices, path, 2, 80, 80);
 
-    createImageFromMatrices(matrices, path, 3, 400, 800);
+    //-----------------------------------
+    // create matrices from images
+    //-----------------------------------
+    int amount=0;
+    Matrix ** matrices_out = createMatricesFromImage(path,&amount,4);
 
-    free(m1);
-    free(m2);
-    free(m3);
-    free(m4);
+    for(int i=0;i<2;i++){
+        assert_generic( "testing that matrices are equal" , equals(matrices_out[i], matrices[i]));
+    }
 }

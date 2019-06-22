@@ -270,7 +270,7 @@ Matrix ** createMatricesFromImage(char * path, int * amount_p, int n){
     Matrix ** matrices = malloc((*amount_p) * sizeof(Matrix*));
 
     for(int i=0; i < *amount_p ; i++){
-        matrices[i] = malloc(n*n * sizeof(double));
+        matrices[i] = constructor(bmp->height, bmp->width);
         for(int j=0; j < n ; j++){
             for(int k=0; k < n ; k++){
                 matrices[i]->numbers[j][k] = bmp->data[i*n*n + j*n + k];

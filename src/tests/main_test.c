@@ -7,7 +7,7 @@
 void main_test(){
     //run_test("Image open test", test_read);
     //run_test("Image write test", test_write);
-    //run_test("Create image from matrices and create matrices from image test", test_create_image_from_matrices_and_create_matrices_from_image);
+    run_test("Create image from matrices and create matrices from image test", test_create_image_from_matrices_and_create_matrices_from_image);
 
     run_test("Hide matrix", test_hide_matrix);
     run_test("Recover matrix", test_recover_matrix);

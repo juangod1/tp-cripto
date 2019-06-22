@@ -55,21 +55,7 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
     BMP_Image* secret_image = readBMP(secret_image_path);
     BMP_Image* watermark_image = readBMP(watermark_image_path);
 
-    if(secret_image->bpp!=8)
-    {
-        printf("ERROR: SECRET IMAGE HAS '%d' bpp. Exiting program...\n",secret_image->bpp);
-        destroyBMP(secret_image);
-        destroyBMP(watermark_image);
-        exit(EXIT_FAILURE);
-    }
-    int pixel_amount = secret_image->height*secret_image->width;
-    if(pixel_amount%(n*n)!=0)
-    {
-        printf("ERROR: SECRET IMAGE HAS '%d' PIXELS. Not divisible by n*n. Exiting program...\n",pixel_amount);
-        destroyBMP(secret_image);
-        destroyBMP(watermark_image);
-        exit(EXIT_FAILURE);
-    }
+    int pixel_amount = secret_image->height * secret_image->width;
 
     int s_amount = pixel_amount/(n*n);
 

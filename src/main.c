@@ -181,14 +181,14 @@ int check_image_formats(enum Mode mode, char * secret_img_path, char * watermark
         BMP_Image* secret_image = readBMP(secret_img_path);
 
         if (secret_image->bpp != 8) {
-            printf("ERROR: SECRET IMAGE HAS '%d' bpp. Must be 8 bpp.\n", secret_image->bpp);
+            printf("Secret image has '%d' bpp. Must be 8 bpp.\n", secret_image->bpp);
             has_errors = 1;
         }
 
         int pixel_amount = secret_image->height * secret_image->width;
 
         if (pixel_amount % (n * n) != 0) {
-            fprintf(stderr, "SECRET IMAGE HAS '%d' PIXELS. Not divisible by n*n.\n", pixel_amount);
+            fprintf(stderr, "Secret image has '%d' PIXELS. Not divisible by n*n.\n", pixel_amount);
             has_errors = 1;
         }
 
@@ -204,7 +204,7 @@ int check_image_formats(enum Mode mode, char * secret_img_path, char * watermark
         BMP_Image* shadow = readBMP(shadows_path[i]);
 
         if(shadow->bpp != 24) {
-            fprintf(stderr, "SHADOW IMAGE HAS '%d' bpp. Must be 24.\n", shadow->bpp);
+            fprintf(stderr, "Secret image has '%d' bpp. Must be 24.\n", shadow->bpp);
             has_errors = 1;
         }
 

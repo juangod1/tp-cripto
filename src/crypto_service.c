@@ -14,6 +14,7 @@ void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_pa
         BitArray* aux = build_bit_array_from_matrix(matrix_vector[i]);
 //        TODO: check return
         bit_array = concatenate(bit_array, aux);
+        destroy_bit_array(aux);
     }
 
     BMP_Image * throwable = hide_matrix(bit_array, shadow_path, number_of_bits, (char)shadow_number);
@@ -22,6 +23,7 @@ void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_pa
         exit(FAIL);
 
     destroyBMP(throwable);
+    destroy_bit_array(bit_array);
 }
 
 Matrix*** recover_matrices(int k, int n, char** secret_images_paths, int * amount_p) {
@@ -104,6 +106,7 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
         {
             shadows[i][counter] = shs[i];
         }
+        free(shs);
         destroy_matrix(current_s);
         destroy_matrix(current_w);
     }

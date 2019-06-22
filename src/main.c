@@ -56,7 +56,7 @@ int validate_params(int mode, char* secret_image_path, char* watermark_image_pat
 }
 
 int main(int argc, char *argv[]){
-    main_test();
+    //main_test();
     int opt;
     enum { ENCRYPTION, DECRYPTION } mode = -1;
     struct option longopts[] = {

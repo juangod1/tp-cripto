@@ -129,7 +129,22 @@ int main(int argc, char *argv[]){
     return EXIT_SUCCESS;
 }
 
-void getShadowsFromPath(char ** arr, char * directory){
+char ** getShadowsFromPath(const char * directory)
+{
+    size_t dir_length = strlen(directory);
+    char ** arr = malloc(8*sizeof(char *));
+    int finishes_in_dash = directory[dir_length-1]=='/';
+    for(int i=0;i<8;i++)
+    {
+        arr[i] = calloc(1,MAX_FILE_LENGTH);
+        memccpy(arr[i],directory,1,dir_length);
+        if(!finishes_in_dash)
+            *(arr[i]+dir_length)='/';
+    }
+
+    if(!finishes_in_dash)
+        dir_length++;
+
     DIR* dirFile = opendir(directory);
     int count = 0;
     if (dirFile){
@@ -142,17 +157,16 @@ void getShadowsFromPath(char ** arr, char * directory){
             if (hFile->d_name[0] == '.')
                 continue;
             if (strstr(hFile->d_name, ".bmp"))
-                memcpy(arr[count++], hFile->d_name, MAX_FILE_LENGTH);
+                memcpy(arr[count++]+dir_length, hFile->d_name, MAX_FILE_LENGTH-dir_length);
         }
         closedir(dirFile);
     }
+    return arr;
 }
 
 void run_service(int mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
-    char ** arr = malloc(8*sizeof(char *));
-    for(int i=0;i<8;i++) arr[i] = calloc(1,MAX_FILE_LENGTH);
 
-    getShadowsFromPath(arr, directory);
+    char ** arr = getShadowsFromPath(directory);
 
     // TODO: CHEQUEOS DE IMAGENES
 

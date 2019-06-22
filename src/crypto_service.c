@@ -15,9 +15,10 @@ void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_pa
     for (int i = 0; i < amount_of_matrices; ++i) {
         BitArray* aux = build_bit_array_from_matrix(matrix_vector[i]);
         concatenate_bit_array(bit_array, aux);
+        destroy_bit_array(aux);
     }
 
-    BMP_Image * throwable = hide_matrix(bit_array, shadow_path, number_of_bits, shadow_number);
+    BMP_Image * throwable = hide_matrix(bit_array, shadow_path, number_of_bits, (char)shadow_number);
     destroyBMP(throwable);
 }
 

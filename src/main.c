@@ -124,9 +124,8 @@ int main(int argc, char *argv[]){
     return EXIT_SUCCESS;
 }
 
-char ** getShadowsFromPath(const char * directory, enum Mode mode, int k, int n)
+char ** getShadowsFromPath(const char * directory, int shadow_amount)
 {
-    int shadow_amount = mode == ENCRYPTION ? n : k;
     size_t dir_length = strlen(directory);
     char ** arr = malloc(shadow_amount * sizeof(char *));
     int finishes_in_dash = directory[dir_length-1]=='/';
@@ -174,10 +173,63 @@ char ** getShadowsFromPath(const char * directory, enum Mode mode, int k, int n)
     return arr;
 }
 
+int check_image_formats(enum Mode mode, char * secret_img_path, char * watermark_img_path, char** shadows_path, int shadow_amount, int n) {
+    BMP_Image* watermark_image = readBMP(watermark_img_path);
+    int has_errors = 0;
+
+    if(mode == ENCRYPTION) {
+        BMP_Image* secret_image = readBMP(secret_img_path);
+
+        if (secret_image->bpp != 8) {
+            printf("ERROR: SECRET IMAGE HAS '%d' bpp. Must be 8 bpp.\n", secret_image->bpp);
+            has_errors = 1;
+        }
+
+        int pixel_amount = secret_image->height * secret_image->width;
+
+        if (pixel_amount % (n * n) != 0) {
+            fprintf(stderr, "SECRET IMAGE HAS '%d' PIXELS. Not divisible by n*n.\n", pixel_amount);
+            has_errors = 1;
+        }
+
+        if(secret_image->width != watermark_image->width || secret_image->height != watermark_image->height) {
+            fprintf(stderr, "Secret image must be same size as watermark image.\n");
+            has_errors = 1;
+        }
+
+        destroyBMP(secret_image);
+    }
+
+    for (int i = 0; i < shadow_amount; ++i) {
+        BMP_Image* shadow = readBMP(shadows_path[i]);
+
+        if(shadow->bpp != 24) {
+            fprintf(stderr, "SHADOW IMAGE HAS '%d' bpp. Must be 24.\n", shadow->bpp);
+            has_errors = 1;
+        }
+
+        if(shadow->height != watermark_image->height || shadow->width != watermark_image->width) {
+            fprintf(stderr, "Shadow image must be same size as secret and watermark image.\n");
+            has_errors = 1;
+        }
+
+        destroyBMP(shadow);
+    }
+
+    destroyBMP(watermark_image);
+
+    return has_errors;
+}
+
 void run_service(enum Mode mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
     srand((unsigned int)time(0));
     setSeed(rand());
-    char ** arr = getShadowsFromPath(directory, mode, k, n);
+    int shadow_amount = mode == ENCRYPTION ? n : k;
+    char ** arr = getShadowsFromPath(directory, shadow_amount);
+    int has_errors = check_image_formats(mode, secret_img_path, watermark_img_path, arr, shadow_amount, n);
+
+    if(has_errors)
+        exit(EXIT_FAILURE);
 
     printf("Mode: %s\n", mode == ENCRYPTION ? "Encryption" : "Decryption");
     printf("Secret image: %s\n", secret_img_path);
@@ -185,8 +237,6 @@ void run_service(enum Mode mode, char * secret_img_path, char * watermark_img_pa
     printf("K: %d\n", k);
     printf("N: %d\n", n);
     printf("Directory: %s\n", directory);
-
-    // TODO: CHEQUEOS DE IMAGENES
 
     switch(mode){
         case 0:

@@ -89,8 +89,6 @@ BitArray * recover_matrix(BMP_Image* image, int number_of_bits) {
     int size = 0;
     BitArray* bit_array = construct_bit_array(size);
 
-//    print_binary_array(image->data, image->data_size);
-
     for (int image_counter = 0; image_counter < image->data_size; size++) {
         uint8_t number;
 

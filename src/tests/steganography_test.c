@@ -294,6 +294,7 @@ void multiple_matrix_test()
     {
         destroy_matrix_vec(recovered_shadows[i],amount);
     }
+    free(shadow_paths);
     free(shadows);
     free(recovered_shadows);
 

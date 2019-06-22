@@ -46,6 +46,8 @@ Matrix*** recover_matrices(int k, int n, char** secret_images_paths, int * amoun
         }
 
         *amount_p = amount_of_matrices;
+        destroyBMP(image);
+        destroy_bit_array(bit_array);
     }
 
     return matrix_vector;

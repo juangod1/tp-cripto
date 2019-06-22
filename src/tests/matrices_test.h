@@ -34,4 +34,6 @@ void given_linear_equations();
 void given_correct_linear_equation_result();
 void when_solving_linear_equations();
 
+void test_matrix_determinant();
+
 #endif //TP_CRIPTO_MATRICES_TEST_H

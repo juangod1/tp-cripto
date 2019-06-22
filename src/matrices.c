@@ -121,9 +121,9 @@ Matrix * calculate_cofactor_matrix(Matrix * m)
             Matrix * buf = remove_column_and_row(m,j,i);
             int diagonal = i+j;
             if(diagonal%2==1)
-                ret->numbers[i][j]=-determinant(buf);
+                ret->numbers[i][j]=-my_determinant(buf);
             else
-                ret->numbers[i][j]=determinant(buf);
+                ret->numbers[i][j]=my_determinant(buf);
             destroy_matrix(buf);
         }
     }
@@ -211,7 +211,7 @@ int reduce(Matrix *m, int a, int b, float factor){
 
 Matrix * inversion_mod(Matrix * m, int mod)
 {
-    int det = round(determinant(m));
+    int det = my_determinant(m);
     int inv = multiplicative_inverse(det,mod);
     if(inv==-1)
         return NULL;
@@ -500,6 +500,33 @@ static void vector_subtraction(double *v1, double *v2, int length){
         v1[i] -= v2[i];
     }
 }
+
+int my_determinant(Matrix * m)
+{
+    if(m->columns!=m->rows)
+        return -1;
+    print(m);
+    if(m->columns==1){
+        return (int)m->numbers[0][0];
+    }
+    if(m->columns==2)
+    {
+        double a = m->numbers[0][0] * m->numbers[1][1];
+        double b = m->numbers[0][1] * m->numbers[1][0];
+        return (int)(a-b);
+    }
+    int ret =0;
+    int i=0;
+    for(int j=0; j<m->columns;j++)
+    {
+        if(j%2==1)
+            ret-= m->numbers[j][i]*my_determinant(remove_column_and_row(m,j,i));
+        else
+            ret+= m->numbers[j][i]*my_determinant(remove_column_and_row(m,j,i));
+    }
+    return ret;
+}
+
 
 double determinant(Matrix *m){
     Matrix *copy;

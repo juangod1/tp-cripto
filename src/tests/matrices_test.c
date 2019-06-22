@@ -25,6 +25,50 @@ Matrix * correct_result_matrix;
 Matrix * correct_linear_equation_result;
 Matrix * linear_equation_result;
 
+Matrix * determinant_matrix;
+int det;
+int correct_determinant;
+
+void given_correct_determinant()
+{
+    correct_determinant=-46;
+}
+
+void given_determinant_matrix()
+{
+    determinant_matrix = constructor(4,4);
+    determinant_matrix->numbers[0][0] = 1;
+    determinant_matrix->numbers[1][0] = 3;
+    determinant_matrix->numbers[2][0] = 3;
+    determinant_matrix->numbers[3][0] = 2;
+    determinant_matrix->numbers[0][1] = 4;
+    determinant_matrix->numbers[1][1] = 3;
+    determinant_matrix->numbers[2][1] = 2;
+    determinant_matrix->numbers[3][1] = 5;
+    determinant_matrix->numbers[0][2] = 3;
+    determinant_matrix->numbers[1][2] = 2;
+    determinant_matrix->numbers[2][2] = 4;
+    determinant_matrix->numbers[3][2] = 4;
+    determinant_matrix->numbers[0][3] = 2;
+    determinant_matrix->numbers[1][3] = 3;
+    determinant_matrix->numbers[2][3] = 4;
+    determinant_matrix->numbers[3][3] = 5;
+}
+
+void when_calculating_determinant()
+{
+    det = my_determinant(determinant_matrix);
+}
+
+void test_matrix_determinant()
+{
+    given_determinant_matrix();
+    given_correct_determinant();
+    when_calculating_determinant();
+    assert_equal_int("Determinant is correct", correct_determinant,det);
+}
+
+
 void test_multiplication()
 {
     given_m1();

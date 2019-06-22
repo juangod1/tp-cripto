@@ -2,7 +2,6 @@
 #define TP_CRIPTO_STEGANOGRAPHY_H
 
 #include "image_manipulation.h"
-#include "Gmatrices.h"
 #include "utils.h"
 #include <stdint.h>
 

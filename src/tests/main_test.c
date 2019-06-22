@@ -20,7 +20,6 @@ void main_test(){
     run_test("Modular Arithmetic Inverse Test", test_inversion_mod_1);
     run_test("Generate 'SS' matrix test", test_generate_ss);
     run_test("Test multiplication", test_multiplication);
-    run_test("Test matrix conversion", test_conversion);
     run_test("Test generate r", test_generate_r);
     run_test("Test generate v_vec", test_generate_v_vec);
     run_test("Test calculate g", test_calculate_g);

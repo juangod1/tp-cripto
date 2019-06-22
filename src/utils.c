@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include "include/Gmatrices.h"
 #include "include/utils.h"
 
 #define SIZE_BATCH 100
@@ -61,21 +60,6 @@ BitArray * build_bit_array_from_matrix(const Matrix *m) {
     }
 
     return bit_array;
-}
-
-GMatrix* build_Gmatrix_from_array(const uint8_t *bit_array, int rows, int columns) {
-    GMatrix* matrix = Gconstructor(rows, columns);
-    int size_array = rows * columns;
-    int array_counter = 0;
-
-    for (int i = 0; i < rows && array_counter < size_array; ++i) {
-        for (int j = 0; j < columns; ++j) {
-            matrix->numbers[j][i] = bit_array[array_counter];
-            array_counter++;
-        }
-    }
-
-    return matrix;
 }
 
 Matrix* build_matrix_from_array(const uint8_t *bit_array, int rows, int columns) {

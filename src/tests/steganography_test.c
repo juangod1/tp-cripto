@@ -17,12 +17,8 @@ int are_equal_to_char(BMP_Image* result_image, int size, uint8_t character) {
 
     for (int k = 0; (k < size) && are_equal; ++k) {
         are_equal = result_image->data[k] == character;
-
-//        if(!are_equal) {
-//            printf("Data: %x k: %d\n", result_image->data[k], k);
-//        }
-
     }
+
     return are_equal;
 }
 

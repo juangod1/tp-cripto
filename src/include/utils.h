@@ -2,7 +2,7 @@
 #define TP_CRIPTO_UTILS_H
 
 #include <stddef.h>
-#include "Gmatrices.h"
+#include "matrices.h"
 
 #define SUCC 1
 #define FAIL -1
@@ -20,7 +20,6 @@ BitArray * build_bit_array_from_matrix(const Matrix *m);
 BitArray* copy(BitArray* bit_array);
 BitArray* concatenate(BitArray* dest, BitArray* src);
 BitArray* concatenate_bit_array(const BitArray* ba1, const BitArray* ba2);
-GMatrix* build_Gmatrix_from_array(const uint8_t *bit_array, int rows, int columns);
 BitArray* construct_bit_array(int size);
 void destroy_bit_array(BitArray* bit_array);
 void print_bit_array(BitArray* bit_array);

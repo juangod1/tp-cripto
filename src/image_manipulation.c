@@ -39,7 +39,7 @@ void createBMP(char * path, int width, int height, int bpp) {
 
     FILE *f = fopen(path, "a+");
     if(f==NULL){
-        perror("fopen error, check that the directory exists.");
+        fprintf(stderr, "Fopen error, check that the directory %s exists.", path);
         exit(EXIT_FAILURE);
     }
 
@@ -84,76 +84,76 @@ int writeBMP(BMP_Image * img, char * path){
     FILE * f = fopen(path,"r+");
 
     if(f==NULL){
-        perror("Error");
-        return -1;
+        fprintf(stderr, "Cannot open %s.", path);
+        exit(EXIT_FAILURE);
     }
 
     if(fwrite("BM",1,2,f)!=2){
-        perror("Error");
-        return -1;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     int b = 1;
     fseek(f,BMP_COLOR_PLANES_POSITION,SEEK_SET);
     if(fwrite(&b,2,1,f)!=1){
-        perror("Error");
-        return -1;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     int a = 40;
     fseek(f,BMP_HEADER_SIZE_POSITION,SEEK_SET);
     if(fwrite(&a,4,1,f)!=1){
-        perror("Error");
-        return -1;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_SIZE_POSITION,SEEK_SET);
     if(fwrite(&(img->file_size),4,1,f)!=1){
-        perror("Error");
-        return -1;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_WIDTH_POSITION,SEEK_SET);
     if(fwrite(&(img->width),4,1,f)!=1){
-        perror("Error");
-        return -1;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_HEIGHT_POSITION,SEEK_SET);
     if(fwrite(&(img->height),4,1,f)!=1){
-        perror("Error");
-        return -1;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_BPP_POSITION,SEEK_SET);
     if(fwrite(&(img->bpp),2,1,f)!=1){
-        perror("Error");
-        return -1;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_OFFSET_POSITION,SEEK_SET);
     if(fwrite(&(img->offset),4,1,f)!=1){
-        perror("Error");
-        return -1;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_METADATA_POSITION,SEEK_SET);
     if(fwrite(&(img->shadow),1,1,f)!=1){
-        perror("Error");
-        return -1;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,img->offset,SEEK_SET);
     if(fwrite(img->data,(size_t)img->data_size,1,f)!=1){
-        perror("Error");
-        return -1;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     if(img->bpp == 8){
         fseek(f,BMP_HEADERS_END,SEEK_SET);
         if(fwrite(color_table,1024,1,f)!=1){
-            perror("Error");
-            return -1;
+            perror("Syscall failed");
+            exit(EXIT_FAILURE);
         }
     }
 
@@ -167,63 +167,64 @@ BMP_Image * readBMP(char * path){
     BMP_Image * img = calloc(1, sizeof(BMP_Image));
 
     if(f==NULL){
-        perror("Can't open file");
-        return NULL;
+        fprintf(stderr, "Cannot open %s.", path);
+        exit(EXIT_FAILURE);
     }
 
     char header_type[3]={0};
     if(fread(header_type,1,2,f)!=2){
-        perror("Error");
-        return NULL;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     if(strcmp(header_type,"BM")){
-        printf("INCOMPATIBLE BITMAP FORMAT, EXPECTED BM HEADER, FOUND '%s', HEADER\n",header_type);
-        return NULL;
+        fprintf(stderr, "INCOMPATIBLE BITMAP FORMAT, EXPECTED BM HEADER, FOUND '%s', HEADER\n",header_type);
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_WIDTH_POSITION,SEEK_SET);
     if(fread(&(img->width),4,1,f)!=1){
-        perror("Error");
-        return NULL;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_HEIGHT_POSITION,SEEK_SET);
     if(fread(&(img->height),4,1,f)!=1){
-        perror("Error");
-        return NULL;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_BPP_POSITION,SEEK_SET);
     if(fread(&(img->bpp),2,1,f)!=1){
-        perror("Error");
-        return NULL;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_METADATA_POSITION,SEEK_SET);
     if(fread(&(img->shadow),1,1,f)!=1){
-        perror("Error");
-        return NULL;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_SIZE_POSITION,SEEK_SET);
     if(fread(&(img->file_size),4,1,f)!=1){
-        perror("Error");
-        return NULL;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fseek(f,BMP_OFFSET_POSITION,SEEK_SET);
     if(fread(&(img->offset),4,1,f)!=1){
-        perror("Error");
-        return NULL;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     img->data_size = img->file_size - img->offset;
     img->data = calloc(1, img->data_size);
     fseek(f,img->offset,SEEK_SET);
+
     if(fread(img->data,img->data_size,1,f)!=1){
-        perror("Error");
-        return NULL;
+        perror("Syscall failed");
+        exit(EXIT_FAILURE);
     }
 
     fclose(f);

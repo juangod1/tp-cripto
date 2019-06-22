@@ -2,6 +2,7 @@
 #include "include/matrices.h"
 #include "include/crypto_service.h"
 #include "tests/main_test.h"
+#include "include/random.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
@@ -9,6 +10,7 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <dirent.h>
+#include <time.h>
 
 #define MAX_FILE_LENGTH 1024
 
@@ -165,7 +167,8 @@ char ** getShadowsFromPath(const char * directory)
 }
 
 void run_service(int mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
-
+    srand((unsigned int)time(0));
+    setSeed(rand());
     char ** arr = getShadowsFromPath(directory);
 
     // TODO: CHEQUEOS DE IMAGENES

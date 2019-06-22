@@ -51,11 +51,7 @@ Matrix ** generate_x_vec(int n, int k)
 
 Matrix * generate_x(int k)
 {
-    Matrix * x = constructor(k,1);
-    for(int i=0; i<k; i++)
-    {
-        x->numbers[0][i] = rand()%CONST_P;
-    }
+    Matrix * x = rand_matrix_mod(k,1,CONST_P);
     return x;
 }
 int * generate_c_vec(int n)

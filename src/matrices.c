@@ -6,6 +6,7 @@
 #include<stdio.h>
 #include<err.h>
 #include<time.h>
+#include "include/random.h"
 
 /*
 * a matrix is
@@ -359,11 +360,10 @@ Matrix *rand_matrix(int rows, int columns){
 Matrix *rand_matrix_mod(int rows, int columns, int modulo){
     Matrix *m;
     unsigned int i, j;
-    srand(time(NULL));
     m = constructor(rows, columns);
     for(i = 0; i < columns; i++){
         for(j = 0; j < rows; j++){
-            m->numbers[i][j] = rand()%modulo;
+            m->numbers[i][j] = nextChar();
         }
     }
     return m;

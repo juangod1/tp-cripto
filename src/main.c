@@ -18,37 +18,37 @@ int validate_params(int mode, char* secret_image_path, char* watermark_image_pat
     int error = 0;
 
     if(mode==-1) {
-        printf("Must set mode (-d or -r).\n");
+        fprintf(stderr, "Must set mode (-d or -r).\n");
         error = 1;
     }
 
     if(!strcmp(secret_image_path,"")) {
-        printf("Must set secret image path (-s).\n");
+        fprintf(stderr, "Must set secret image path (-s).\n");
         error = 1;
     }
 
     if(!strcmp(watermark_image_path,"")) {
-        printf("Must set watermark image path (-m).\n");
+        fprintf(stderr, "Must set watermark image path (-m).\n");
         error = 1;
     }
 
     if(!strcmp(directory,"")) {
-        printf("Must set directory path (--dir).\n");
+        fprintf(stderr, "Must set directory path (--dir).\n");
         error = 1;
     }
 
     if(k != 2 && k != 4) {
-        printf("K must be 2 or 4.\n");
+        fprintf(stderr, "K must be 2 or 4.\n");
         error = 1;
     }
 
     if(n != 4 && n != 8) {
-        printf("N must be 4 or 8.\n");
+        fprintf(stderr, "N must be 4 or 8.\n");
         error = 1;
     }
 
     if((k == 2 && n != 4) || (k == 4 && n != 8)) {
-        printf("Allowed schemes are (2,4) and (4,8) only.\n");
+        fprintf(stderr, "Allowed schemes are (2,4) and (4,8) only.\n");
         error = 1;
     }
 
@@ -56,9 +56,9 @@ int validate_params(int mode, char* secret_image_path, char* watermark_image_pat
 }
 
 int main(int argc, char *argv[]){
-    //main_test();
+//    main_test();
     int opt;
-    enum { ENCRYPTION, DECRYPTION } mode = -1;
+    enum Mode mode = -1;
     struct option longopts[] = {
             {"distribute", no_argument, NULL, 'd'},
             {"recover", no_argument, NULL, 'r'},
@@ -120,26 +120,20 @@ int main(int argc, char *argv[]){
     if(validate_params(mode, secret_image_path, watermark_image_path, directory, k, n) == 1)
         exit(EXIT_FAILURE);
 
-    printf("Mode: %s\n", mode == ENCRYPTION ? "Encryption" : "Decryption");
-    printf("Secret image: %s\n", secret_image_path);
-    printf("Watermark image: %s\n", watermark_image_path);
-    printf("K: %d\n", k);
-    printf("N: %d\n", n);
-    printf("Directory: %s\n", directory);
-
     run_service(mode, secret_image_path, watermark_image_path, k, n, directory);
     return EXIT_SUCCESS;
 }
 
-char ** getShadowsFromPath(const char * directory)
+char ** getShadowsFromPath(const char * directory, enum Mode mode, int k, int n)
 {
+    int shadow_amount = mode == ENCRYPTION ? n : k;
     size_t dir_length = strlen(directory);
-    char ** arr = malloc(8*sizeof(char *));
+    char ** arr = malloc(shadow_amount * sizeof(char *));
     int finishes_in_dash = directory[dir_length-1]=='/';
-    for(int i=0;i<8;i++)
-    {
-        arr[i] = calloc(1,MAX_FILE_LENGTH);
-        memccpy(arr[i],directory,1,dir_length);
+
+    for(int i = 0; i < shadow_amount; i++) {
+        arr[i] = calloc(1, MAX_FILE_LENGTH);
+        memccpy(arr[i], directory, 1, dir_length);
         if(!finishes_in_dash)
             *(arr[i]+dir_length)='/';
     }
@@ -149,27 +143,48 @@ char ** getShadowsFromPath(const char * directory)
 
     DIR* dirFile = opendir(directory);
     int count = 0;
+    int bmp_counter = 0;
     if (dirFile){
         struct dirent* hFile;
-        while(count < 8 && (hFile = readdir(dirFile)) != NULL){
+        while((hFile = readdir(dirFile)) != NULL){
+
             if (!strcmp( hFile->d_name, "."))
                 continue;
             if (!strcmp( hFile->d_name, ".."))
                 continue;
             if (hFile->d_name[0] == '.')
                 continue;
-            if (strstr(hFile->d_name, ".bmp"))
-                memcpy(arr[count++]+dir_length, hFile->d_name, MAX_FILE_LENGTH-dir_length);
+            if (strstr(hFile->d_name, ".bmp")) {
+                bmp_counter++;
+                if(bmp_counter > shadow_amount) {
+                    fprintf(stderr, "Incorrect shadow amount. Must be %d.", shadow_amount);
+                    exit(EXIT_FAILURE);
+                }
+
+                memcpy(arr[count++] + dir_length, hFile->d_name, MAX_FILE_LENGTH - dir_length);
+            }
         }
         closedir(dirFile);
+
+        if(bmp_counter != shadow_amount) {
+            fprintf(stderr, "Incorrect shadow amount. Must be %d.", shadow_amount);
+            exit(EXIT_FAILURE);
+        }
     }
     return arr;
 }
 
-void run_service(int mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
+void run_service(enum Mode mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
     srand((unsigned int)time(0));
     setSeed(rand());
-    char ** arr = getShadowsFromPath(directory);
+    char ** arr = getShadowsFromPath(directory, mode, k, n);
+
+    printf("Mode: %s\n", mode == ENCRYPTION ? "Encryption" : "Decryption");
+    printf("Secret image: %s\n", secret_img_path);
+    printf("Watermark image: %s\n", watermark_img_path);
+    printf("K: %d\n", k);
+    printf("N: %d\n", n);
+    printf("Directory: %s\n", directory);
 
     // TODO: CHEQUEOS DE IMAGENES
 

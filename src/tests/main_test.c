@@ -34,4 +34,5 @@ void main_test(){
     run_test("test_compute_R",test_compute_R);
     run_test("test_compute_s_from_SS_and_R",test_compute_s_from_SS_and_R);
     run_test("test_compute_w_from_SS_and_Rw",test_compute_w_from_SS_and_Rw);
+    run_test("Multiple matrix test", multiple_matrix_test);
 }

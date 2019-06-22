@@ -6,6 +6,7 @@
 #include "../include/matrices.h"
 #include "../include/steganography.h"
 #include "util.h"
+#include "../include/crypto_service.h"
 
 char* lsb_image_path = "../tests/images/lsb.BMP";
 char* lsb2_image_path = "../tests/images/lsb2.BMP";
@@ -139,6 +140,163 @@ void test_recover_matrix() {
     writeBMP(image_aux, lsb_image_path);
     writeBMP(image_aux, lsb_image_path);
     destroyBMP(image_aux);
+}
+
+Matrix *** shadows = NULL;
+Matrix *** recovered_shadows = NULL;
+int amount;
+int n;
+
+void given_shadow_amount()
+{
+    n=4;
+}
+
+void given_amount()
+{
+    amount=7700;
+}
+
+void given_shadows()
+{
+    shadows = malloc(n* sizeof(Matrix **));
+    for(int i=0; i<n; i++)
+    {
+        shadows[i]=malloc(amount* sizeof(Matrix *));
+    }
+    for(int i=0; i<amount;i++)
+    {
+        shadows[0][i] = constructor(4,3);
+        shadows[0][i]->numbers[0][0]=1;
+        shadows[0][i]->numbers[1][0]=2;
+        shadows[0][i]->numbers[2][0]=3;
+
+        shadows[0][i]->numbers[0][1]=11;
+        shadows[0][i]->numbers[1][1]=22;
+        shadows[0][i]->numbers[2][1]=33;
+
+        shadows[0][i]->numbers[0][2]=111;
+        shadows[0][i]->numbers[1][2]=222;
+        shadows[0][i]->numbers[2][2]=333;
+
+        shadows[0][i]->numbers[0][3]=1111;
+        shadows[0][i]->numbers[1][3]=2222;
+        shadows[0][i]->numbers[2][3]=3333;
+
+        //mat2
+
+
+        shadows[1][i] = constructor(4,3);
+        shadows[1][i]->numbers[0][0]=4;
+        shadows[1][i]->numbers[1][0]=3;
+        shadows[1][i]->numbers[2][0]=2;
+
+        shadows[1][i]->numbers[0][1]=44;
+        shadows[1][i]->numbers[1][1]=33;
+        shadows[1][i]->numbers[2][1]=22;
+
+        shadows[1][i]->numbers[0][2]=444;
+        shadows[1][i]->numbers[1][2]=333;
+        shadows[1][i]->numbers[2][2]=222;
+
+        shadows[1][i]->numbers[0][3]=4444;
+        shadows[1][i]->numbers[1][3]=3333;
+        shadows[1][i]->numbers[2][3]=2222;
+
+        //mat 3
+
+
+        shadows[2][i] = constructor(4,3);
+        shadows[2][i]->numbers[0][0]=5;
+        shadows[2][i]->numbers[1][0]=6;
+        shadows[2][i]->numbers[2][0]=7;
+
+        shadows[2][i]->numbers[0][1]=55;
+        shadows[2][i]->numbers[1][1]=66;
+        shadows[2][i]->numbers[2][1]=77;
+
+        shadows[2][i]->numbers[0][2]=555;
+        shadows[2][i]->numbers[1][2]=666;
+        shadows[2][i]->numbers[2][2]=777;
+
+        shadows[2][i]->numbers[0][3]=5555;
+        shadows[2][i]->numbers[1][3]=6666;
+        shadows[2][i]->numbers[2][3]=7777;
+
+        //mat 4
+
+
+        shadows[3][i] = constructor(4,3);
+        shadows[3][i]->numbers[0][0]=8;
+        shadows[3][i]->numbers[1][0]=7;
+        shadows[3][i]->numbers[2][0]=6;
+
+        shadows[3][i]->numbers[0][1]=88;
+        shadows[3][i]->numbers[1][1]=77;
+        shadows[3][i]->numbers[2][1]=66;
+
+        shadows[3][i]->numbers[0][2]=888;
+        shadows[3][i]->numbers[1][2]=777;
+        shadows[3][i]->numbers[2][2]=666;
+
+        shadows[3][i]->numbers[0][3]=8888;
+        shadows[3][i]->numbers[1][3]=7777;
+        shadows[3][i]->numbers[2][3]=6666;
+    }
+}
+char ** shadow_paths;
+int amount_p;
+
+void when_hiding_and_recovering_shadows()
+{
+    for(int i=0; i<n; i++)
+    {
+        hide_shadow(shadows[i],amount,shadow_paths[i],2,i);
+    }
+    recovered_shadows = recover_matrices(2,4,shadow_paths,&amount_p);
+}
+
+void given_shadow_paths()
+{
+    shadow_paths = malloc(n * sizeof(char *));
+    shadow_paths[0] = "../tests/images/shadow1.bmp";
+    shadow_paths[1] = "../tests/images/shadow2.bmp";
+    shadow_paths[2] = "../tests/images/shadow3.bmp";
+    shadow_paths[3] = "../tests/images/shadow4.bmp";
+}
+
+
+void multiple_matrix_test()
+{
+    given_shadow_paths();
+    given_shadow_amount();
+    given_amount();
+    given_shadows();
+    when_hiding_and_recovering_shadows();
+    assert_equal_int("Recovered amount is equal to original amount ",amount,amount_p);
+    for(int i=0; i<2; i++)
+    {
+        for(int j=0; j<amount; j++)
+        {
+            printf("Original Matrix[%d][%d]\n",i,j);
+            print(shadows[i][j]);
+            printf("Found Matrix[%d][%d]\n",i,j);
+            print(recovered_shadows[i][j]);
+            assert_true("Matrix's are equal ",equals(shadows[i][j],recovered_shadows[i][j])==SUCC);
+        }
+    }
+
+    for(int i=0; i<n;i++)
+    {
+        destroy_matrix_vec(shadows[i],amount);
+    }
+    for(int i=0; i<2; i++)
+    {
+        destroy_matrix_vec(recovered_shadows[i],amount);
+    }
+    free(shadows);
+    free(recovered_shadows);
+
 }
 
 void test_everything() {

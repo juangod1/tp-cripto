@@ -6,7 +6,6 @@
 void hide_matrices(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, int shadow_number) {
     int rows = matrix_vector[0]->rows;
     int columns = matrix_vector[0]->columns;
-    size_t counter = 0;
     BitArray* bit_array = construct_bit_array(amount_of_matrices * rows * columns);
 
     for (int i = 0; i < amount_of_matrices; ++i) {
@@ -32,7 +31,7 @@ Matrix*** recover_matrices(int k, int n, char** secret_images_paths) {
         BitArray* bit_array = recover_matrix(image, number_of_bits);
 
         for (int j = 0; j < amount_of_matrices; ++j) {
-            matrix_vector[i][j] = conversion_to_matrix(build_matrix(bit_array->numbers + counter, n, n));
+            matrix_vector[i][j] = conversion_to_matrix(build_Gmatrix_from_array(bit_array->numbers + counter, n, n));
             counter += n*n;
         }
     }

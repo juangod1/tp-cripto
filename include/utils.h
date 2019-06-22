@@ -18,9 +18,10 @@ void print_binary_array(const char *char_array, size_t char_array_size);
 void print_hexa_array(const char* char_array, size_t char_array_size);
 BitArray * build_bit_array_from_matrix(const GMatrix *m);
 BitArray* copy(BitArray* bit_array);
-BitArray* concatenate_bit_array(const BitArray* array1, const BitArray* array2);
-GMatrix* build_matrix(const uint8_t* bit_array, int rows, int columns);
+BitArray* concatenate_bit_array(const BitArray* dest, const BitArray* src);
+GMatrix* build_Gmatrix_from_array(const uint8_t *bit_array, int rows, int columns);
 BitArray* construct_bit_array(int size);
+Matrix* build_matrix_from_array(const uint8_t *bit_array, int rows, int columns);
 int bit_array_equals(const BitArray* array1, const BitArray* array2);
 
 #endif //TP_CRIPTO_UTILS_H

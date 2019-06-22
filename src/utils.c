@@ -60,7 +60,6 @@ BitArray * build_bit_array_from_matrix(const Matrix *m) {
         }
     }
 
-    bit_array->size = size;
     return bit_array;
 }
 

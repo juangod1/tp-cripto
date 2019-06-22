@@ -1,6 +1,7 @@
 #include "include/azzahra.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #define CONST_P 251
 
@@ -44,14 +45,19 @@ Matrix ** generate_x_vec(int n, int k)
     Matrix ** ret = malloc(n* sizeof(Matrix *));
     for(int i=0; i<n;i++)
     {
-        ret[i] = generate_x(k);
+        ret[i] = generate_x(k,i+1);
     }
     return ret;
 }
 
-Matrix * generate_x(int k)
+Matrix * generate_x(int k, int a)
 {
-    Matrix * x = rand_matrix_mod(k,1,CONST_P);
+    Matrix * x = constructor(k,1);
+    for(int i=0;i<k;i++)
+    {
+        int num = my_mod(pow(a,i),CONST_P);
+        x->numbers[i][0]=num;
+    }
     return x;
 }
 int * generate_c_vec(int n)

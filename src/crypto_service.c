@@ -102,7 +102,6 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
         {
             shadows[i][counter] = shs[i];
         }
-        destroy_matrix_vec(shs,n);
         destroy_matrix(current_s);
         destroy_matrix(current_w);
     }
@@ -148,8 +147,6 @@ Matrix ** encrypt_image(Matrix * s, Matrix * w, int k, int n, Matrix ** rw_ret)
     destroy_matrix(a);
     destroy_matrix_vec(x_vec,n);
     destroy_matrix_vec(v_vec,n);
-    destroy_matrix(s);
-    destroy_matrix(w);
     destroy_matrix(ss);
     destroy_matrix(r);
     free(c_vec);

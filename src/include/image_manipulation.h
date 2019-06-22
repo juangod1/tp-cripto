@@ -9,6 +9,7 @@
 #define BMP_HEIGHT_POSITION 0x16
 #define BMP_WIDTH_POSITION 0x12
 #define BMP_BPP_POSITION 0x1C
+#define BMP_HEADERS_END 54
 
 #include <stdlib.h>
 #include "matrices.h"

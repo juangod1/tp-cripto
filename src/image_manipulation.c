@@ -252,14 +252,19 @@ void createImageFromMatrices(Matrix ** m, char * path, int amount, int width, in
         aux1 = build_bit_array_from_matrix(m[i]);
         aux2 = ans;
         ans = concatenate_bit_array(aux2, aux1);
-        free(aux1);
-        free(aux2);
+        destroy_bit_array(aux1);
+        destroy_bit_array(aux2);
     }
 
     createBMP(path, width, height, 8);
     BMP_Image * bmp = readBMP(path);
+
+    free(bmp->data);
     bmp->data = ans->numbers;
     writeBMP(bmp,path);
+
+
+    destroyBMP(bmp);
     free(ans);
 }
 

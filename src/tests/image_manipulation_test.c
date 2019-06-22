@@ -60,4 +60,9 @@ void test_create_image_from_matrices_and_create_matrices_from_image(){
     for(int i=0;i<2;i++){
         assert_generic( "testing that matrices are equal" , equals(matrices_out[i], matrices[i]));
     }
+
+    destroy_matrix(m1);
+    destroy_matrix(m2);
+
+    destroy_matrix_vec(matrices_out,amount);
 }

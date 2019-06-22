@@ -34,8 +34,10 @@ BitArray* concatenate(BitArray* dest, BitArray* src) {
     int new_size = dest->size + src->size;
     dest->numbers = realloc(dest->numbers, new_size * sizeof(uint8_t));
 
-    if(dest->numbers == NULL)
-        return NULL;
+    if(dest->numbers == NULL) {
+        perror("No space available for realloc.");
+        exit(EXIT_FAILURE);
+    }
 
     memcpy(dest->numbers + dest->size, src->numbers, src->size);
     dest->size = new_size;
@@ -78,7 +80,6 @@ Matrix* build_matrix_from_array(const uint8_t *bit_array, int rows, int columns)
 }
 
 void print_bit_array(BitArray* bit_array) {
-//    print_hexa_array(bit_array->numbers, bit_array->size);
     for (int i = 0; i < bit_array->size; ++i) {
         printf("%d ", bit_array->numbers[i]);
     }

@@ -21,7 +21,6 @@ BMP_Image* lsb_replacement(BitArray* bit_array, BMP_Image* image) {
             data_counter++;
         }
     }
-//    print_binary_array(image->data, image->data_size);
     return image;
 }
 
@@ -53,8 +52,6 @@ BMP_Image* hide_matrix(BitArray * bit_array, char* path, int number_of_bits, cha
 
     if(writeBMP(image, path) == -1)
         return NULL;
-
-//    free(char_array);
 
     return image;
 }

@@ -1,7 +1,3 @@
-//
-// Created by Juan Godfrid on 2019-06-01.
-//
-
 #include <stdint.h>
 #include "include/random.h"
 

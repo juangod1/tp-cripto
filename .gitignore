@@ -56,7 +56,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-cmake-build-debug/*
+*/cmake-build-debug/*
 CMakeFiles
 CMakeCache.txt
 Makefile

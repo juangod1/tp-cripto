@@ -3,13 +3,13 @@
 #include <math.h>
 
 
-void hide_matrices(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, int shadow_number) {
+void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, int shadow_number) {
     int rows = matrix_vector[0]->rows;
     int columns = matrix_vector[0]->columns;
     BitArray* bit_array = construct_bit_array(amount_of_matrices * rows * columns);
 
     for (int i = 0; i < amount_of_matrices; ++i) {
-        BitArray* aux = build_bit_array_from_matrix(conversion_from_matrix(matrix_vector[i]));
+        BitArray* aux = build_bit_array_from_matrix(matrix_vector[i]);
         concatenate_bit_array(bit_array, aux);
     }
 
@@ -44,7 +44,7 @@ void encrypt_image(char* secret_image_path, char* watermark_image_path, char** s
     BMP_Image* watermark_image = readBMP(watermark_image_path);
     Matrix* s = image_to_matrix_conversion(secret_image);
     Matrix* w = image_to_matrix_conversion(watermark_image);
-    int number_of_bits = k == 2 ? 2 : 1;
+//    int number_of_bits = k == 2 ? 2 : 1;
 
     Matrix* a = generate_a(k, s);
     Matrix** x_vec = generate_x_vec(n, k);
@@ -88,7 +88,7 @@ int verify_watermark(Matrix * w, Matrix * w_calculated){
 
 void decrypt_image(int k, int n, char** secret_images_paths, char * watermark_path, char * decryption_path) {
     Matrix ** secret_matrices = malloc(k*sizeof(Matrix*));
-    Matrix*** shadows = recover_matrices(k, n, secret_images_paths);
+//    Matrix*** shadows = recover_matrices(k, n, secret_images_paths);
 
     Matrix * keanu = generate_B(secret_matrices,k);
     Matrix * ss = compute_ss(keanu);

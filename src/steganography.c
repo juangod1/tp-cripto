@@ -15,7 +15,7 @@ char modifyBit(char n, char p, char b) {
 
 BMP_Image* lsb_replacement(BitArray* bit_array, BMP_Image* image) {
     int data_counter = 0;
-    for (int k = 0; k < bit_array->size; ++k) {
+    for (int k = 0; data_counter < image->data_size; ++k) {
         for (int i = 0; i < 8; i++) {
             image->data[data_counter] = modifyBit(image->data[data_counter], 0, 0 != ((bit_array->numbers[k] << i) & 0x80));
             data_counter++;
@@ -26,7 +26,7 @@ BMP_Image* lsb_replacement(BitArray* bit_array, BMP_Image* image) {
 
 BMP_Image* lsb2_replacement(BitArray* bit_array, BMP_Image* image) {
     int data_counter = 0;
-    for (int k = 0; k < bit_array->size; ++k) {
+    for (int k = 0; data_counter < image->data_size; ++k) {
         for (int i = 0; i < 8; i++) {
             image->data[data_counter] = modifyBit(image->data[data_counter], 1, 0 != ((bit_array->numbers[k] << i) & 0x80));
             i++;

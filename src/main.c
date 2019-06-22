@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <getopt.h>
+#include <dirent.h>
 
 int validate_params(int mode, char* secret_image_path, char* watermark_image_path, char* directory, int k, int n) {
     int error = 0;
@@ -126,16 +127,32 @@ int main(int argc, char *argv[]){
     return EXIT_SUCCESS;
 }
 
+void getShadowsFromPath(char ** arr, char * directory){
+    DIR* dirFile = opendir(directory);
+    int count = 0;
+    if (dirFile){
+        struct dirent* hFile;
+        while(count < 8 && (hFile = readdir(dirFile)) != NULL){
+            if (!strcmp( hFile->d_name, "."))
+                continue;
+            if (!strcmp( hFile->d_name, ".."))
+                continue;
+            if (hFile->d_name[0] == '.')
+                continue;
+            if (strstr(hFile->d_name, ".bmp"))
+                memcpy(arr[count++], hFile->d_name, hFile->d_namlen);
+        }
+        closedir(dirFile);
+    }
+}
+
 void run_service(int mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
     char ** arr = malloc(8*sizeof(char *));
-    arr[0] = "../shares/backtofutureshare.bmp";
-    arr[1] = "../shares/beautybeastshare.bmp";
-    arr[2] = "../shares/buenosmuchachosshare.bmp";
-    arr[3] = "../shares/hugoshare.bmp";
-    arr[4] = "../shares/kingsspeechshare.bmp";
-    arr[5] = "../shares/medianocheenparisshare.bmp";
-    arr[6] = "../shares/secretodesusojosshare.bmp";
-    arr[7] = "../shares/sherlockshare.bmp";
+    for(int i=0;i<8;i++) arr[i] = calloc(1,1024);
+
+    getShadowsFromPath(arr, directory);
+
+    // TODO: CHEQUEOS DE IMAGENES
 
     switch(mode){
         case 0:
@@ -148,5 +165,6 @@ void run_service(int mode, char * secret_img_path, char * watermark_img_path, in
             exit(EXIT_FAILURE);
     }
 
+    for(int i=0;i<8;i++) free(arr[i]);
     free(arr);
 }

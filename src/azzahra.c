@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#define CONST_P 251
+#define CONST_P 252
 
 Matrix * generate_a(int k, Matrix * s)
 {
@@ -56,7 +56,7 @@ Matrix * generate_x(int k, int a)
     for(int i=0;i<k;i++)
     {
         int num = my_mod(pow(a,i),CONST_P);
-        x->numbers[i][0]=num;
+        x->numbers[0][i]=num;
     }
     return x;
 }

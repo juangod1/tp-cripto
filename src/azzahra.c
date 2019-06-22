@@ -7,7 +7,13 @@
 
 Matrix * generate_a(int k, Matrix * s)
 {
-    Matrix * m = rand_matrix_mod(s->rows,k,CONST_P);
+    Matrix * m;
+    Matrix * aux;
+    do {
+        m = rand_matrix_mod(s->rows,k,CONST_P);
+        aux = multiply(transpose(m), m);
+    } while (my_determinant(aux) == 0);
+    
     return m;
 }
 

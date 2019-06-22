@@ -10,6 +10,8 @@
 #include <getopt.h>
 #include <dirent.h>
 
+#define MAX_FILE_LENGTH 1024
+
 int validate_params(int mode, char* secret_image_path, char* watermark_image_path, char* directory, int k, int n) {
     int error = 0;
 
@@ -140,7 +142,7 @@ void getShadowsFromPath(char ** arr, char * directory){
             if (hFile->d_name[0] == '.')
                 continue;
             if (strstr(hFile->d_name, ".bmp"))
-                memcpy(arr[count++], hFile->d_name, hFile->d_namlen);
+                memcpy(arr[count++], hFile->d_name, MAX_FILE_LENGTH);
         }
         closedir(dirFile);
     }
@@ -148,7 +150,7 @@ void getShadowsFromPath(char ** arr, char * directory){
 
 void run_service(int mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
     char ** arr = malloc(8*sizeof(char *));
-    for(int i=0;i<8;i++) arr[i] = calloc(1,1024);
+    for(int i=0;i<8;i++) arr[i] = calloc(1,MAX_FILE_LENGTH);
 
     getShadowsFromPath(arr, directory);
 
@@ -156,10 +158,10 @@ void run_service(int mode, char * secret_img_path, char * watermark_img_path, in
 
     switch(mode){
         case 0:
-            encrypt_image(secret_img_path, watermark_img_path,arr,k,n);
+            encrypt_loop(secret_img_path, watermark_img_path,arr,k,n);
             break;
         case 1:
-            decrypt_image(k,n,arr,watermark_img_path,secret_img_path);
+            decrypt_loop(k,n,arr,watermark_img_path,secret_img_path);
             break;
         default:
             exit(EXIT_FAILURE);

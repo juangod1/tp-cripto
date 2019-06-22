@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #define KRED  "\x1B[31m"
 #define KGRN  "\x1B[32m"

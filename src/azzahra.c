@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#define CONST_P 252
+#define CONST_P 251
 
 Matrix * generate_a(int k, Matrix * s)
 {

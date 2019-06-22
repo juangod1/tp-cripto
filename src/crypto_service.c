@@ -67,9 +67,6 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
         exit(EXIT_FAILURE);
     }
 
-    uint8_t * secret_ptr = secret_image->data;
-    uint8_t * watermark_ptr = watermark_image->data;
-
     int s_amount = pixel_amount/(n*n);
 
     Matrix *** shadows = malloc(n*sizeof(Matrix **));
@@ -86,7 +83,8 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
         {
             for(int j=0; j<n; j++)
             {
-                current_s->numbers[j][i]= *secret_ptr++;
+                uint8_t * pointer = secret_image->data + counter*n*n + i*n + j;
+                current_s->numbers[j][i]= *pointer;
             }
         }
         Matrix * current_w = constructor(n,n);
@@ -94,7 +92,8 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
         {
             for(int j=0; j<n;j++)
             {
-                current_w->numbers[j][i] = *watermark_ptr++;
+                uint8_t * pointer = watermark_image->data + counter*n*n + i*n + j;
+                current_w->numbers[j][i] = *pointer++;
             }
         }
         Matrix ** shs = encrypt_image(current_s,current_w,k,n,&(rws[counter]));

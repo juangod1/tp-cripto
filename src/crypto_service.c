@@ -110,7 +110,7 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
     }
     free(shadows);
 
-    //todo: funcion de juan para guardar rw
+    createImageFromMatrices(rws, watermark_image_path, s_amount, secret_image->width, secret_image->height);
 
     destroy_matrix_vec(rws,s_amount);
     destroyBMP(watermark_image);
@@ -154,8 +154,9 @@ void decrypt_loop(int k, int n, char ** secret_images_paths, char * rw_path, cha
 {
     int sh_amount;
     Matrix *** shs = recover_matrices(k,n,secret_images_paths,&sh_amount);
-    int rw_amount =10; //todo: funcion juan
-    Matrix ** rw = malloc(3); //todo:funcion juan
+
+    int rw_amount;
+    Matrix ** rw = createMatricesFromImage(rw_path, &rw_amount, n);
 
     if(sh_amount!=rw_amount)
     {
@@ -174,13 +175,20 @@ void decrypt_loop(int k, int n, char ** secret_images_paths, char * rw_path, cha
 
     for(int i=0; i<sh_amount; i++)
     {
-        Matrix ** current_shs = shs[i];
+        Matrix ** current_shs = malloc(k*sizeof(Matrix*));
+        for(int j=0; j<k; j++){
+            current_shs[j] = shs[j][i];
+        }
         Matrix * current_rw = rw[i];
         s[i] = decrypt_image(k,n,current_shs,current_rw,decryption_path,&(w[i]));
+        free(current_shs);
     }
 
-    //todo: funcion de juan para guardar w;
-    //todo: funcion de juan para guardar s;
+    BMP_Image * water = readBMP(rw_path);
+    BMP_Image * secret = readBMP(decryption_path);
+
+    createImageFromMatrices(rw, "../watermark_out.bmp", rw_amount, water->width, water->height);
+    createImageFromMatrices(s, decryption_path, sh_amount,  water->width, water->height);
 
     destroy_matrix_vec(w,sh_amount);
     destroy_matrix_vec(s,sh_amount);
@@ -190,6 +198,9 @@ void decrypt_loop(int k, int n, char ** secret_images_paths, char * rw_path, cha
     }
     free(shs);
     destroy_matrix_vec(rw,rw_amount);
+
+    destroyBMP(water);
+    destroyBMP(secret);
 }
 
 Matrix * decrypt_image(int k, int n, Matrix ** shs, Matrix * rw, char * decryption_path, Matrix ** w)

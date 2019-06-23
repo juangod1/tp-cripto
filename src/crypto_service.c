@@ -41,8 +41,8 @@ Matrix*** recover_matrices(int k, int n, char** secret_images_paths, int * amoun
         BitArray* bit_array = recover_matrix(image, NUMBER_OF_BITS(k));
 
         for (int j = 0; counter < bit_array->size; ++j) {
-            matrix_vector[i][j] = build_matrix_from_array(bit_array->numbers + counter, n, k+1);
-            counter += (n*(k+1));
+            matrix_vector[i][j] = build_matrix_from_array(bit_array->numbers + counter, n, 3);
+            counter += (n*3);
         }
 
         *amount_p = amount_of_matrices;

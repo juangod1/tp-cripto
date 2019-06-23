@@ -8,34 +8,21 @@
 
 Matrix * generate_a(int k, Matrix * s)
 {
-    Matrix * m = constructor(s->rows,k);
+    Matrix * m ;
     Matrix * aux;
+    int rank1, rank2;
 
-
-//    int count = 0;
     do {
 
-        char random = my_mod(nextChar(), 240);
-
-        for(int i=0; i < k; i++) {
-            Matrix* vector = generate_x(s->rows, i);
-
-            for (int j = 0; j < m->rows; ++j) {
-                m->numbers[i][j] = vector->numbers[0][j];
-            }
-
-            destroy_matrix(vector);
-        }
+        m = rand_matrix_mod(s->rows, k, CONST_P);
 
         aux = multiply(transpose(m), m);
-        if(my_mod(my_determinant(aux), CONST_P)== 0)
-            print(m);
-//        count++;
-    } while (my_mod(my_determinant(aux), CONST_P) == 0);
 
-//    if(count > 1)
-        print(m);
-    
+        rank1 = compute_rank(m);
+        rank2 = compute_rank(aux);
+
+    } while ( rank1 != k || rank2 != k || my_mod(my_determinant(aux), CONST_P) == 0 || my_mod(my_determinant(m), CONST_P) == 0);
+
     return m;
 }
 
@@ -71,10 +58,17 @@ Matrix * generate_r(Matrix * s, Matrix *ss)
 Matrix ** generate_x_vec(int n, int k)
 {
     Matrix ** ret = malloc(n* sizeof(Matrix *));
+    Matrix* m = constructor(n, k);
     for(int i=0; i<n;i++)
     {
-        ret[i] = generate_x(k,i+1);
+        ret[i] = generate_x(k, i);
+//        print(ret[i]);
+        for (int j = 0; j < k; ++j) {
+            m->numbers[j][i] = ret[i]->numbers[0][j];
+        }
     }
+//    print(m);
+//    printf("%d\n", compute_rank(m));
     return ret;
 }
 
@@ -145,7 +139,12 @@ int calculate_g(int t, int i, int j, Matrix * r, int k, const int * c_vec)
     {
         int column_index = t*k + counter;
         int num = (int)r->numbers[column_index][i];
-        num*= pow(c_vec[j],counter);
+        int p= pow(c_vec[j],counter);
+        num*=p;
+//        if(j<k-1)
+//        {
+//            printf("Calculated %d, with %d to the power of %d\n",p,c_vec[j],counter);
+//        }
         ret+=num;
     }
     return my_mod(ret,CONST_P);
@@ -261,6 +260,7 @@ Matrix * compute_R_from_G_vec(Matrix ** G_vec, int k, int n, char * shadow_numbe
         for(int y=0; y<columns; y++)
         {
             Matrix * small_r = compute_small_r(G_vec,x,y,k,shadow_numbers,n);
+            //print(small_r);
             for(int i=0; i<k;i++)
             {
                 int column_index = i+(k*y);
@@ -282,12 +282,14 @@ Matrix * compute_small_r(Matrix ** G_vec, int x, int y, int k, char * shadow_num
     for(int i=0; i<aux->rows;i++)
     {
         int c =c_vec[shadow_numbers[i]];
+//        printf("Row %d is shadow number %d, is c %d\n",i,shadow_numbers[i],c);
         for(int j=0; j<aux->columns-1;j++)
         {
             aux->numbers[j][i]=pow(c,j);
         }
         aux->numbers[aux->columns-1][i]=G_vec[i]->numbers[y][x];
     }
+    //print(aux);
     free(c_vec);
     solve_linear_equations(aux);
     Matrix * ret = constructor(1,k);

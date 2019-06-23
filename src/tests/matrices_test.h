@@ -21,6 +21,7 @@ void test_matrix_of_cofactors();
 void given_correct_cofactor_matrix();
 void when_calculating_cofactor_matrix();
 void test_inversion_mod_1();
+void test_matrix_rank();
 void test_conversion();
 
 void given_m1();

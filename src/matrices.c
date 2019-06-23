@@ -22,7 +22,7 @@ rows	  |
 the matrix is an array of array pointers where each array pointer corresponds to a vector
 */
 
-static int row_scalar_multiply(Matrix *m, int row, float factor);
+static int row_scalar_multiply(Matrix *m, int row, double factor);
 static double vector_multiply(double *col, double *row, int length);
 static void vector_addition(double *v1, double *v2, int length);
 static void scalar_vector_multiplication(double factor, double *vector, int length);
@@ -137,7 +137,7 @@ int print(Matrix *m){
         return FAIL;
     for(i = 0; i < m->rows; i++){
         for(j = 0; j < m->columns; j++){
-            printf("%d ",(int) m->numbers[j][i]);
+            printf("%f ", m->numbers[j][i]);
         }
         printf("\n");
     }
@@ -294,7 +294,7 @@ Matrix *inversion(Matrix *m){
     return invert;
 }
 
-static int row_scalar_multiply(Matrix *m, int row, float factor){
+static int row_scalar_multiply(Matrix *m, int row, double factor){
     int i;
     if(m == NULL)
         return FAIL;
@@ -302,7 +302,6 @@ static int row_scalar_multiply(Matrix *m, int row, float factor){
         return FAIL;
     for(i = 0; i < m->columns; i++) {
         m->numbers[i][row] *= factor;
-        m->numbers[i][row] = round(m->numbers[i][row]);
     }
     return SUCC;
 }
@@ -656,7 +655,9 @@ int multiplicative_inverse(int a, int m)
 {
     for(int b = 0; b < m; b++)
     {
-        int x = my_mod(a * b, m);
+        int a_mod = my_mod(a, m);
+        int b_mod = my_mod(b, m);
+        int x = my_mod(a_mod * b_mod, m);
         if(x == 1)
             return b;
     }
@@ -701,36 +702,97 @@ void substract_rows(Matrix * m, int row1, int row2,double factor)
     for(int i=0; i<m->columns;i++)
     {
         m->numbers[i][row1]-=factor*m->numbers[i][row2];
-        m->numbers[i][row1] = round(m->numbers[i][row1]);
     }
 }
 
 void solve_linear_equations(Matrix * m)
 {
+    //print(m);
     if(m->rows+1!=m->columns)
         return;
     for(int i=0; i<m->rows;i++)
     {
-        int pivot = m->numbers[i][i];
-        float factor = 1.0/pivot;
+        double pivot = m->numbers[i][i];
+        double factor = 1.0/pivot;
         row_scalar_multiply(m,i,factor);
+      //  print(m);
         for(int j=i+1; j<m->rows;j++)
         {
-            int number = m->numbers[i][j];
+            double number = m->numbers[i][j];
             substract_rows(m,j,i,number);
+        //    print(m);
         }
     }
 
     for(int i=0; i<m->rows; i++)
     {
         int index = m->rows-i-1;
-        int pivot = m->numbers[index][index];
         for(int j=i+1;j<m->rows;j++)
         {
             int index2 = m->rows-1-j;
-            int number = m->numbers[index][index2];
+            double number = m->numbers[index][index2];
             substract_rows(m,index2,index,number);
+          //  print(m);
         }
     }
 
+    for(int i=0; i<m->rows;i++)
+    {
+        for(int j=0; j<m->columns;j++)
+        {
+            m->numbers[j][i] = round(m->numbers[j][i]);
+        }
+    }
+
+}
+
+void swap(Matrix* m, int row1, int row2, int col)
+{
+    for (int i = 0; i < col; i++)
+    {
+        double temp = m->numbers[i][row1];
+        m->numbers[i][row1] = m->numbers[i][row2];
+        m->numbers[i][row2] = temp;
+    }
+}
+
+int compute_rank(Matrix* matrix) {
+    int rank = matrix->columns;
+
+    Matrix* m = clonemx(matrix);
+
+    for (int row = 0; row < rank; ++row) {
+
+        if(m->numbers[row][row]) {
+            for (int col = 0; col < matrix->rows; ++col) {
+                if(col != row) {
+                    double mult = m->numbers[row][col] * multiplicative_inverse(m->numbers[row][row], 251);
+                    for (int i = 0; i < rank; ++i) {
+                        double elem = m->numbers[i][col] - mult * m->numbers[i][row];
+                        m->numbers[i][col] = my_mod(elem, 251);
+                    }
+                }
+            }
+        } else {
+            int reduce = 1;
+            for (int i = row + 1; i < matrix->rows; ++i) {
+
+                if(m->numbers[row][i]) {
+                    swap(m, row, i, rank);
+                    reduce = 0;
+                    break;
+                }
+            }
+            if(reduce) {
+                rank--;
+                for (int i = 0; i < matrix->rows; ++i) {
+                    m->numbers[row][i] = m->numbers[rank][i];
+                }
+            }
+            row--;
+        }
+    }
+
+    destroy_matrix(m);
+    return rank;
 }

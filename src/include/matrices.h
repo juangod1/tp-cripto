@@ -45,5 +45,5 @@ int multiplicative_inverse(int a, int m);
 int my_mod(double number, int mod);
 void solve_linear_equations(Matrix * m);
 int my_determinant(Matrix * m);
-
+int compute_rank(Matrix* matrix);
 #endif /* matrices */

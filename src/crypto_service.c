@@ -4,9 +4,6 @@
 
 #define NUMBER_OF_BITS(K) k == 2 ? 2 : 1
 
-Matrix ** encrypt_image(Matrix * s, Matrix * w, int k, int n, Matrix ** rw_ret);
-Matrix * decrypt_image(int k, int n, Matrix ** shs, Matrix * rw,Matrix ** w, char * shadow_numbers);
-
 void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, char shadow_number)
 {
     BitArray* bit_array = construct_bit_array(0);
@@ -121,10 +118,15 @@ Matrix ** encrypt_image(Matrix * s, Matrix * w, int k, int n, Matrix ** rw_ret)
 {
 
     Matrix* a = generate_a(k, s);
+//    print(a);
     Matrix** x_vec = generate_x_vec(n, k);
     Matrix** v_vec = generate_v_vec(x_vec, n, a);
     Matrix* ss = compute_ss(a);
+//    printf("Imprimo ss\n");
+//    print(ss);
     Matrix* r = generate_r(s, ss);
+    printf("Imprimo r\n");
+    print(r);
     int* c_vec = generate_c_vec(n);
 
     Matrix ** ret  = malloc(n*sizeof(Matrix *));
@@ -133,6 +135,10 @@ Matrix ** encrypt_image(Matrix * s, Matrix * w, int k, int n, Matrix ** rw_ret)
         int j = i +1;
         Matrix* g = generate_G(j, r, c_vec, n, k);
         Matrix* sh = generate_sh(v_vec[i], g);
+//        if(i < k) {
+//            printf("sh num %d\n",i);
+//            print(sh);
+//        }
         ret[i]=sh;
         destroy_matrix(g);
     }
@@ -206,10 +212,20 @@ Matrix * decrypt_image(int k, int n, Matrix ** shs, Matrix * rw,Matrix ** w, cha
 {
     Matrix * keanu = generate_B(shs,k);
     Matrix * ss = compute_ss(keanu);
+//    printf("Imprimo ss\n");
+//    print(ss);
     Matrix ** g_vec = compute_G_vec(shs, k);
+
+
+//    for (int i = 0; i < k; ++i) {
+//        print(g_vec[i]);
+//    }
     Matrix * r = compute_R_from_G_vec(g_vec, k, n,shadow_numbers);
+    printf("Imprimo r\n");
+    print(r);
     *w = compute_w_from_SS_and_Rw(ss, rw);
     Matrix * s = compute_s_from_SS_and_R(ss, r);
+
 
 
     destroy_matrix(r);

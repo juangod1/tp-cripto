@@ -287,7 +287,7 @@ void test_everything() {
     setSeed(rand());
 
 
-    BitArray* bit_array = construct_bit_array((shadow1->width/4) * (shadow1->height/4) * 4 * 3);
+    BitArray* bit_array = construct_bit_array((shadow1->width/8) * (shadow1->height/8) * 8 * 3);
 
     for (int k = 0; k < bit_array->size; ++k) {
         bit_array->numbers[k] = nextChar();
@@ -295,9 +295,9 @@ void test_everything() {
 
     destroyBMP(shadow1);
 
-    BMP_Image* img = hide_matrix(bit_array, "../tests/images/shadow1.bmp", 2, 5);
+    BMP_Image* img = hide_matrix(bit_array, "../tests/images/shadow1.bmp", 1, 5);
     shadow1 = readBMP("../tests/images/shadow1.bmp");
-    BitArray * recovered_lsb = recover_matrix(shadow1, 2);
+    BitArray * recovered_lsb = recover_matrix(shadow1, 1);
 
     assert_true("image recovered is the same as hidden with lsb", bit_array_equals(bit_array, recovered_lsb));
 

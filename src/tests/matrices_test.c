@@ -26,6 +26,7 @@ Matrix * correct_linear_equation_result;
 Matrix * linear_equation_result;
 
 Matrix * determinant_matrix;
+Matrix * rank_matrix;
 int det;
 int correct_determinant;
 
@@ -41,14 +42,17 @@ void given_determinant_matrix()
     determinant_matrix->numbers[1][0] = 3;
     determinant_matrix->numbers[2][0] = 3;
     determinant_matrix->numbers[3][0] = 2;
+
     determinant_matrix->numbers[0][1] = 4;
     determinant_matrix->numbers[1][1] = 3;
     determinant_matrix->numbers[2][1] = 2;
     determinant_matrix->numbers[3][1] = 5;
+
     determinant_matrix->numbers[0][2] = 3;
     determinant_matrix->numbers[1][2] = 2;
     determinant_matrix->numbers[2][2] = 4;
     determinant_matrix->numbers[3][2] = 4;
+
     determinant_matrix->numbers[0][3] = 2;
     determinant_matrix->numbers[1][3] = 3;
     determinant_matrix->numbers[2][3] = 4;
@@ -68,6 +72,60 @@ void test_matrix_determinant()
     assert_equal_int("Determinant is correct", correct_determinant,det);
 }
 
+
+void given_rank_matrix1() {
+    rank_matrix = constructor(4, 3);
+    rank_matrix->numbers[0][0] = 1;
+    rank_matrix->numbers[1][0] = 2;
+    rank_matrix->numbers[2][0] = 3;
+
+    rank_matrix->numbers[0][1] = 2;
+    rank_matrix->numbers[1][1] = 3;
+    rank_matrix->numbers[2][1] = 5;
+
+    rank_matrix->numbers[0][2] = 3;
+    rank_matrix->numbers[1][2] = 4;
+    rank_matrix->numbers[2][2] = 7;
+
+    rank_matrix->numbers[0][2] = 4;
+    rank_matrix->numbers[1][2] = 5;
+    rank_matrix->numbers[2][2] = 9;
+}
+
+void given_rank_matrix2() {
+    rank_matrix = constructor(2, 4);
+    rank_matrix->numbers[0][0] = 1;
+    rank_matrix->numbers[1][0] = 2;
+    rank_matrix->numbers[2][0] = 4;
+    rank_matrix->numbers[3][0] = 4;
+
+    rank_matrix->numbers[0][1] = 3;
+    rank_matrix->numbers[1][1] = 4;
+    rank_matrix->numbers[2][1] = 8;
+    rank_matrix->numbers[3][0] = 0;
+
+}
+
+void given_rank_matrix3() {
+    rank_matrix = constructor(2, 2);
+    rank_matrix->numbers[0][0] = 227;
+    rank_matrix->numbers[1][0] = 10;
+
+    rank_matrix->numbers[0][1] = 10;
+    rank_matrix->numbers[1][1] = 205;
+
+}
+
+void test_matrix_rank() {
+    given_rank_matrix1();
+//    printf("%d\n", compute_rank(rank_matrix));
+    assert_true("correct rank", 2 == compute_rank(rank_matrix));
+    given_rank_matrix2();
+//    printf("%d\n", compute_rank(rank_matrix));
+    assert_true("correct rank", 2 == compute_rank(rank_matrix));
+    given_rank_matrix3();
+    printf("%d\n", compute_rank(rank_matrix));
+}
 
 void test_multiplication()
 {

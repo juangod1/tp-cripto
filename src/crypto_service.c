@@ -187,7 +187,7 @@ void decrypt_loop(int k, int n, char ** secret_images_paths, char * rw_path, cha
 
     BMP_Image * water = readBMP(rw_path);
 
-    createImageFromMatrices(rw, "../watermark_out.bmp", rw_amount, water->width, water->height);
+    createImageFromMatrices(w, "../watermark_out.bmp", rw_amount, water->width, water->height);
     createImageFromMatrices(s, decryption_path, sh_amount,  water->width, water->height);
 
     destroy_matrix_vec(w,sh_amount);

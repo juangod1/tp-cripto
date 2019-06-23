@@ -276,7 +276,7 @@ Matrix * compute_R_from_G_vec(Matrix ** G_vec, int k, int n)
 
 Matrix * compute_small_r(Matrix ** G_vec, int x, int y, int k)
 {
-    Matrix * aux = constructor(2,3); //TODO: a chequear el tamaño de small_r para distintos k
+    Matrix * aux = constructor(k,3); //TODO: a chequear el tamaño de small_r para distintos k
     int * c_vec = generate_c_vec(k);
 
     for(int i=0; i<aux->rows;i++)

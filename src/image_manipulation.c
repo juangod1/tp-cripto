@@ -275,7 +275,7 @@ Matrix ** createMatricesFromImage(char * path, int * amount_p, int n){
         matrices[i] = constructor(n, n);
         for(int j=0; j < n ; j++){
             for(int k=0; k < n ; k++){
-                matrices[i]->numbers[j][k] = bmp->data[i*n*n + j*n + k];
+                matrices[i]->numbers[k][j] = bmp->data[i*n*n + j*n + k];
             }
         }
     }

@@ -7,7 +7,7 @@
 Matrix ** encrypt_image(Matrix * s, Matrix * w, int k, int n, Matrix ** rw_ret);
 Matrix * decrypt_image(int k, int n, Matrix ** shs, Matrix * rw,Matrix ** w, char * shadow_numbers);
 
-void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, int shadow_number)
+void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, char shadow_number)
 {
     BitArray* bit_array = construct_bit_array(0);
 

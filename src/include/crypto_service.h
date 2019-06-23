@@ -13,7 +13,7 @@
 
 void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** shadows_path, int k, int n);
 void decrypt_loop(int k, int n, char ** secret_images_paths, char * rw_path, char * decryption_path);
-void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, int shadow_number);
+void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, char shadow_number);
 Matrix*** recover_matrices(int k, int n, char** secret_images_paths, int * amount_p, char * shadow_numbers);
 
 #endif //TP_CRIPTO_CRYPTO_SERVICE_H

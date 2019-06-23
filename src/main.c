@@ -123,13 +123,14 @@ int main(int argc, char *argv[]){
     return EXIT_SUCCESS;
 }
 
-char ** getShadowsFromPath(const char * directory, int shadow_amount)
+char ** getShadowsFromPath(const char * directory, int k, int n, enum Mode mode, int* shadow_amount)
 {
+    int min_shadow_amount = mode == ENCRYPTION ? n : k;
     size_t dir_length = strlen(directory);
-    char ** arr = malloc(shadow_amount * sizeof(char *));
+    char ** arr = malloc(n * sizeof(char *));
     int finishes_in_dash = directory[dir_length-1]=='/';
 
-    for(int i = 0; i < shadow_amount; i++) {
+    for(int i = 0; i < n; i++) {
         arr[i] = calloc(1, MAX_FILE_LENGTH);
         memccpy(arr[i], directory, 1, dir_length);
         if(!finishes_in_dash)
@@ -154,8 +155,8 @@ char ** getShadowsFromPath(const char * directory, int shadow_amount)
                 continue;
             if (strstr(hFile->d_name, ".bmp")) {
                 bmp_counter++;
-                if(bmp_counter > shadow_amount) {
-                    fprintf(stderr, "Incorrect shadow amount. Must be %d.", shadow_amount);
+                if(bmp_counter > n) {
+                    fprintf(stderr, "To many shadows. MAximum must be %d.", n);
                     exit(EXIT_FAILURE);
                 }
 
@@ -164,11 +165,12 @@ char ** getShadowsFromPath(const char * directory, int shadow_amount)
         }
         closedir(dirFile);
 
-        if(bmp_counter != shadow_amount) {
-            fprintf(stderr, "Incorrect shadow amount. Must be %d.", shadow_amount);
+        if(bmp_counter < min_shadow_amount) {
+            fprintf(stderr, "Missing shadows. Must have %d.", min_shadow_amount);
             exit(EXIT_FAILURE);
         }
     }
+    *shadow_amount = count;
     return arr;
 }
 
@@ -223,8 +225,8 @@ int check_image_formats(enum Mode mode, char * secret_img_path, char * watermark
 void run_service(enum Mode mode, char * secret_img_path, char * watermark_img_path, int k, int n, char * directory){
     srand((unsigned int)time(0));
     setSeed(rand());
-    int shadow_amount = mode == ENCRYPTION ? n : k;
-    char ** arr = getShadowsFromPath(directory, shadow_amount);
+    int shadow_amount = 0;
+    char ** arr = getShadowsFromPath(directory, k, n, mode, &shadow_amount);
     int has_errors = check_image_formats(mode, secret_img_path, watermark_img_path, arr, shadow_amount, n);
 
     if(has_errors)

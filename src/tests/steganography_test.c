@@ -278,8 +278,8 @@ void multiple_matrix_test() {
 }
 
 void test_everything() {
-    BMP_Image* shadow1 = readBMP("../shares/backtofutureshare.bmp");
-    BMP_Image* shadow1_copy = readBMP("../shares/backtofutureshare.bmp");
+    BMP_Image* shadow1 = readBMP("../tests/images/shadow1.bmp");
+    BMP_Image* shadow1_copy = readBMP("../tests/images/shadow1.bmp");
     setSeed(rand());
 
 
@@ -291,13 +291,13 @@ void test_everything() {
 
     destroyBMP(shadow1);
 
-    BMP_Image* img = hide_matrix(bit_array, "../shares/backtofutureshare.bmp", 2, 5);
-    shadow1 = readBMP("../shares/backtofutureshare.bmp");
+    BMP_Image* img = hide_matrix(bit_array, "../tests/images/shadow1.bmp", 2, 5);
+    shadow1 = readBMP("../tests/images/shadow1.bmp");
     BitArray * recovered_lsb = recover_matrix(shadow1, 2);
 
     assert_true("image recovered is the same as hidden with lsb", bit_array_equals(bit_array, recovered_lsb));
 
-    writeBMP(shadow1_copy, "../shares/backtofutureshare.bmp");
+    writeBMP(shadow1_copy, "../tests/images/shadow1.bmp");
 
     destroy_bit_array(bit_array);
     destroy_bit_array(recovered_lsb);

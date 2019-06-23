@@ -243,18 +243,14 @@ Matrix* image_to_matrix_conversion(BMP_Image* image) {
 }
 
 void createImageFromMatrices(Matrix ** m, char * path, int amount, int width, int height){
-    BitArray * aux1;
-    BitArray * aux2;
-    BitArray * ans;
+    BitArray * ans = construct_bit_array(0);
 
     ans = build_bit_array_from_matrix(m[0]);
 
     for(int i=1;i<amount;i++){
-        aux1 = build_bit_array_from_matrix(m[i]);
-        aux2 = ans;
-        ans = concatenate_bit_array(aux2, aux1);
-        destroy_bit_array(aux1);
-        destroy_bit_array(aux2);
+        BitArray* aux = build_bit_array_from_matrix(m[i]);
+        ans = concatenate(ans, aux);
+        destroy_bit_array(aux);
     }
 
     createBMP(path, width, height, 8);

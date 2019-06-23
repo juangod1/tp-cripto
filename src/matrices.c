@@ -505,7 +505,6 @@ int my_determinant(Matrix * m)
 {
     if(m->columns!=m->rows)
         return -1;
-    print(m);
     if(m->columns==1){
         return (int)m->numbers[0][0];
     }

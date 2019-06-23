@@ -7,12 +7,31 @@
 
 Matrix * generate_a(int k, Matrix * s)
 {
-    Matrix * m;
+    Matrix * m = constructor(s->rows,k);
     Matrix * aux;
+
+
+    int count = 0;
     do {
-        m = rand_matrix_mod(s->rows,k,CONST_P);
+
+        for(int i=0; i < k; i++) {
+            Matrix* vector = generate_x(s->rows, i);
+
+            for (int j = 0; j < m->rows; ++j) {
+                m->numbers[i][j] = vector->numbers[0][j];
+            }
+
+            destroy_matrix(vector);
+        }
+
         aux = multiply(transpose(m), m);
-    } while (my_determinant(aux) == 0);
+        if(my_mod(my_determinant(aux), CONST_P)== 0)
+            print(m);
+        count++;
+    } while (my_mod(my_determinant(aux), CONST_P) == 0);
+
+    if(count > 1)
+        print(m);
     
     return m;
 }
@@ -175,6 +194,9 @@ Matrix * generate_B(Matrix ** sh_vec, int k)
             B->numbers[j][i] = sh->numbers[0][i];
         }
     }
+
+    if(my_mod(my_determinant(B), CONST_P) == 0)
+        printf("El det es 0000");
     return B;
 }
 

@@ -1,4 +1,5 @@
 #include "include/azzahra.h"
+#include "include/random.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -11,8 +12,10 @@ Matrix * generate_a(int k, Matrix * s)
     Matrix * aux;
 
 
-    int count = 0;
+//    int count = 0;
     do {
+
+        char random = my_mod(nextChar(), 240);
 
         for(int i=0; i < k; i++) {
             Matrix* vector = generate_x(s->rows, i);
@@ -27,10 +30,10 @@ Matrix * generate_a(int k, Matrix * s)
         aux = multiply(transpose(m), m);
         if(my_mod(my_determinant(aux), CONST_P)== 0)
             print(m);
-        count++;
+//        count++;
     } while (my_mod(my_determinant(aux), CONST_P) == 0);
 
-    if(count > 1)
+//    if(count > 1)
         print(m);
     
     return m;
@@ -292,7 +295,7 @@ Matrix * compute_small_r(Matrix ** G_vec, int x, int y, int k)
     Matrix * ret = constructor(1,k);
     for(int i=0; i<k;i++)
     {
-        ret->numbers[i][0]=aux->numbers[k][i];
+        ret->numbers[i][0]=aux->numbers[2][i];
     }
     destroy_matrix(aux);
     return ret;

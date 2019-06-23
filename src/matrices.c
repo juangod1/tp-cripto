@@ -300,8 +300,10 @@ static int row_scalar_multiply(Matrix *m, int row, float factor){
         return FAIL;
     if(m->rows <= row)
         return FAIL;
-    for(i = 0; i < m->columns; i++)
+    for(i = 0; i < m->columns; i++) {
         m->numbers[i][row] *= factor;
+        m->numbers[i][row] = round(m->numbers[i][row]);
+    }
     return SUCC;
 }
 

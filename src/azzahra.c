@@ -145,10 +145,7 @@ int calculate_g(int t, int i, int j, Matrix * r, int k, const int * c_vec)
     {
         int column_index = t*k + counter;
         int num = (int)r->numbers[column_index][i];
-        if(counter!=0)
-        {
-            num*= c_vec[j];
-        }
+        num*= pow(c_vec[j],counter);
         ret+=num;
     }
     return my_mod(ret,CONST_P);

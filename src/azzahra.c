@@ -289,13 +289,11 @@ Matrix * compute_small_r(Matrix ** G_vec, int x, int y, int k, char * shadow_num
         aux->numbers[aux->columns-1][i]=G_vec[i]->numbers[y][x];
     }
     free(c_vec);
-
     solve_linear_equations(aux);
-
     Matrix * ret = constructor(1,k);
     for(int i=0; i<k;i++)
     {
-        ret->numbers[i][0]=aux->numbers[2][i];
+        ret->numbers[i][0]=aux->numbers[k][i];
     }
     destroy_matrix(aux);
     return ret;

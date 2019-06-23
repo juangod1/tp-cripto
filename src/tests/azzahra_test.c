@@ -52,6 +52,8 @@ Matrix * correct_s;
 
 Matrix * correct_w;
 
+char * shadow_number;
+
 void test_generate_a()
 {
     given_s();
@@ -278,11 +280,18 @@ void test_compute_G_vec()
     destroy_matrix_vec(sh_vec,k);
 }
 
+void given_shadow_number(){
+    shadow_number = malloc(2* sizeof(int));
+    shadow_number[0] = 0;
+    shadow_number[1] = 1;
+}
+
 void test_compute_small_r()
 {
     given_G_vec();
     given_k();
     given_correct_small_r();
+    given_shadow_number();
 
     when_computing_small_r();
 
@@ -296,6 +305,7 @@ void test_compute_small_r()
     destroy_matrix(matrix_small_r);
     destroy_matrix(correct_small_r);
     destroy_matrix_vec(G_vec,k);
+    free(shadow_number);
 }
 
 void given_G_vec()
@@ -348,7 +358,7 @@ void given_y()
 
 void when_computing_small_r()
 {
-    matrix_small_r = compute_small_r(G_vec,x,y,k);
+    matrix_small_r = compute_small_r(G_vec,x,y,k,shadow_number,n);
 }
 
 void test_compute_R()
@@ -357,6 +367,7 @@ void test_compute_R()
     given_n();
     given_k();
     given_correct_r();
+    given_shadow_number();
 
     when_computing_R();
 
@@ -370,6 +381,7 @@ void test_compute_R()
     destroy_matrix(matrix_r);
     destroy_matrix(correct_r);
     destroy_matrix_vec(G_vec,k);
+    free(shadow_number);
 }
 
 void test_compute_s_from_SS_and_R()
@@ -498,7 +510,7 @@ void when_computing_s_from_SS_and_R()
 
 void when_computing_R()
 {
-    matrix_r = compute_R_from_G_vec(G_vec, k, n);
+    matrix_r = compute_R_from_G_vec(G_vec, k, n, shadow_number);
 }
 
 void given_correct_G_vec()

@@ -248,7 +248,7 @@ Matrix * extract_G_from_sh(Matrix * sh)
     return G;
 }
 
-Matrix * compute_R_from_G_vec(Matrix ** G_vec, int k, int n)
+Matrix * compute_R_from_G_vec(Matrix ** G_vec, int k, int n, char * shadow_numbers)
 {
     int rows = G_vec[0]->rows;
     int columns = rows/k;
@@ -263,7 +263,7 @@ Matrix * compute_R_from_G_vec(Matrix ** G_vec, int k, int n)
     {
         for(int y=0; y<columns; y++)
         {
-            Matrix * small_r = compute_small_r(G_vec,x,y, k);
+            Matrix * small_r = compute_small_r(G_vec,x,y,k,shadow_numbers,n);
             for(int i=0; i<k;i++)
             {
                 int column_index = i+(k*y);
@@ -277,16 +277,19 @@ Matrix * compute_R_from_G_vec(Matrix ** G_vec, int k, int n)
     return ret;
 }
 
-Matrix * compute_small_r(Matrix ** G_vec, int x, int y, int k)
+Matrix * compute_small_r(Matrix ** G_vec, int x, int y, int k, char * shadow_numbers, int n)
 {
-    Matrix * aux = constructor(k,3);
-    int * c_vec = generate_c_vec(k);
+    Matrix * aux = constructor(k,k+1);
+    int * c_vec = generate_c_vec(n);
 
     for(int i=0; i<aux->rows;i++)
     {
-        aux->numbers[0][i]=1;
-        aux->numbers[1][i]=c_vec[i];
-        aux->numbers[2][i]=G_vec[i]->numbers[y][x];
+        int c =c_vec[shadow_numbers[i]];
+        for(int j=0; j<aux->columns-1;j++)
+        {
+            aux->numbers[j][i]=pow(c,j);
+        }
+        aux->numbers[aux->columns-1][i]=G_vec[i]->numbers[y][x];
     }
     free(c_vec);
 

@@ -225,10 +225,14 @@ Matrix ***  given_shadows(int n, int amount)
 }
 
 void when_hiding_and_recovering_shadows(int n, int amount, int* amount_p, char** shadow_paths, Matrix *** shadows) {
+    char * shadow_numbers = malloc(n* sizeof(char));
     for(int i=0; i<n; i++) {
         hide_shadow(shadows[i],amount,shadow_paths[i],2,i);
+        shadow_numbers[i]=(char)i;
     }
-    recovered_shadows = recover_matrices(2,4,shadow_paths, amount_p);
+
+    recovered_shadows = recover_matrices(2,4,shadow_paths, amount_p,shadow_numbers);
+    free(shadow_numbers);
 }
 
 

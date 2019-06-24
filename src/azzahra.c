@@ -8,20 +8,29 @@
 
 Matrix * generate_a(int k, Matrix * s)
 {
-    Matrix * m ;
+    Matrix * m = constructor(s->rows, k);
     Matrix * aux;
     int rank1, rank2;
 
     do {
 
-        m = rand_matrix_mod(s->rows, k, CONST_P);
+        char random = my_mod(nextChar(), 240);
+
+        for(int i=0; i < k; i++) {
+            Matrix* vector = generate_x(s->rows, i);
+
+            for (int j = 0; j < m->rows; ++j) {
+                m->numbers[i][j] = vector->numbers[0][j];
+            }
+
+            destroy_matrix(vector);
+        }
 
         aux = multiply(transpose(m), m);
-
-        rank1 = compute_rank(m);
-        rank2 = compute_rank(aux);
-
-    } while ( rank1 != k || rank2 != k || my_mod(my_determinant(aux), CONST_P) == 0 || my_mod(my_determinant(m), CONST_P) == 0);
+//        if(my_mod(my_determinant(aux), CONST_P)== 0)
+//            print(m);
+//        count++;
+    } while (my_mod(my_determinant(aux), CONST_P) == 0);
 
     return m;
 }
@@ -134,12 +143,12 @@ int calculate_g(int t, int i, int j, Matrix * r, int k, const int * c_vec)
     i-=1;
     t-=1;
     j-=1;
-    int ret = 0;
+    double ret = 0;
     for( int counter=0; counter<k; counter++)
     {
         int column_index = t*k + counter;
-        int num = (int)r->numbers[column_index][i];
-        int p= pow(c_vec[j],counter);
+        double num = (int)r->numbers[column_index][i];
+        double p= pow(c_vec[j],counter);
         num*=p;
 //        if(j<k-1)
 //        {

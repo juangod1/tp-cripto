@@ -7,15 +7,13 @@ void test_everything_posta() {
     int k = 4, n = 8;
     Matrix* s = constructor(n, n);
 
-
-
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
-            s->numbers[j][i] = nextChar();
+            s->numbers[j][i] = my_mod(nextChar(), 251);
         }
     }
 
-    print(s);
+//    print(s);
 
     Matrix* w = constructor(n, n);
     char* shadow_count = malloc(k * sizeof(char));
@@ -28,8 +26,8 @@ void test_everything_posta() {
     printf("Termina encripcion\n");
     Matrix* s_result = decrypt_image(k, n, sh, rw, &w, shadow_count);
 
-//    print(s);
-//    print(s_result);
+    print(s);
+    print(s_result);
 
     assert_true("are equal", equals(s, s_result)==SUCC);
 

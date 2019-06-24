@@ -142,7 +142,7 @@ Matrix * remove_column_and_row(Matrix * m, int column_index, int row_index)
 
 Matrix * inversion_mod(Matrix * m, int mod)
 {
-    int det = my_determinant(m);
+    int64_t det = my_determinant(m);
     int inv = multiplicative_inverse(det,mod);
     if(inv==-1)
         return NULL;
@@ -163,9 +163,9 @@ Matrix * inversion_mod(Matrix * m, int mod)
     return ret;
 }
 
-int my_mod(double number, int mod)
+int my_mod(int64_t number, int mod)
 {
-    int ret = (int) number%mod;
+    int ret = number%mod;
     if(ret<0)
     {
         ret=mod+ret;
@@ -300,7 +300,7 @@ int subtract(Matrix *m1, Matrix *m2){
     return SUCC;
 }
 
-int my_determinant(Matrix * m)
+int64_t my_determinant(Matrix * m)
 {
     if(m->columns!=m->rows)
         return -1;
@@ -313,23 +313,23 @@ int my_determinant(Matrix * m)
         double b = m->numbers[0][1] * m->numbers[1][0];
         return (int)(a-b);
     }
-    int ret =0;
+    int64_t ret =0;
     int i=0;
     for(int j=0; j<m->columns;j++)
     {
         Matrix * aux =remove_column_and_row(m,j,i);
         if(j%2==1){
-            ret-= m->numbers[j][i]*my_determinant(aux);
+            ret-= (int64_t )m->numbers[j][i]*my_determinant(aux);
         }
         else{
-            ret+= m->numbers[j][i]*my_determinant(aux);
+            ret+= (int64_t )m->numbers[j][i]*my_determinant(aux);
         }
         destroy_matrix(aux);
     }
     return ret;
 }
 
-int multiplicative_inverse(double a, int m)
+int multiplicative_inverse(int64_t a, int m)
 {
     for(int b = 0; b < m; b++)
     {

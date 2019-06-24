@@ -26,9 +26,9 @@ Matrix *rand_matrix(int rows, int columns);
 Matrix *multiply(Matrix *m1, Matrix *m2);
 int add(Matrix *m1, Matrix *m2);
 int subtract(Matrix *, Matrix *);
-int multiplicative_inverse(double a, int m);
-int my_mod(double number, int mod);
+int multiplicative_inverse(int64_t a, int m);
+int my_mod(int64_t number, int mod);
 void solve_linear_equations(Matrix * m);
-int my_determinant(Matrix * m);
+int64_t my_determinant(Matrix * m);
 int compute_rank(Matrix* matrix);
 #endif /* matrices */

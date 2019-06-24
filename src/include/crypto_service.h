@@ -11,6 +11,8 @@
 #include "image_manipulation.h"
 #include "steganography.h"
 
+Matrix ** encrypt_image(Matrix * s, Matrix * w, int k, int n, Matrix ** rw_ret);
+Matrix * decrypt_image(int k, int n, Matrix ** shs, Matrix * rw,Matrix ** w, char * shadow_numbers);
 void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** shadows_path, int k, int n);
 void decrypt_loop(int k, int n, char ** secret_images_paths, char * rw_path, char * decryption_path);
 void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, char shadow_number);

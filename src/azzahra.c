@@ -10,7 +10,7 @@ Matrix * generate_a(int k, Matrix * s)
 {
     Matrix * m = constructor(s->rows, k);
     Matrix * aux;
-    int rank1, rank2;
+    int ret;
 
     do {
 
@@ -26,11 +26,12 @@ Matrix * generate_a(int k, Matrix * s)
             destroy_matrix(vector);
         }
 
-        aux = multiply(transpose(m), m);
-//        if(my_mod(my_determinant(aux), CONST_P)== 0)
-//            print(m);
-//        count++;
-    } while (my_mod(my_determinant(aux), CONST_P) == 0);
+        Matrix * mat = transpose(m);
+        aux = multiply(mat, m);
+        ret =my_mod(my_determinant(aux),CONST_P);
+        destroy_matrix(aux);
+        destroy_matrix(mat);
+    } while (ret == 0);
 
     return m;
 }
@@ -67,17 +68,10 @@ Matrix * generate_r(Matrix * s, Matrix *ss)
 Matrix ** generate_x_vec(int n, int k)
 {
     Matrix ** ret = malloc(n* sizeof(Matrix *));
-    Matrix* m = constructor(n, k);
     for(int i=0; i<n;i++)
     {
         ret[i] = generate_x(k, i);
-//        print(ret[i]);
-        for (int j = 0; j < k; ++j) {
-            m->numbers[j][i] = ret[i]->numbers[0][j];
-        }
     }
-//    print(m);
-//    printf("%d\n", compute_rank(m));
     return ret;
 }
 

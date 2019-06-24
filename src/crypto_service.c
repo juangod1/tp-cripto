@@ -84,7 +84,7 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
             for(int j=0; j<n;j++)
             {
                 uint8_t * pointer = watermark_image->data + counter*n*n + i*n + j;
-                current_w->numbers[j][i] = *pointer++;
+                current_w->numbers[j][i] = *pointer;
             }
         }
         Matrix ** shs = encrypt_image(current_s,current_w,k,n,&(rws[counter]));
@@ -116,7 +116,6 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
 
 Matrix ** encrypt_image(Matrix * s, Matrix * w, int k, int n, Matrix ** rw_ret)
 {
-
     Matrix* a = generate_a(k, s);
     Matrix** x_vec = generate_x_vec(n, k);
     Matrix** v_vec = generate_v_vec(x_vec, n, a);

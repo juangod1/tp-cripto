@@ -13,8 +13,6 @@ void test_everything_posta() {
         }
     }
 
-//    print(s);
-
     Matrix* w = constructor(n, n);
     char* shadow_count = malloc(k * sizeof(char));
     shadow_count[0] = 0;
@@ -24,16 +22,16 @@ void test_everything_posta() {
     Matrix* rw;
     Matrix** sh = encrypt_image(s, w, k, n, &rw);
     printf("Termina encripcion\n");
+    destroy_matrix(w);
     Matrix* s_result = decrypt_image(k, n, sh, rw, &w, shadow_count);
-
-    print(s);
-    print(s_result);
 
     assert_true("are equal", equals(s, s_result)==SUCC);
 
-    free(shadow_count);
     destroy_matrix(s);
-    destroy_matrix(s_result);
+    destroy_matrix(w);
+    free(shadow_count);
     destroy_matrix(rw);
+    destroy_matrix_vec(sh,n);
+    destroy_matrix(s_result);
 }
 

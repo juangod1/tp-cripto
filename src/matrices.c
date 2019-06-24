@@ -526,10 +526,14 @@ int my_determinant(Matrix * m)
     int i=0;
     for(int j=0; j<m->columns;j++)
     {
-        if(j%2==1)
-            ret-= m->numbers[j][i]*my_determinant(remove_column_and_row(m,j,i));
-        else
-            ret+= m->numbers[j][i]*my_determinant(remove_column_and_row(m,j,i));
+        Matrix * aux =remove_column_and_row(m,j,i);
+        if(j%2==1){
+            ret-= m->numbers[j][i]*my_determinant(aux);
+        }
+        else{
+            ret+= m->numbers[j][i]*my_determinant(aux);
+        }
+        destroy_matrix(aux);
     }
     return ret;
 }

@@ -250,6 +250,9 @@ void run_service(enum Mode mode, char * secret_img_path, char * watermark_img_pa
             exit(EXIT_FAILURE);
     }
 
-    for(int i=0;i<shadow_amount;i++) free(arr[i]);
+    printf("%d",shadow_amount);
+    for(int i=0;i<n;i++){
+       free(arr[i]);
+    }
     free(arr);
 }

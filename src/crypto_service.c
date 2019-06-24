@@ -194,7 +194,7 @@ void decrypt_loop(int k, int n, char ** secret_images_paths, char * rw_path, cha
     }
     free(shs);
     destroy_matrix_vec(rw,rw_amount);
-
+    free(shadow_numbers);
     destroyBMP(water);
 }
 

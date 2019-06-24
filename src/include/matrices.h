@@ -41,7 +41,7 @@ double determinant(Matrix *m);
 Matrix *solved_aug_matrix(Matrix *);
 void manual_entry(Matrix **m);
 double *eigenvalues(Matrix *m);
-int multiplicative_inverse(int a, int m);
+int multiplicative_inverse(double a, int m);
 int my_mod(double number, int mod);
 void solve_linear_equations(Matrix * m);
 int my_determinant(Matrix * m);

@@ -22,6 +22,8 @@ rows	  |
 the matrix is an array of array pointers where each array pointer corresponds to a vector
 */
 
+#define CONST_P 251
+
 static int row_scalar_multiply(Matrix *m, int row, double factor);
 static double vector_multiply(double *col, double *row, int length);
 static void vector_addition(double *v1, double *v2, int length);
@@ -302,6 +304,7 @@ static int row_scalar_multiply(Matrix *m, int row, double factor){
         return FAIL;
     for(i = 0; i < m->columns; i++) {
         m->numbers[i][row] *= factor;
+        m->numbers[i][row] = my_mod(m->numbers[i][row],CONST_P);
     }
     return SUCC;
 }
@@ -651,7 +654,7 @@ double *eigenvalues(Matrix *m){
     return values;
 }
 
-int multiplicative_inverse(int a, int m)
+int multiplicative_inverse(double a, int m)
 {
     for(int b = 0; b < m; b++)
     {
@@ -705,22 +708,20 @@ void substract_rows(Matrix * m, int row1, int row2,double factor)
     }
 }
 
+
 void solve_linear_equations(Matrix * m)
 {
-    //print(m);
     if(m->rows+1!=m->columns)
         return;
     for(int i=0; i<m->rows;i++)
     {
         double pivot = m->numbers[i][i];
-        double factor = 1.0/pivot;
+        double factor = multiplicative_inverse(pivot,CONST_P);
         row_scalar_multiply(m,i,factor);
-      //  print(m);
         for(int j=i+1; j<m->rows;j++)
         {
             double number = m->numbers[i][j];
             substract_rows(m,j,i,number);
-        //    print(m);
         }
     }
 
@@ -732,7 +733,6 @@ void solve_linear_equations(Matrix * m)
             int index2 = m->rows-1-j;
             double number = m->numbers[index][index2];
             substract_rows(m,index2,index,number);
-          //  print(m);
         }
     }
 
@@ -740,7 +740,7 @@ void solve_linear_equations(Matrix * m)
     {
         for(int j=0; j<m->columns;j++)
         {
-            m->numbers[j][i] = round(m->numbers[j][i]);
+            m->numbers[j][i] = my_mod(m->numbers[j][i],CONST_P);
         }
     }
 

@@ -14,7 +14,6 @@ Matrix * generate_a(int k, Matrix * s)
 
     do {
 
-        char random = my_mod(nextChar(), 240);
 
         for(int i=0; i < k; i++) {
             Matrix* vector = generate_x(s->rows, i);

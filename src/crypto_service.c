@@ -3,6 +3,7 @@
 #include <math.h>
 
 #define NUMBER_OF_BITS(K) k == 2 ? 2 : 1
+#define MAX_PIXEL_STRENGTH 250
 
 void hide_shadow(Matrix** matrix_vector, int amount_of_matrices, char* shadow_path, int number_of_bits, char shadow_number)
 {
@@ -75,7 +76,7 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
             for(int j=0; j<n; j++)
             {
                 uint8_t * pointer = secret_image->data + counter*n*n + i*n + j;
-                current_s->numbers[j][i]= *pointer;
+                current_s->numbers[j][i]= (*pointer>MAX_PIXEL_STRENGTH)?MAX_PIXEL_STRENGTH:*pointer;
             }
         }
         Matrix * current_w = constructor(n,n);
@@ -84,7 +85,7 @@ void encrypt_loop(char* secret_image_path, char* watermark_image_path, char** sh
             for(int j=0; j<n;j++)
             {
                 uint8_t * pointer = watermark_image->data + counter*n*n + i*n + j;
-                current_w->numbers[j][i] = *pointer;
+                current_w->numbers[j][i] = (*pointer>MAX_PIXEL_STRENGTH)?MAX_PIXEL_STRENGTH:*pointer;
             }
         }
         Matrix ** shs = encrypt_image(current_s,current_w,k,n,&(rws[counter]));

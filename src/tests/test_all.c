@@ -21,7 +21,8 @@ void test_everything_posta() {
     shadow_count[3] = 3;
     Matrix* rw;
     Matrix** sh = encrypt_image(s, w, k, n, &rw);
-    printf("Termina encripcion\n");
+
+
     destroy_matrix(w);
     Matrix* s_result = decrypt_image(k, n, sh, rw, &w, shadow_count);
 

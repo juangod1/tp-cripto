@@ -243,9 +243,7 @@ Matrix* image_to_matrix_conversion(BMP_Image* image) {
 }
 
 void createImageFromMatrices(Matrix ** m, char * path, int amount, int width, int height){
-    BitArray * ans = construct_bit_array(0);
-
-    ans = build_bit_array_from_matrix(m[0]);
+    BitArray *ans = build_bit_array_from_matrix(m[0]);
 
     for(int i=1;i<amount;i++){
         BitArray* aux = build_bit_array_from_matrix(m[i]);

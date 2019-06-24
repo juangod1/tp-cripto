@@ -70,6 +70,7 @@ void test_matrix_determinant()
     given_correct_determinant();
     when_calculating_determinant();
     assert_equal_int("Determinant is correct", correct_determinant,det);
+    destroy_matrix(determinant_matrix);
 }
 
 
@@ -118,13 +119,16 @@ void given_rank_matrix3() {
 
 void test_matrix_rank() {
     given_rank_matrix1();
-//    printf("%d\n", compute_rank(rank_matrix));
+    printf("%d\n", compute_rank(rank_matrix));
     assert_true("correct rank", 2 == compute_rank(rank_matrix));
+    destroy_matrix(rank_matrix);
     given_rank_matrix2();
-//    printf("%d\n", compute_rank(rank_matrix));
+    printf("%d\n", compute_rank(rank_matrix));
     assert_true("correct rank", 2 == compute_rank(rank_matrix));
+    destroy_matrix(rank_matrix);
     given_rank_matrix3();
     printf("%d\n", compute_rank(rank_matrix));
+    destroy_matrix(rank_matrix);
 }
 
 void test_multiplication()

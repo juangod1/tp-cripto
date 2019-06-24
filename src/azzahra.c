@@ -144,10 +144,6 @@ int calculate_g(int t, int i, int j, Matrix * r, int k, const int * c_vec)
         double num = (int)r->numbers[column_index][i];
         double p= pow(c_vec[j],counter);
         num*=p;
-//        if(j<k-1)
-//        {
-//            printf("Calculated %d, with %d to the power of %d\n",p,c_vec[j],counter);
-//        }
         ret+=num;
     }
     return my_mod(ret,CONST_P);
@@ -198,7 +194,7 @@ Matrix * generate_B(Matrix ** sh_vec, int k)
     }
 
     if(my_mod(my_determinant(B), CONST_P) == 0)
-        printf("El det es 0000");
+        printf("WARNING: Determinant is 0\n");
     return B;
 }
 
@@ -263,7 +259,6 @@ Matrix * compute_R_from_G_vec(Matrix ** G_vec, int k, int n, char * shadow_numbe
         for(int y=0; y<columns; y++)
         {
             Matrix * small_r = compute_small_r(G_vec,x,y,k,shadow_numbers,n);
-            //print(small_r);
             for(int i=0; i<k;i++)
             {
                 int column_index = i+(k*y);
@@ -285,14 +280,12 @@ Matrix * compute_small_r(Matrix ** G_vec, int x, int y, int k, char * shadow_num
     for(int i=0; i<aux->rows;i++)
     {
         int c =c_vec[shadow_numbers[i]];
-//        printf("Row %d is shadow number %d, is c %d\n",i,shadow_numbers[i],c);
         for(int j=0; j<aux->columns-1;j++)
         {
             aux->numbers[j][i]=pow(c,j);
         }
         aux->numbers[aux->columns-1][i]=G_vec[i]->numbers[y][x];
     }
-    //print(aux);
     free(c_vec);
     solve_linear_equations(aux);
     Matrix * ret = constructor(1,k);
